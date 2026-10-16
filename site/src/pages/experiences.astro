@@ -1,0 +1,133 @@
+---
+/**
+ * 体验主题 hub —— 结构对齐 ChinaTravelCo heritage.html（hero + 分类锚 + 卡片 grid）
+ * 卡片数据 = route collection 里 6 个体验类 kick 的 16 条主题
+ */
+import { getCollection } from 'astro:content';
+import CardFX from '~/components/CardFX.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const CATS = [
+  { id: 'nature', zh: '自然风景', en: 'Nature & Landscapes', cls: 'g1' },
+  { id: 'food', zh: '饮食', en: 'Food', cls: 'g2' },
+  { id: 'wellness', zh: '康养', en: 'Wellness', cls: 'g3' },
+  { id: 'culture', zh: '文化与遗产', en: 'Culture & Heritage', cls: 'g4' },
+  { id: 'towns', zh: '城镇', en: 'Towns & Cities', cls: 'g5' },
+  { id: 'festivals', zh: '节庆', en: 'Festivals & Seasons', cls: 'g6' },
+];
+
+const routes = (await getCollection('route')).filter((r) =>
+  CATS.some((c) => c.en === r.data.kick)
+);
+
+const metadata = { title: '体验中国 · 主题玩法', description: '16 种打开中国的姿势：圣山、水路、国家公园、菜系、火锅、古镇、汉服、夜经济。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="exp-page">
+    <header class="hero">
+      <div class="inner">
+        <p class="kicker">Experiences · 体验</p>
+        <h1>16 种<em>打开中国</em>的姿势</h1>
+        <p class="lead">
+          看过城市，来挑玩法——按主题深入一种体验：登山、走水路、吃透一个菜系、泡汤、看戏、穿汉服、逛古镇、过一场庙会。
+        </p>
+        <div class="chips">
+          {CATS.map((c) => <a class="chip" href={`#${c.id}`}>{c.zh}</a>)}
+        </div>
+      </div>
+    </header>
+
+    <main>
+      {CATS.map((cat) => {
+        const items = routes.filter((r) => r.data.kick === cat.en);
+        if (!items.length) return null;
+        return (
+          <section id={cat.id}>
+            <div class="wrap">
+              <h2 class="sec">{cat.zh}</h2>
+              <h3 class="tt">{cat.en}</h3>
+              <div class="grid">
+                {items.map((r) => (
+                  <a class={`card cardfx-target ${cat.cls}`} href={`${B}/routes/${r.id}`}>
+                    <div class="media"><span class="cat">{cat.zh}</span></div>
+                    <div class="b">
+                      <b>{r.data.title}</b>
+                      <p>{r.data.lead.slice(0, 60)}…</p>
+                      <span class="rg mono">{r.data.kick}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })}
+    </main>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/collections`}>主题榜单</a> · <a href={`${B}/destinations`}>目的地</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+  <CardFX />
+</Layout>
+
+<style>
+  .exp-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --brick: #c8402f;
+    --line: rgba(33, 31, 26, 0.12);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .exp-page a { text-decoration: none; color: inherit; }
+
+  .hero { padding: 140px clamp(18px, 5vw, 64px) 36px; text-align: center; }
+  .kicker { color: var(--brick); font: 700 12px/1.4 'Space Mono', ui-monospace, monospace; letter-spacing: 0.18em; text-transform: uppercase; }
+  .hero h1 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(32px, 5.6vw, 56px); margin: 14px 0 16px; }
+  .hero em { font-style: normal; color: var(--brick); }
+  .lead { color: var(--ink-soft); font-size: 16.5px; line-height: 1.8; max-width: 680px; margin: 0 auto 24px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .chip:hover { background: var(--brick); border-color: var(--brick); color: #fff; }
+
+  section { padding: 40px 0 6px; scroll-margin-top: 80px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 54px); }
+  .sec { color: var(--brick); font: 700 12px/1.4 'Space Mono', ui-monospace, monospace; letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 8px; }
+  .tt { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(22px, 3.4vw, 32px); margin: 0 0 20px; color: var(--ink); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .card {
+    border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+    background: var(--card); box-shadow: 0 2px 10px rgba(60, 55, 40, 0.07);
+    display: flex; flex-direction: column; transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .card .media { position: relative; aspect-ratio: 16 / 9; display: grid; place-items: center; color: #fff; }
+  .card.g1 .media { background: linear-gradient(150deg, #2f6b52, #1d4534); }
+  .card.g2 .media { background: linear-gradient(150deg, #a35a2c, #54341a); }
+  .card.g3 .media { background: linear-gradient(150deg, #2f7da6, #1a4258); }
+  .card.g4 .media { background: linear-gradient(150deg, #7a3b2c, #4a2418); }
+  .card.g5 .media { background: linear-gradient(150deg, #52406b, #2e2340); }
+  .card.g6 .media { background: linear-gradient(150deg, #b8862f, #6b4a15); }
+  .card .media .cat { font-family: 'Noto Serif SC', serif; font-size: 22px; font-weight: 600; opacity: 0.9; }
+  .card .b { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .card .b b { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 19px; font-weight: 600; }
+  .card .b p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin: 0; flex: 1; }
+  .card .rg { font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  a.card:hover .rg { color: var(--brick); }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px; margin-top: 40px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>

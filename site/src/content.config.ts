@@ -152,7 +152,10 @@ const placeCollection = defineCollection({
 const routeCollection = defineCollection({
   loader: glob({ pattern: '*.json', base: 'src/content/routes' }),
   schema: z.object({
-    kick: z.enum(['Journeys', 'By Theme', 'When to Go', 'Ride the Rails', 'Follow the Dynasties']),
+    kick: z.enum([
+      'Journeys', 'By Theme', 'When to Go', 'Ride the Rails', 'Follow the Dynasties',
+      'Nature & Landscapes', 'Food', 'Wellness', 'Culture & Heritage', 'Towns & Cities', 'Festivals & Seasons',
+    ]),
     title: z.string(),
     titleEn: z.string().optional(),
     lead: z.string(),
@@ -166,7 +169,7 @@ const routeCollection = defineCollection({
         })
       )
       .min(5)
-      .max(6),
+      .max(12),
     notes: z.array(z.string()).length(4),
     related: z.array(z.object({ label: z.string(), href: z.string() })).length(4),
   }),

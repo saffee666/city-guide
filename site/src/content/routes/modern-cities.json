@@ -1,0 +1,62 @@
+{
+  "kick": "Towns & Cities",
+  "title": "现代都市",
+  "titleEn": "Modern Cities",
+  "lead": "中国的另一面是未来感：三十年里长成的天际线、永不下班的商业引擎、和把地铁修成景点的基础设施狂想——都市游是理解当代中国的必修课。",
+  "legs": [
+    {
+      "title": "上海",
+      "label": "两个世纪一条江",
+      "text": "外滩万国建筑对望陆家嘴天际线——在江面渡轮上看这组对仗，是理解中国近代史的免费课程。",
+      "href": "/cities/shanghai"
+    },
+    {
+      "title": "深圳",
+      "label": "四十年的奇迹",
+      "text": "渔村到一线只用一代人：平安金融大厦观景台、华强北的电子宇宙、人才公园的夜跑道。",
+      "href": "/cities/shenzhen"
+    },
+    {
+      "title": "重庆",
+      "label": "8D 魔幻山城",
+      "text": "轻轨穿楼、洪崖洞夜景、长江索道——地形把这座城市变成大型实景游乐场。",
+      "href": "/cities/chongqing"
+    },
+    {
+      "title": "广州",
+      "label": "老城与新城双层",
+      "text": "珠江新城的玻璃塔与西关老骑楼同框——小蛮腰夜景配一盅两件，是广州的AB面。",
+      "href": "/cities/guangzhou"
+    },
+    {
+      "title": "北京 · 国贸与中关村",
+      "label": "古都的未来面",
+      "text": "故宫之外：国贸三期天台酒吧俯瞰CBD、中关村的创业灯火——帝都的现代切片。",
+      "href": "/cities/beijing"
+    }
+  ],
+  "notes": [
+    "都市夜景是标配节目：19:30-22:00 灯光全开。",
+    "摩天观景台多在 17:00 后涨价/清场，日落场提前订。",
+    "地铁是城市体验的一部分——扫码进站即可。",
+    "都市行程留一顿「商场 B1 层」：本地人真实的快餐宇宙。"
+  ],
+  "related": [
+    {
+      "label": "上海",
+      "href": "/cities/shanghai"
+    },
+    {
+      "label": "深圳",
+      "href": "/cities/shenzhen"
+    },
+    {
+      "label": "重庆",
+      "href": "/cities/chongqing"
+    },
+    {
+      "label": "经典 7 日环线",
+      "href": "/routes/classic-7-days"
+    }
+  ]
+}

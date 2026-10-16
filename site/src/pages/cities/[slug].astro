@@ -34,6 +34,8 @@ import path from 'node:path';
 /** 图片位：存在则用图（构建期检测，幂等） */
 const hasImg = (rel: string) => fs.existsSync(path.join(process.cwd(), 'public', 'images', rel));
 const spotImg = (n: number) => (hasImg(`spots/${slug}-${n}.jpg`) ? `${B}/images/spots/${slug}-${n}.jpg` : null);
+const foodImg = (n: number) => (hasImg(`food/${slug}-${n}.jpg`) ? `${B}/images/food/${slug}-${n}.jpg` : null);
+const specImg = (n: number) => (hasImg(`spec/${slug}-${n}.jpg`) ? `${B}/images/spec/${slug}-${n}.jpg` : null);
 const places = await getCollection('place');
 const placeByName = new Map(places.map((p) => [p.data.name, p.id]));
 const allCities = await getCollection('city');
@@ -195,7 +197,7 @@ const metadata = {
         <div class="food-grid">
           {city.food.map((f, i) => (
             <article class="food">
-              <div class="fimg mono" data-zh={f.zh} style={`background:${FOOD_GRADS[i % FOOD_GRADS.length]}`}></div>
+              <div class={foodImg(i + 1) ? 'fimg' : 'fimg mono'} data-zh={f.zh} style={foodImg(i + 1) ? `background-image:url(${foodImg(i + 1)});background-size:cover;background-position:center;` : `background:${FOOD_GRADS[i % FOOD_GRADS.length]}`}></div>
               <div>
                 <h3>{f.name} <span class="tag">{f.tag}</span></h3>
                 <p>{f.blurb}</p>
@@ -258,7 +260,7 @@ const metadata = {
         <div class="spec-grid">
           {city.specialties.map((sp, i) => (
             <article class="spec">
-              <div class="ph mono" data-zh={sp.zh} style={`background:${SPEC_GRADS[i % SPEC_GRADS.length]}`}></div>
+              <div class={specImg(i + 1) ? 'ph' : 'ph mono'} data-zh={sp.zh} style={specImg(i + 1) ? `background-image:url(${specImg(i + 1)});background-size:cover;background-position:center;` : `background:${SPEC_GRADS[i % SPEC_GRADS.length]}`}></div>
               <div>
                 <h3>{sp.name}</h3>
                 <p>{sp.blurb}</p>
@@ -276,7 +278,7 @@ const metadata = {
           {city.exploreMore.map((k) => (
             liveOf(k) ? (
               <a class="more-card" href={`${B}/cities/${k}`}>
-                <span class="ph-grad full"></span><span>{nameOf(k)}</span>
+                <span class="ph-grad full" style={hasImg(`cities/${k}.jpg`) ? `background-image:url(${B}/images/cities/${k}.jpg);background-size:cover;background-position:center;` : null}></span><span>{nameOf(k)}</span>
               </a>
             ) : (
               <span class="more-card is-soon">

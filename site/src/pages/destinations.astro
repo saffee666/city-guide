@@ -11,56 +11,61 @@ import '@fontsource/space-mono/400.css';
 import '@fontsource/noto-serif-sc/500.css';
 import '@fontsource/noto-serif-sc/700.css';
 
+import fs from 'node:fs';
+import path from 'node:path';
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+const hasImg = (rel: string) => fs.existsSync(path.join(process.cwd(), 'public', 'images', rel));
+
 const regions = [
   {
     id: 'east', zh: '华东', en: 'EAST',
     cities: [
       { slug: 'fuzhou', name: '福州', tag: '闽都温泉', live: true },
-      { name: '上海', tag: '十里洋场' }, { name: '杭州', tag: '西湖龙井' },
-      { name: '南京', tag: '六朝金粉' }, { name: '苏州', tag: '园林水巷' },
-      { name: '厦门', tag: '海上花园' }, { name: '黄山', tag: '云海奇松' },
+      { slug: 'shanghai', name: '上海', tag: '十里洋场', live: true }, { slug: 'hangzhou', name: '杭州', tag: '西湖龙井', live: true },
+      { slug: 'nanjing', name: '南京', tag: '六朝金粉', live: true }, { slug: 'suzhou', name: '苏州', tag: '园林水巷', live: true },
+      { slug: 'xiamen', name: '厦门', tag: '海上花园', live: true }, { name: '黄山', tag: '云海奇松' },
     ],
   },
   {
     id: 'north', zh: '华北', en: 'NORTH',
     cities: [
-      { name: '北京', tag: '千年帝都', b5a: true }, { name: '大同', tag: '云冈石窟', b5a: true },
+      { slug: 'beijing', name: '北京', tag: '千年帝都', b5a: true, live: true }, { slug: 'datong', name: '大同', tag: '云冈石窟', b5a: true, live: true },
       { name: '天津', tag: '洋楼海河' }, { name: '承德', tag: '避暑山庄' },
     ],
   },
   {
     id: 'central', zh: '华中', en: 'CENTRAL',
     cities: [
-      { name: '武汉', tag: '江城樱花' }, { name: '张家界', tag: '峰林奇观', b5a: true },
-      { name: '洛阳', tag: '龙门石窟', b5a: true }, { name: '长沙', tag: '烟火湘江' },
+      { slug: 'wuhan', name: '武汉', tag: '江城樱花', live: true }, { slug: 'zhangjiajie', name: '张家界', tag: '峰林奇观', b5a: true, live: true },
+      { name: '洛阳', tag: '龙门石窟', b5a: true }, { slug: 'changsha', name: '长沙', tag: '烟火湘江', live: true },
     ],
   },
   {
     id: 'south', zh: '华南', en: 'SOUTH',
     cities: [
-      { name: '广州', tag: '食在广州' }, { name: '桂林', tag: '山水甲天下', b5a: true },
-      { name: '深圳', tag: '未来之城' }, { name: '珠海', tag: '浪漫海滨' },
+      { slug: 'guangzhou', name: '广州', tag: '食在广州', live: true }, { slug: 'guilin', name: '桂林', tag: '山水甲天下', b5a: true, live: true },
+      { slug: 'shenzhen', name: '深圳', tag: '未来之城', live: true }, { name: '珠海', tag: '浪漫海滨' },
     ],
   },
   {
     id: 'sw', zh: '西南', en: 'SOUTHWEST',
     cities: [
-      { name: '成都', tag: '巴适安逸', b5a: true }, { name: '重庆', tag: '8D 魔幻' },
-      { name: '大理', tag: '风花雪月' }, { name: '丽江', tag: '古城柔软', b5a: true },
-      { name: '拉萨', tag: '日光圣城', b5a: true }, { name: '香格里拉', tag: '消失地平线' },
+      { slug: 'chengdu', name: '成都', tag: '巴适安逸', b5a: true, live: true }, { slug: 'chongqing', name: '重庆', tag: '8D 魔幻', live: true },
+      { name: '大理', tag: '风花雪月' }, { slug: 'lijiang', name: '丽江', tag: '古城柔软', b5a: true, live: true },
+      { slug: 'lhasa', name: '拉萨', tag: '日光圣城', b5a: true, live: true }, { slug: 'shangrila', name: '香格里拉', tag: '消失地平线', live: true },
     ],
   },
   {
     id: 'nw', zh: '西北', en: 'NORTHWEST',
     cities: [
-      { name: '西安', tag: '长安回望', b5a: true }, { name: '敦煌', tag: '莫高千年', b5a: true },
-      { name: '喀什', tag: '丝路活化石' }, { name: '西宁', tag: '高原门户' },
+      { slug: 'xian', name: '西安', tag: '长安回望', b5a: true, live: true }, { name: '敦煌', tag: '莫高千年', b5a: true },
+      { slug: 'kashgar', name: '喀什', tag: '丝路活化石', live: true }, { name: '西宁', tag: '高原门户' },
     ],
   },
   {
     id: 'ne', zh: '东北', en: 'NORTHEAST',
     cities: [
-      { name: '哈尔滨', tag: '冰雪之城' }, { name: '长春', tag: '电影之城' },
+      { slug: 'harbin', name: '哈尔滨', tag: '冰雪之城', live: true }, { name: '长春', tag: '电影之城' },
       { name: '大连', tag: '北方明珠' },
     ],
   },
@@ -90,8 +95,8 @@ const metadata = { title: '目的地', description: '全国城市指南索引—
           <div class="maggrid">
             {r.cities.map((c, i) => (
               c.live ? (
-                <a class={`magcard feat ${ri % 2 ? 'alt' : ''}`} href={`/cities/${c.slug}`}>
-                  <span class="ph-grad full"></span>
+                <a class={`magcard${i === 0 ? ' feat' : ''} ${ri % 2 ? 'alt' : ''}`} href={`/cities/${c.slug}`}>
+                  <span class="ph-grad full" style={c.slug && hasImg(`cities/${c.slug}.jpg`) ? `background-image:url(${B}/images/cities/${c.slug}.jpg);background-size:cover;background-position:center;` : null}></span>
                   <span class="bar"></span>
                   <div class="t">
                     <p class="eb mono">{c.tag}</p>

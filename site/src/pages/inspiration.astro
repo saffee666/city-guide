@@ -191,7 +191,7 @@ let currentMonth = new Date().getMonth() + 1;
         <p class="lead">回答几个问题找到你的中国旅行人格——或者抽一支签，把决定权交给小小的仪式感。</p>
         <div class="discover">
           <div class="dcard">
-            <div class="ph q1">测一测</div>
+            <div class="ph q1" style={fs.existsSync(path.join(process.cwd(), 'public', 'images', 'extra/quiz.jpg')) ? `background-image:url(${B}/images/extra/quiz.jpg);background-size:cover;background-position:center;opacity:1;` : null}>{fs.existsSync(path.join(process.cwd(), 'public', 'images', 'extra/quiz.jpg')) ? '' : '测一测'}</div>
             <div class="ov"></div>
             <div class="dbody">
               <h4>找到你的目的地</h4>
@@ -200,7 +200,7 @@ let currentMonth = new Date().getMonth() + 1;
             </div>
           </div>
           <div class="dcard">
-            <div class="ph q2">求签</div>
+            <div class="ph q2" style={fs.existsSync(path.join(process.cwd(), 'public', 'images', 'extra/lotus.jpg')) ? `background-image:url(${B}/images/extra/lotus.jpg);background-size:cover;background-position:center;opacity:1;` : null}>{fs.existsSync(path.join(process.cwd(), 'public', 'images', 'extra/lotus.jpg')) ? '' : '求签'}</div>
             <div class="ov"></div>
             <div class="dbody">
               <h4>抽你的中国签</h4>
