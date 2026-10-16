@@ -1,0 +1,140 @@
+---
+/**
+ * 路线页模板 —— 结构与样式规格 1:1 对齐 ChinaTravelCo routes/*（classic-7-days 等）
+ * .th 头部（kick/h1/lead）→ .tb 行程卡流（.pcard + .pcta/.soon）→ .tnote 旅行注记 → .trel 相关胶囊
+ * 数据源：src/content/routes/<slug>.json
+ */
+import { getCollection } from 'astro:content';
+import Layout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const routes = await getCollection('route');
+  return routes.map(({ id, data }) => ({ params: { slug: id }, props: { route: data } }));
+}
+
+const { route } = Astro.props;
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+const metadata = {
+  title: `${route.title} | 路线`,
+  description: route.lead,
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="route-page">
+    <header class="th">
+      <p class="kick">{route.kick}</p>
+      <h1>{route.title}</h1>
+      <p class="lead">{route.lead}</p>
+    </header>
+
+    <div class="tb">
+      {route.legs.map((leg) => (
+        <div class="pcard">
+          <h3>{leg.title} <span>{leg.label}</span></h3>
+          <p>{leg.text}</p>
+          {leg.href ? (
+            <a class="pcta" href={leg.href}>完整指南 →</a>
+          ) : (
+            <span class="pcta soon">完整指南筹备中</span>
+          )}
+        </div>
+      ))}
+
+      <div class="tnote">
+        <b>旅人注记</b>
+        <ul>
+          {route.notes.map((n) => <li>{n}</li>)}
+        </ul>
+        <p class="disc">票价、开放时间、交通与政策随时可能变化——<b>出行前请以官方渠道为准</b>。本站为独立旅行指南，与任何政府机构无关联。</p>
+      </div>
+    </div>
+
+    <div class="trel">
+      {route.related.map((r) => <a href={r.href}>{r.label}</a>)}
+    </div>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/essentials`}>实务</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .route-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --line: rgba(33, 31, 26, 0.12); --line-strong: rgba(33, 31, 26, 0.22);
+    --shadow-1: 0 2px 10px rgba(60, 55, 40, 0.07);
+    color: var(--ink);
+    background:
+      radial-gradient(120% 55% at 88% -8%, rgba(212, 169, 72, 0.07), transparent 52%),
+      linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .route-page a { text-decoration: none; color: inherit; }
+
+  .th { max-width: 880px; margin: 0 auto; padding: 140px 24px 6px; }
+  .th .kick {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--cinnabar);
+  }
+  .th h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600;
+    font-size: clamp(36px, 6vw, 56px); line-height: 1.08; margin: 12px 0 16px;
+  }
+  .th .lead { font-size: 17.5px; line-height: 1.7; color: var(--ink-soft); max-width: 760px; }
+
+  .tb { max-width: 880px; margin: 0 auto; padding: 14px 24px 60px; }
+
+  .pcard {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px 24px; margin: 0 0 14px; box-shadow: var(--shadow-1);
+  }
+  .pcard h3 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-size: 21px; margin: 0 0 8px;
+  }
+  .pcard h3 span {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; font-weight: 400;
+    color: var(--ink-faint); margin-left: 10px; letter-spacing: 0.05em;
+  }
+  .pcard p { font-size: 14.5px; line-height: 1.8; color: var(--ink-soft); margin: 0 0 12px; }
+  .pcta {
+    display: inline-block; background: var(--cinnabar); color: #fff;
+    font-size: 13px; font-weight: 700; padding: 8px 18px; border-radius: 999px;
+  }
+  .pcta:hover { background: #8f2a1b; }
+  .pcta.soon {
+    background: transparent; color: var(--ink-faint); border: 1px dashed var(--line);
+  }
+
+  .tnote {
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid #c99b3f;
+    border-radius: 12px; padding: 16px 22px; margin: 30px 0 8px;
+  }
+  .tnote b { font-size: 13px; letter-spacing: 0.1em; }
+  .tnote ul { margin: 10px 0 2px; padding-left: 18px; }
+  .tnote li { font-size: 14px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 6px; }
+
+  .disc {
+    font-size: 12px; color: #8a8275; border-top: 1px dashed rgba(33, 31, 26, 0.15);
+    padding-top: 10px; margin-top: 14px; line-height: 1.7;
+  }
+
+  .trel {
+    max-width: 880px; margin: 0 auto; padding: 0 24px 60px;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .trel a {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .trel a:hover { background: var(--cinnabar); border-color: var(--cinnabar); color: #fff; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>

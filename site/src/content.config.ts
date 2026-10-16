@@ -144,7 +144,36 @@ const placeCollection = defineCollection({
   }),
 });
 
+/**
+ * 路线页集合 —— 结构逆向自 ChinaTravelCo routes/*（classic-7-days 等 4 条）
+ * kick: 'Journeys'（经典行程）| 'By Theme'（主题路线）
+ * legs[].href 缺省 → 渲染 soon 灰态按钮（源站同款）
+ */
+const routeCollection = defineCollection({
+  loader: glob({ pattern: '*.json', base: 'src/content/routes' }),
+  schema: z.object({
+    kick: z.enum(['Journeys', 'By Theme']),
+    title: z.string(),
+    titleEn: z.string().optional(),
+    lead: z.string(),
+    legs: z
+      .array(
+        z.object({
+          title: z.string(),
+          label: z.string(), // h3 右侧 Space Mono 小标
+          text: z.string(),
+          href: z.string().nullish(), // null/缺省 = 源站 soon 灰态
+        })
+      )
+      .min(5)
+      .max(6),
+    notes: z.array(z.string()).length(4),
+    related: z.array(z.object({ label: z.string(), href: z.string() })).length(4),
+  }),
+});
+
 export const collections = {
   city: cityCollection,
   place: placeCollection,
+  route: routeCollection,
 };
