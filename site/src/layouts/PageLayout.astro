@@ -1,10 +1,10 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
+import MegaNav from '~/components/MegaNav.astro';
 import Footer from '~/components/widgets/Footer.astro';
 import Announcement from '~/components/widgets/Announcement.astro';
 
-import { headerData, footerData } from '~/navigation';
+import { footerData } from '~/navigation';
 
 import type { MetaData } from '~/types';
 
@@ -27,7 +27,7 @@ const { metadata } = Astro.props;
   */
   }
   {Astro.slots.has('announcement') ? <slot name="announcement" /> : <Announcement />}
-  {Astro.slots.has('header') ? <slot name="header" /> : <Header {...headerData} isSticky showToggleTheme />}
+  {Astro.slots.has('header') ? <slot name="header" /> : <MegaNav />}
   <main class="flex-1">
     <slot />
   </main>

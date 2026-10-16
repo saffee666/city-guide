@@ -1,0 +1,280 @@
+---
+/**
+ * 全站导航 —— 结构与样式规格 1:1 对齐 ChinaTravelCo nav（Japan-style + mega menu）
+ * .nav 固定顶栏 + 五组 mega（目的地 d7 七大区 / 榜单 d2cap / 时令 d2cap / 路线 d2cap / 实务 d2cap）
+ * 移动端：.nav-links 隐藏（与源站一致，仅 logo + CTA）
+ */
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const REGIONS: { name: string; cols: { label: string; cities: { zh: string; slug: string | null; muni?: boolean; county?: boolean }[]; soon?: boolean }[] }[] = [
+  {
+    name: '华北',
+    cols: [
+      { label: '', cities: [{ zh: '北京', slug: 'beijing', muni: true }] },
+      { label: '山西', cities: [{ zh: '大同', slug: 'datong' }] },
+      { label: '河北', cities: [], soon: true },
+      { label: '河南', cities: [], soon: true },
+      { label: '内蒙古', cities: [], soon: true },
+    ],
+  },
+  {
+    name: '东北',
+    cols: [
+      { label: '黑龙江', cities: [{ zh: '哈尔滨', slug: 'harbin' }] },
+      { label: '辽宁', cities: [], soon: true },
+      { label: '吉林', cities: [], soon: true },
+    ],
+  },
+  {
+    name: '华东',
+    cols: [
+      { label: '', cities: [{ zh: '上海', slug: 'shanghai', muni: true }] },
+      { label: '江苏', cities: [{ zh: '南京', slug: 'nanjing' }, { zh: '苏州', slug: 'suzhou' }] },
+      { label: '浙江', cities: [{ zh: '杭州', slug: 'hangzhou' }] },
+      { label: '福建', cities: [{ zh: '福州', slug: 'fuzhou' }, { zh: '厦门', slug: 'xiamen' }] },
+      { label: '安徽', cities: [], soon: true },
+      { label: '江西', cities: [], soon: true },
+    ],
+  },
+  {
+    name: '华中',
+    cols: [
+      { label: '湖北', cities: [{ zh: '武汉', slug: 'wuhan' }] },
+      { label: '湖南', cities: [{ zh: '张家界', slug: 'zhangjiajie' }, { zh: '长沙', slug: 'changsha' }] },
+    ],
+  },
+  {
+    name: '华南',
+    cols: [
+      { label: '广东', cities: [{ zh: '广州', slug: 'guangzhou' }, { zh: '深圳', slug: 'shenzhen' }] },
+      { label: '广西', cities: [{ zh: '桂林', slug: 'guilin' }] },
+      { label: '海南', cities: [], soon: true },
+    ],
+  },
+  {
+    name: '西南',
+    cols: [
+      { label: '', cities: [{ zh: '重庆', slug: 'chongqing', muni: true }] },
+      { label: '四川', cities: [{ zh: '成都', slug: 'chengdu' }] },
+      { label: '云南', cities: [{ zh: '昆明', slug: 'kunming' }, { zh: '丽江', slug: 'lijiang' }, { zh: '香格里拉', slug: 'shangrila', county: true }] },
+      { label: '西藏', cities: [{ zh: '拉萨', slug: 'lhasa' }] },
+      { label: '贵州', cities: [], soon: true },
+    ],
+  },
+  {
+    name: '西北',
+    cols: [
+      { label: '陕西', cities: [{ zh: '西安', slug: 'xian' }] },
+      { label: '甘肃', cities: [{ zh: '敦煌', slug: null, county: true }, { zh: '兰州', slug: null }] },
+      { label: '新疆', cities: [{ zh: '喀什', slug: 'kashgar', county: true }] },
+      { label: '青海', cities: [], soon: true },
+    ],
+  },
+];
+
+const MEGA_LISTS = [
+  {
+    label: '榜单',
+    href: '/collections',
+    d: 'd2cap',
+    cols: [
+      {
+        groups: [
+          { h: '精选榜单', items: [{ t: '主题榜单总览', href: '/collections' }, { t: '5A 风景十强', href: '/collections/scenic-5a' }, { t: '美食之城', href: '/collections/food-cities' }, { t: '文化遗产十选', href: '/collections/heritage-sites' }] },
+          { h: '更多榜单', items: [{ t: '名山十座', href: '/collections/famous-mountains' }, { t: '博物馆十强', href: '/collections/museums' }, { t: '奇境十处', href: '/collections/wonderland' }] },
+        ],
+      },
+      {
+        groups: [
+          { h: '灵感', items: [{ t: '灵感页 · 按心境选城', href: '/inspiration' }, { t: '求一签定去哪', href: '/fate' }, { t: '免费资源', href: '/free' }] },
+        ],
+      },
+    ],
+  },
+  {
+    label: '时令',
+    href: '/jieqi',
+    d: 'd2cap',
+    cols: [
+      {
+        groups: [
+          { h: '季节与节令', items: [{ t: '二十四节气', href: '/jieqi' }, { t: '传统节日日历', href: '/festival' }] },
+        ],
+      },
+      {
+        groups: [
+          { h: '时机攻略', items: [{ t: '按地区选季节', href: '/routes/best-season' }, { t: '错峰指南', href: '/routes/avoiding-crowds' }] },
+        ],
+      },
+    ],
+  },
+  {
+    label: '路线',
+    href: '/routes/classic-7-days',
+    d: 'd2cap',
+    cols: [
+      {
+        groups: [
+          { h: '从这里开始', items: [{ t: '第一次来中国', href: '/routes/first-time-china' }, { t: '经典 7 日环线', href: '/routes/classic-7-days' }, { t: '经典 14 日环线', href: '/routes/classic-14-days' }, { t: '灵感页', href: '/inspiration' }] },
+        ],
+      },
+      {
+        groups: [
+          { h: '按主题', items: [{ t: '丝绸之路', href: '/routes/silk-road' }, { t: '云南大环线', href: '/routes/yunnan-loop' }, { t: '福大校园指南', href: '/fzu' }] },
+        ],
+      },
+    ],
+  },
+  {
+    label: '实务',
+    href: '/essentials',
+    d: 'd2cap',
+    cols: [
+      {
+        groups: [
+          { h: '出发之前', items: [{ t: '行前实务总览', href: '/essentials' }, { t: '入境 / 支付 / 网络', href: '/routes/first-time-china' }] },
+        ],
+      },
+      {
+        groups: [
+          { h: '在路上', items: [{ t: '免费资源', href: '/free' }, { t: '目的地总览', href: '/destinations' }] },
+        ],
+      },
+    ],
+  },
+];
+---
+
+<nav class="nav" id="megavnav">
+  <a class="nav-left" href={`${B}/`}><span class="logo-dot">🚀</span><b>城市指南</b></a>
+  <div class="nav-links">
+    <a href={`${B}/`}>首页</a>
+    <span class="hasmega">
+      <a href={`${B}/destinations`}>目的地</a>
+      <div class="mega">
+        <div class="mega-in d7">
+          {REGIONS.map((r) => (
+            <div class="megacol">
+              <h5>{r.name}</h5>
+              {r.cols.map((prov) => (
+                <div class="megaprov">
+                  {prov.label && (prov.soon ? <b class="soon">{prov.label}</b> : <b>{prov.label}</b>)}
+                  {prov.cities.map((c) =>
+                    c.slug ? (
+                      <a class={c.muni ? 'munilink' : c.county ? 'county' : ''} href={`${B}/cities/${c.slug}`}>{c.zh}</a>
+                    ) : (
+                      <span class={`megasoon${c.muni ? ' muni' : c.county ? ' county' : ''}`}>{c.zh}</span>
+                    )
+                  )}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div class="mega-legend">粗体 = 省级 · 缩进 = 地级市 · 灰色 = 筹备中</div>
+      </div>
+    </span>
+    {MEGA_LISTS.map((m) => (
+      <span class="hasmega">
+        <a href={`${B}${m.href}`}>{m.label}</a>
+        <div class="mega">
+          <div class={`mega-in ${m.d}`}>
+            {m.cols.map((col) => (
+              <div class="megacol">
+                {col.groups.map((g) => (
+                  <>
+                    <h5>{g.h}</h5>
+                    {g.items.map((it) => <a href={`${B}${it.href}`}>{it.t}</a>)}
+                  </>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </span>
+    ))}
+  </div>
+  <a class="nav-cta" href={`${B}/fate`}>求签 →</a>
+</nav>
+
+<style>
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px clamp(18px, 4vw, 54px);
+    background: rgba(249, 246, 238, 0.94); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(33, 31, 26, 0.12);
+  }
+  .nav-left { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #211f1a; }
+  .logo-dot { font-size: 22px; }
+  .nav-left b { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 18px; font-weight: 600; }
+  .nav-links { display: flex; gap: 30px; align-items: center; }
+  .nav-links > a,
+  .hasmega > a {
+    font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
+    letter-spacing: 0.01em; color: #211f1a; cursor: pointer; text-decoration: none;
+  }
+  .nav-links > a:hover, .hasmega > a:hover { color: #c8402f; }
+  .nav-cta {
+    font-family: Inter, sans-serif; font-size: 13px; font-weight: 600;
+    padding: 10px 18px; border: 1px solid rgba(33, 31, 26, 0.22); border-radius: 999px;
+    color: #211f1a; text-decoration: none; transition: 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .nav-cta:hover { background: #211f1a; color: #f9f6ee; border-color: #211f1a; }
+
+  .hasmega { position: static; }
+  .mega {
+    position: fixed; left: 0; right: 0; top: 62px;
+    background: rgba(249, 246, 238, 0.99); backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(33, 31, 26, 0.12); border-bottom: 1px solid rgba(33, 31, 26, 0.12);
+    box-shadow: 0 18px 44px rgba(55, 48, 30, 0.1);
+    opacity: 0; visibility: hidden; transform: translateY(-6px);
+    transition: 0.18s cubic-bezier(0.22, 0.61, 0.36, 1); z-index: 99;
+  }
+  .hasmega:hover .mega, .hasmega:focus-within .mega { opacity: 1; visibility: visible; transform: none; }
+  .mega-in { max-width: 1320px; margin: 0 auto; padding: 26px clamp(18px, 5vw, 64px); display: grid; gap: 20px; }
+  .mega-in.d7 { grid-template-columns: repeat(7, 1fr); }
+  .mega-in.d2cap { grid-template-columns: 1fr 1fr; max-width: 680px; margin: 0; }
+  .megacol h5 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-size: 15px; font-weight: 600;
+    color: #c8402f; margin: 0 0 10px;
+  }
+  .megacol a {
+    display: block; font-family: Inter, sans-serif; font-size: 13.5px; font-weight: 400;
+    color: #574f44; padding: 3px 0; text-decoration: none;
+  }
+  .megacol a:hover { color: #c8402f; }
+  .megaprov { margin-bottom: 11px; }
+  .megaprov b {
+    display: block; font-family: Inter, sans-serif; font-size: 13.5px; font-weight: 700;
+    color: #211f1a; margin-bottom: 1px;
+  }
+  .megaprov b.soon { color: rgba(138, 130, 117, 0.6); font-weight: 600; }
+  .megaprov b.soon::after { content: ' · soon'; font-size: 9.5px; font-weight: 600; color: #8a8275; }
+  .megaprov a { padding-left: 12px; font-size: 13px; }
+  .megaprov a.munilink { padding-left: 0; font-size: 13.5px; font-weight: 700; color: #211f1a; margin-bottom: 11px; }
+  .megaprov a.county { font-size: 12px; color: #8a8275; padding-left: 20px; }
+  .megaprov .megasoon { display: block; font-family: Inter, sans-serif; font-size: 13px; color: #574f44; padding: 3px 0 3px 12px; cursor: default; }
+  .megaprov .megasoon.muni { padding-left: 0; font-size: 13.5px; font-weight: 700; color: #211f1a; margin-bottom: 11px; }
+  .megaprov .megasoon.county { font-size: 12px; padding-left: 20px; }
+  .megaprov .megasoon::after { content: ' · soon'; font-size: 10px; color: #8a8275; }
+  .mega-legend {
+    max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 64px) 20px;
+    font-family: Inter, sans-serif; font-size: 11px; color: #8a8275;
+  }
+
+  @media (max-width: 1024px) {
+    .nav-links { display: none; }
+    .mega { display: none; }
+  }
+</style>
+
+<script>
+  // 移动端滚动收纳（源站 .scrolled 态的等价轻量处理：窄屏时收窄 padding）
+  (function () {
+    var n = document.getElementById('megavnav');
+    if (!n) return;
+    function s() { n.classList.toggle('tight', scrollY > 40); }
+    addEventListener('scroll', s, { passive: true }); s();
+  })();
+</script>
