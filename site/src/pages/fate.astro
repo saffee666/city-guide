@@ -1,0 +1,253 @@
+---
+/**
+ * 求签选城 —— 互动层（CTC fate/inspiration 玩法同构，实现与文案原创）
+ * 抽签随机定城 + 六种心情测验
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import '@fontsource/fraunces/300.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/noto-serif-sc/500.css';
+import '@fontsource/noto-serif-sc/700.css';
+
+const pool = [
+  { name: '福州', why: '温泉与茉莉香，慢慢逛的闽都', live: true, slug: 'fuzhou' },
+  { name: '成都', why: '茶馆、熊猫和火锅的松弛感', live: true, slug: 'chengdu' },
+  { name: '西安', why: '一脚踏进长安的城墙上', live: true, slug: 'xian' },
+  { name: '哈尔滨', why: '冰雕与俄式老街的北方浪漫', live: true, slug: 'harbin' },
+  { name: '喀什', why: '丝路尽头的活化石', live: true, slug: 'kashgar' },
+  { name: '厦门', why: '海风、沙茶面和环岛骑行', live: true, slug: 'xiamen' },
+  { name: '重庆', why: '8D 魔幻山城，火锅配夜景', live: true, slug: 'chongqing' },
+  { name: '拉萨', why: '日光城里晒太阳的高原日子', live: true, slug: 'lhasa' },
+  { name: '苏州', why: '小桥流水，评弹慢生活', live: true, slug: 'suzhou' },
+  { name: '张家界', why: '阿凡达峰林里的悬空栈道', live: true, slug: 'zhangjiajie' },
+  { name: '昆明', why: '四季如春，鲜花论斤称', live: true, slug: 'kunming' },
+  { name: '大同', why: '云冈大佛看了你 1500 年', live: true, slug: 'datong' },
+];
+
+const moods = [
+  { id: 'slow', label: '想躺平', desc: '节奏归零，晒太阳发呆', pick: ['苏州', '福州', '成都'] },
+  { id: 'eat', label: '想吃好', desc: '为了一口味道跨省', pick: ['成都', '重庆', '厦门'] },
+  { id: 'wow', label: '想看奇观', desc: '大自然的震撼教育', pick: ['张家界', '哈尔滨', '桂林'] },
+  { id: 'history', label: '想穿越', desc: '触摸千年的时间', pick: ['西安', '大同', '苏州'] },
+  { id: 'wild', label: '想去远方', desc: '越远越有意思', pick: ['喀什', '拉萨', '哈尔滨'] },
+  { id: 'city', label: '想逛城', desc: '街巷烟火气最迷人', pick: ['重庆', '厦门', '长沙'] },
+];
+
+const allNames = pool.map((p) => p.name);
+const metadata = { title: '求签选城', description: '不知道去哪？抽一签，或者按心情选。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="fate">
+    <header class="hero">
+      <div class="wrap">
+        <p class="kicker">不知道去哪？</p>
+        <h1>求一签，<em>定去哪</em></h1>
+        <p class="sub">犹豫本身就是成本。让缘分替你做决定——抽到哪座城，就去哪座城。</p>
+      </div>
+    </header>
+
+    <!-- 抽签 -->
+    <section class="lot-band">
+      <div class="wrap lot-grid">
+        <div class="lot-poster">
+          <div class="tube" id="tube">
+            <span class="stick" style="--r:-14deg;--h:74%">缘</span>
+            <span class="stick" style="--r:6deg;--h:88%">城</span>
+            <span class="stick" style="--r:-4deg;--h:95%">签</span>
+            <span class="stick" style="--r:12deg;--h:70%">筒</span>
+          </div>
+          <button class="shake-btn" id="shake">摇一签</button>
+        </div>
+        <div class="lot-result" id="lot-result" data-show="false">
+          <p class="mono lr-kicker">上上签 · 宜出行</p>
+          <h2 id="lr-city">—</h2>
+          <p class="lr-why" id="lr-why">摇一签试试</p>
+          <div id="lr-go"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 心情测验 -->
+    <section class="quiz-band">
+      <div class="wrap">
+        <div class="band-head">
+          <p class="mono gk">MOOD · 心情</p>
+          <h2>按<em>心情</em>挑</h2>
+        </div>
+        <div class="mood-grid">
+          {moods.map((m) => (
+            <button class="mood" data-picks={m.pick.join(',')}>
+              <strong>{m.label}</strong>
+              <span>{m.desc}</span>
+            </button>
+          ))}
+        </div>
+        <div class="quiz-result" id="quiz-result" data-show="false">
+          <p class="mono">和你心情最配的是</p>
+          <div class="qr-cities" id="qr-cities"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .fate {
+    --paper: #f9f6ee; --card: #fffdf8; --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --gold: #b8902f; --line: rgba(33, 31, 26, 0.12); --r: 18px;
+    --shadow-2: 0 18px 44px rgba(55, 48, 30, 0.1); --shadow-3: 0 36px 90px rgba(48, 42, 26, 0.16);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background:
+      radial-gradient(90% 55% at 88% -8%, rgba(212, 169, 72, 0.07), transparent 52%),
+      linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: 'Space Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+  .kicker { font-family: Fraunces, 'Noto Serif SC', serif; font-style: italic; color: var(--cinnabar); font-size: 18px; }
+
+  .hero { padding: clamp(90px, 14vh, 150px) 0 clamp(20px, 4vh, 40px); }
+  .hero h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif;
+    font-size: clamp(44px, 7vw, 96px); font-weight: 300; line-height: 1.1; margin: 14px 0 20px; padding-bottom: 0.15em;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 15%, #d3372f 29%, #c23f6e 44%, #7d57a8 59%, #2f6fa6 73%, #1f8a86 86%, #2f8b5f 100%);
+    background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: flow 14s linear infinite;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero .sub { color: var(--ink-soft); max-width: 520px; line-height: 1.75; }
+  @keyframes flow { to { background-position: 300% center; } }
+
+  /* 抽签 */
+  .lot-band { padding: clamp(36px, 6vh, 70px) 0; }
+  .lot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .lot-poster {
+    border-radius: var(--r); background: linear-gradient(165deg, #b5331f, #8f2718);
+    min-height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px;
+    box-shadow: var(--shadow-3); position: relative; overflow: hidden;
+  }
+  .lot-poster::after { content: '签'; position: absolute; right: -10px; bottom: -30px; font-family: 'Noto Serif SC', serif; font-size: 150px; opacity: 0.08; line-height: 1; }
+  .tube {
+    position: relative; width: 120px; height: 130px; border-radius: 12px 12px 40% 40%;
+    background: linear-gradient(180deg, #7c4a1e, #573114);
+    box-shadow: inset 0 6px 14px rgba(0, 0, 0, 0.4), 0 18px 44px rgba(0, 0, 0, 0.3);
+  }
+  .stick {
+    position: absolute; bottom: 62%; left: 50%; transform-origin: bottom center;
+    width: 22px; height: var(--h); border-radius: 6px 6px 2px 2px;
+    background: linear-gradient(180deg, #f4df9c, #d9bc62);
+    transform: translateX(-50%) rotate(var(--r));
+    display: grid; place-items: start center;
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 700; color: #7c5f16;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+  .lot-poster.shaking .tube { animation: shake 0.5s ease-in-out 3; }
+  @keyframes shake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-7deg); } 75% { transform: rotate(7deg); } }
+  .shake-btn {
+    padding: 13px 34px; border-radius: 999px; border: 0; cursor: pointer;
+    background: #fff; color: #9f2c1b; font-weight: 700; font-size: 14.5px;
+    transition: 0.25s var(--ease); box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+  }
+  .shake-btn:hover { transform: translateY(-2px); }
+  .lot-result[data-show='false'] { opacity: 0.45; }
+  .lot-result { transition: opacity 0.5s var(--ease); }
+  .lr-kicker { font-size: 11px; color: var(--cinnabar); }
+  .lot-result h2 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-size: clamp(56px, 8vw, 110px); font-weight: 600; margin: 10px 0 8px;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 20%, #d3372f 45%, #7d57a8 70%, #2f6fa6 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding-bottom: 0.1em;
+  }
+  .lr-why { color: var(--ink-soft); font-size: 16.5px; margin-bottom: 18px; }
+  .lr-go a {
+    display: inline-flex; padding: 12px 26px; border-radius: 999px; background: var(--cinnabar);
+    color: #fff7ef; font-weight: 600; font-size: 14px; box-shadow: 0 14px 34px rgba(200, 64, 47, 0.26);
+    transition: 0.3s var(--ease);
+  }
+  .lr-go a:hover { transform: translateY(-2px); }
+  .lr-go span { display: inline-block; padding: 12px 26px; border-radius: 999px; border: 1px dashed var(--line); color: var(--ink-faint); font-size: 13px; }
+  @media (max-width: 860px) { .lot-grid { grid-template-columns: 1fr; } }
+
+  /* 心情 */
+  .quiz-band { padding: clamp(36px, 6vh, 70px) 0 clamp(80px, 12vh, 140px); }
+  .band-head { margin-bottom: 28px; }
+  .band-head .gk { font-size: 11px; color: var(--cinnabar); }
+  .band-head h2 { font-family: Fraunces, 'Noto Serif SC', serif; font-size: clamp(28px, 3.8vw, 48px); font-weight: 600; margin: 8px 0 0; }
+  .band-head h2 em { font-style: italic; color: var(--cinnabar); }
+  .mood-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .mood {
+    text-align: left; border: 1px solid var(--line); border-radius: var(--r); background: var(--card);
+    padding: 22px; cursor: pointer; transition: 0.3s var(--ease); box-shadow: 0 2px 10px rgba(60, 55, 40, 0.07);
+  }
+  .mood:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--cinnabar); }
+  .mood strong { display: block; font-family: Fraunces, 'Noto Serif SC', serif; font-size: 20px; font-weight: 600; }
+  .mood span { display: block; margin-top: 6px; font-size: 13px; color: var(--ink-soft); }
+  .mood.on { background: var(--card); border-color: var(--cinnabar); box-shadow: inset 0 0 0 1.5px var(--cinnabar); }
+  .quiz-result { margin-top: 26px; opacity: 0; transition: opacity 0.5s var(--ease); }
+  .quiz-result[data-show='true'] { opacity: 1; }
+  .quiz-result .mono { font-size: 11px; color: var(--ink-faint); }
+  .qr-cities { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .qr-cities a, .qr-cities span {
+    padding: 12px 24px; border-radius: 999px; font-family: Fraunces, 'Noto Serif SC', serif;
+    font-size: 18px; font-weight: 600;
+  }
+  .qr-cities a { background: var(--cinnabar); color: #fff7ef; box-shadow: 0 10px 26px rgba(200, 64, 47, 0.24); }
+  .qr-cities span { border: 1px dashed var(--line); color: var(--ink-faint); }
+  @media (max-width: 860px) { .mood-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script define:vars={{ pool, B: import.meta.env.BASE_URL }}>
+  const lrCity = document.getElementById('lr-city');
+  const lrWhy = document.getElementById('lr-why');
+  const lrGo = document.getElementById('lr-go');
+  const poster = document.querySelector('.lot-poster');
+  const result = document.getElementById('lot-result');
+
+  const show = (city) => {
+    lrCity.textContent = city.name;
+    lrWhy.textContent = city.why;
+    lrGo.innerHTML = city.live
+      ? '<a href="/cities/' + city.slug + '">看 ' + city.name + '攻略 →</a>'
+      : '<span>内容筹备中 · 先许个愿</span>';
+    result.dataset.show = 'true';
+  };
+
+  let shaking = false;
+  document.getElementById('shake')?.addEventListener('click', () => {
+    if (shaking) return;
+    shaking = true;
+    poster?.classList.add('shaking');
+    result.dataset.show = 'false';
+    setTimeout(() => {
+      poster?.classList.remove('shaking');
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      show(pick);
+      shaking = false;
+    }, 1500);
+  });
+
+  // 心情测验
+  document.querySelectorAll('.mood').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mood').forEach((b) => b.classList.remove('on'));
+      btn.classList.add('on');
+      const picks = (btn.dataset.picks || '').split(',');
+      const qr = document.getElementById('qr-cities');
+      if (!qr) return;
+      qr.innerHTML = picks
+        .map((name) => {
+          const city = pool.find((p) => p.name === name);
+          if (!city) return '';
+          return city.live
+            ? '<a href="' + B + '/cities/' + city.slug + '">' + name + ' →</a>'
+            : '<span title="' + city.why + '">' + name + ' · 筹备中</span>';
+        })
+        .join('');
+      const box = document.getElementById('quiz-result');
+      if (box) box.dataset.show = 'true';
+    });
+  });
+</script>

@@ -1,0 +1,68 @@
+site:
+  name: 城市指南
+  site: 'https://saffee666.github.io'
+  base: '/city-guide'
+  trailingSlash: false
+
+# Default SEO metadata
+metadata:
+  title:
+    default: 城市指南
+    template: '%s — 城市指南'
+  description: '吃住行玩，一城一页。从福州出发，点亮全国 370 城。'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: 城市指南
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    cardType: summary_large_image
+
+i18n:
+  language: zh-CN
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 8
+
+    post:
+      isEnabled: false
+      permalink: '/%slug%'
+      robots:
+        index: true
+
+    list:
+      isEnabled: false
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: false
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: false
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: false
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null
+
+ui:
+  theme: 'system'

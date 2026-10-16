@@ -1,0 +1,68 @@
+---
+// 设计 token：ChinaTravelCo v2「月白/朱砂/描金」皮肤逆向规格 + AstroWind 原生 --aw-* 约定
+// 字体：标题=中文衬线栈（后续换思源宋体 woff2 子集）；正文=Inter + 中文系统黑体
+---
+
+<style is:inline>
+  :root {
+    /* CTC 逆向 token（自产组件用） */
+    --ctc-paper: #f9f6ee;
+    --ctc-card: #fffdf8;
+    --ctc-ink: #211f1a;
+    --ctc-ink-soft: #574f44;
+    --ctc-ink-faint: #8a8275;
+    --ctc-cinnabar: #c8402f;
+    --ctc-cinnabar-deep: #a5311f;
+    --ctc-azurite: #2f7da6;
+    --ctc-jade: #2f8064;
+    --ctc-gold: #b8902f;
+    --ctc-sun: #e9c879;
+    --ctc-line: rgba(33, 31, 26, 0.12);
+    --ctc-line-strong: rgba(33, 31, 26, 0.22);
+    --ctc-r: 18px;
+    --ctc-r-sm: 12px;
+    --ctc-shadow-1: 0 2px 10px rgba(60, 55, 40, 0.07);
+    --ctc-shadow-2: 0 18px 44px rgba(55, 48, 30, 0.1);
+    --ctc-shadow-3: 0 36px 90px rgba(48, 42, 26, 0.16);
+    --ctc-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+    /* AstroWind 约定 token（widgets 消费） */
+    --aw-font-sans: var(--font-inter), 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --aw-font-serif: Fraunces, 'Noto Serif SC', Georgia, 'Songti SC', serif;
+    --aw-font-heading: Fraunces, 'Noto Serif SC', Georgia, 'Songti SC', serif;
+
+    --aw-color-primary: #c8402f;
+    --aw-color-secondary: #a5311f;
+    --aw-color-accent: #b8902f;
+
+    --aw-color-text-heading: #211f1a;
+    --aw-color-text-default: #332f28;
+    --aw-color-text-muted: rgb(33 31 26 / 62%);
+    --aw-color-bg-page: #f9f6ee;
+
+    ::selection {
+      background-color: #e9c879;
+      color: #211f1a;
+    }
+  }
+
+  .dark {
+    --aw-font-sans: var(--font-inter), 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --aw-font-serif: Fraunces, 'Noto Serif SC', Georgia, 'Songti SC', serif;
+    --aw-font-heading: Fraunces, 'Noto Serif SC', Georgia, 'Songti SC', serif;
+
+    --aw-color-primary: #e05a44;
+    --aw-color-secondary: #c8402f;
+    --aw-color-accent: #d4af4f;
+
+    --aw-color-text-heading: #ece5d8;
+    --aw-color-text-default: #d8d0c0;
+    --aw-color-text-muted: rgb(236 229 216 / 62%);
+    --aw-color-bg-page: #14120f;
+
+    ::selection {
+      background-color: #b8902f;
+      color: #14120f;
+    }
+  }
+</style>

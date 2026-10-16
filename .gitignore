@@ -1,0 +1,8 @@
+node_modules/
+.playwright-mcp/
+.superpowers/
+*.log
+dist/
+.astro/
+素材-参考/
+.tools/
