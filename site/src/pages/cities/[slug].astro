@@ -1,4 +1,5 @@
 ---
+const B = import.meta.env.BASE_URL;
 /**
  * 城市页模板 —— 结构与布局规格 1:1 对齐 ChinaTravelCo city.html 基座
  * （白卡 1180px 栅格 / mist 雾灰卡 / 红棕 #c7553d / radius 14）
@@ -103,7 +104,7 @@ const metadata = {
           <h3>接下来看</h3>
           {city.exploreMore.slice(0, 2).map((k) => (
             liveOf(k) ? (
-              <a class="reco-card" href={`/cities/${k}`}>
+              <a class="reco-card" href={`${B}/cities/${k}`}>
                 <div class="thumb ph-grad"><span class="ph-name">{nameOf(k)}</span></div>
                 <div class="cap">{nameOf(k)}</div>
               </a>
@@ -258,7 +259,7 @@ const metadata = {
         <div class="more-grid">
           {city.exploreMore.map((k) => (
             liveOf(k) ? (
-              <a class="more-card" href={`/cities/${k}`}>
+              <a class="more-card" href={`${B}/cities/${k}`}>
                 <span class="ph-grad full"></span><span>{nameOf(k)}</span>
               </a>
             ) : (

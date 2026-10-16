@@ -199,7 +199,7 @@ const metadata = { title: '求签选城', description: '不知道去哪？抽一
   @media (max-width: 860px) { .mood-grid { grid-template-columns: 1fr; } }
 </style>
 
-<script define:vars={{ pool }}>
+<script define:vars={{ pool, B: import.meta.env.BASE_URL }}>
   const lrCity = document.getElementById('lr-city');
   const lrWhy = document.getElementById('lr-why');
   const lrGo = document.getElementById('lr-go');
@@ -242,7 +242,7 @@ const metadata = { title: '求签选城', description: '不知道去哪？抽一
           const city = pool.find((p) => p.name === name);
           if (!city) return '';
           return city.live
-            ? '<a href="/cities/' + city.slug + '">' + name + ' →</a>'
+            ? '<a href="' + B + '/cities/' + city.slug + '">' + name + ' →</a>'
             : '<span title="' + city.why + '">' + name + ' · 筹备中</span>';
         })
         .join('');

@@ -1,7 +1,7 @@
 site:
   name: 城市指南
-  site: 'https://example.com'
-  base: '/'
+  site: 'https://saffee666.github.io'
+  base: '/city-guide'
   trailingSlash: false
 
 # Default SEO metadata

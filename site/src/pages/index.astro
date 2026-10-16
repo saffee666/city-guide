@@ -1,4 +1,5 @@
 ---
+const B = import.meta.env.BASE_URL;
 /**
  * 首页 —— ChinaTravelCo storyboard 首页 1:1 结构移植（中文原创内容）
  * Frame 01 hero 轮播 / 跑马灯 / 节气历 / 目的卡 / 活地图(嵌入点亮地图) / 灵感 / 非遗 / 实务 CTA
@@ -121,7 +122,7 @@ const metadata = {
       <div class="dest-grid">
         {destCards.map((d, i) => (
           d.live ? (
-            <a class={`dest r d${Math.min(i, 4)}`} href={`/cities/${d.slug}`}>
+            <a class={`dest r d${Math.min(i, 4)}`} href={`${B}/cities/${d.slug}`}>
               <div class="dest-img ph-grad"><span class="tag">已上线</span></div>
               <div class="dest-body">
                 <p class="mono">{d.en.toUpperCase()}</p>
@@ -160,9 +161,9 @@ const metadata = {
             <p class="mono">探索中国 · 370 城</p>
             <h3>整个国家，<br />一张活地图</h3>
             <p>悬停在省份上发现城市与故事；点「打开地图」去点亮你去过的每一座城。</p>
-            <a class="btn btn-primary way-map-btn" href="/map/index.html" target="_blank" rel="noopener">打开地图 →</a>
+            <a class="btn btn-primary way-map-btn" href={`${B}/map/index.html`} target="_blank" rel="noopener">打开地图 →</a>
           </div>
-          <a class="way-fate" href="/fate">
+          <a class="way-fate" href={`${B}/fate`}>
             <span class="lotus">签</span>
             <span class="way-fate-tx">
               <small class="mono">不知道该去哪？</small>
@@ -182,7 +183,7 @@ const metadata = {
         <h2>跟着<em>心情</em>去旅行</h2>
       </div>
       <div class="inspire-grid">
-        <a class="inspire r" href="/fate">
+        <a class="inspire r" href={`${B}/fate`}>
           <div class="inspire-body"><p class="mono">MOOD · 心情</p><h3>求一签，定去哪</h3><p>六种旅行心情，抽一座城</p></div>
         </a>
         <a class="inspire r d1" href="#destinations">
@@ -191,7 +192,7 @@ const metadata = {
         <a class="inspire r d2" href="#destinations">
           <div class="inspire-body"><p class="mono">ROUTE · 路线</p><h3>经典 7 日环线</h3><p>第一次去，照着走就行</p></div>
         </a>
-        <a class="inspire r d3" href="/destinations">
+        <a class="inspire r d3" href={`${B}/destinations`}>
           <div class="inspire-body"><p class="mono">THEME · 主题</p><h3>为一门手艺出发</h3><p>非遗、八大菜系、古城镇</p></div>
         </a>
       </div>
@@ -226,7 +227,7 @@ const metadata = {
             <h2>先办好<em>五件事</em></h2>
             <p>预约、交通、天气、装备、预算——一篇讲清楚。</p>
             <div class="cta-tags"><span>预约</span><span>交通</span><span>季节</span><span>避坑</span><span>预算</span></div>
-            <a class="btn btn-primary" href="/essentials">打开出行清单</a>
+            <a class="btn btn-primary" href={`${B}/essentials`}>打开出行清单</a>
           </div>
         </div>
       </div>

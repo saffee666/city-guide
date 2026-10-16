@@ -5,3 +5,4 @@ node_modules/
 dist/
 .astro/
 素材-参考/
+.tools/
