@@ -1,0 +1,159 @@
+---
+/**
+ * 24 节气页 —— 结构与样式规格 1:1 对齐 ChinaTravelCo jieqi.html
+ * .th 头部 + .jq-grid 24 卡（左 accent 边 + 右上大汉字水印 + Space Mono 日期 + 四季色）
+ * 数据硬编码（公共历法知识，2026 年公历日期）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const TERMS = [
+  { accent: '#2f8064', d: '02-04', char: '立春', en: 'Start of Spring', py: 'Lì Chūn', txt: '春天开始——暖意第一次蠢动。' },
+  { accent: '#2f8064', d: '02-18', char: '雨水', en: 'Rain Water', py: 'Yǔ Shuǐ', txt: '雪让位给一年里最初的雨。' },
+  { accent: '#2f8064', d: '03-05', char: '惊蛰', en: 'Waking of Insects', py: 'Jīng Zhé', txt: '春雷叫醒蛰伏的生灵。' },
+  { accent: '#2f8064', d: '03-20', char: '春分', en: 'Spring Equinox', py: 'Chūn Fēn', txt: '昼夜平分。' },
+  { accent: '#2f8064', d: '04-05', char: '清明', en: 'Pure Brightness', py: 'Qīng Míng', txt: '天清地明——扫墓与踏青（也是节日）。' },
+  { accent: '#2f8064', d: '04-20', char: '谷雨', en: 'Grain Rain', py: 'Gǔ Yǔ', txt: '雨养新苗；明前茶的收官采期。' },
+  { accent: '#c8402f', d: '05-05', char: '立夏', en: 'Start of Summer', py: 'Lì Xià', txt: '夏天开始；田野转深绿。' },
+  { accent: '#c8402f', d: '05-21', char: '小满', en: 'Grain Buds', py: 'Xiǎo Mǎn', txt: '籽粒渐鼓，未至全满。' },
+  { accent: '#c8402f', d: '06-05', char: '芒种', en: 'Grain in Ear', py: 'Máng Zhòng', txt: '有芒的作物成熟——一年最忙的抢种日。' },
+  { accent: '#c8402f', d: '06-21', char: '夏至', en: 'Summer Solstice', py: 'Xià Zhì', txt: '全年白昼最长的一天。' },
+  { accent: '#c8402f', d: '07-07', char: '小暑', en: 'Minor Heat', py: 'Xiǎo Shǔ', txt: '暑热登场。' },
+  { accent: '#c8402f', d: '07-23', char: '大暑', en: 'Major Heat', py: 'Dà Shǔ', txt: '一年中最热的时日。' },
+  { accent: '#c2701f', d: '08-07', char: '立秋', en: 'Start of Autumn', py: 'Lì Qiū', txt: '秋天开始，第一丝凉意。' },
+  { accent: '#c2701f', d: '08-23', char: '处暑', en: 'End of Heat', py: 'Chǔ Shǔ', txt: '暑气终于退场。' },
+  { accent: '#c2701f', d: '09-07', char: '白露', en: 'White Dew', py: 'Bái Lù', txt: '夜里转凉，草尖凝露。' },
+  { accent: '#c2701f', d: '09-23', char: '秋分', en: 'Autumn Equinox', py: 'Qiū Fēn', txt: '昼夜再次平分。' },
+  { accent: '#c2701f', d: '10-08', char: '寒露', en: 'Cold Dew', py: 'Hán Lù', txt: '露水转寒，深秋抵达。' },
+  { accent: '#c2701f', d: '10-23', char: '霜降', en: "Frost's Descent", py: 'Shuāng Jiàng', txt: '初霜落下；枫叶红了。' },
+  { accent: '#3a5f97', d: '11-07', char: '立冬', en: 'Start of Winter', py: 'Lì Dōng', txt: '冬天开始——收藏与休养的季节。' },
+  { accent: '#3a5f97', d: '11-22', char: '小雪', en: 'Minor Snow', py: 'Xiǎo Xuě', txt: '第一场小雪。' },
+  { accent: '#3a5f97', d: '12-07', char: '大雪', en: 'Major Snow', py: 'Dà Xuě', txt: '大雪封北。' },
+  { accent: '#3a5f97', d: '12-22', char: '冬至', en: 'Winter Solstice', py: 'Dōng Zhì', txt: '最长的一夜——北方饺子，南方汤圆（也是节日）。' },
+  { accent: '#3a5f97', d: '01-05', char: '小寒', en: 'Minor Cold', py: 'Xiǎo Hán', txt: '深寒坐稳。' },
+  { accent: '#3a5f97', d: '01-20', char: '大寒', en: 'Major Cold', py: 'Dà Hán', txt: '最冷的时日——然后春天回来。' },
+];
+
+const metadata = { title: '二十四节气 · 节令历', description: '把一年的节奏拆成 24 格：节气名、公历档期与旅行含义。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="jq-page">
+    <header class="th">
+      <p class="kick">When to Go · 节令</p>
+      <h1>二十四节气</h1>
+      <p class="lead">
+        古人把太阳的年行程切成 24 格，种地、吃饭、出行都按它走。今天的旅行也可以——知道自己在哪个节气到访，就知道会看见什么颜色。
+      </p>
+    </header>
+
+    <div class="tb">
+      <div class="jq-grid">
+        {TERMS.map((t) => (
+          <div class="jq" style={`--accent:${t.accent}`}>
+            <div class="jq-char">{t.char.slice(0, 1)}</div>
+            <div class="jq-body">
+              <div class="jq-name">{t.char} <span>· {t.py} · {t.en}</span></div>
+              <div class="jq-date">{t.d}</div>
+              <p>{t.txt}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="tnote">
+        <b>旅行者注记</b>
+        <ul>
+          <li>节气按太阳历走，公历日期每年最多浮动 1–2 天；具体出行以当年日历为准。</li>
+          <li>「踏青看什么」口诀：春看花讯（惊蛰后江南花开），秋看红叶（霜降前后北方最盛）。</li>
+          <li>清明与冬至既是节气也是节日——那几天交通会比平时挤。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="trel">
+      <a href={`${B}/routes/best-season`}>按地区选季节</a>
+      <a href={`${B}/routes/avoiding-crowds`}>错峰指南</a>
+      <a href={`${B}/`}>首页节令历</a>
+      <a href={`${B}/essentials`}>行前实务</a>
+    </div>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/essentials`}>实务</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .jq-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --line: rgba(33, 31, 26, 0.12);
+    --r-sm: 12px;
+    --shadow-1: 0 2px 10px rgba(60, 55, 40, 0.07);
+    --shadow-2: 0 18px 44px rgba(55, 48, 30, 0.1);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .jq-page a { text-decoration: none; color: inherit; }
+
+  .th { max-width: 880px; margin: 0 auto; padding: 140px 24px 6px; }
+  .th .kick {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--cinnabar, #c8402f);
+  }
+  .th h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600;
+    font-size: clamp(36px, 6vw, 56px); line-height: 1.08; margin: 12px 0 16px;
+  }
+  .th .lead { font-size: 17.5px; line-height: 1.7; color: var(--ink-soft); max-width: 760px; }
+
+  .tb { max-width: 880px; margin: 0 auto; padding: 14px 24px 30px; }
+
+  .jq-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+  @media (max-width: 860px) { .jq-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .jq-grid { grid-template-columns: 1fr; } }
+
+  .jq {
+    position: relative; background: var(--card); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent); border-radius: var(--r-sm);
+    padding: 15px 16px; overflow: hidden; box-shadow: var(--shadow-1); transition: 0.2s var(--ease);
+  }
+  .jq:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+  .jq-char {
+    position: absolute; right: -6px; top: -18px; font-family: 'Noto Serif SC', serif;
+    font-size: 92px; line-height: 1; color: var(--accent); opacity: 0.08; pointer-events: none;
+  }
+  .jq-name { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: 16px; }
+  .jq-name span { font-family: Inter, sans-serif; font-weight: 500; font-size: 11.5px; color: var(--ink-faint); }
+  .jq-date {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 11.5px;
+    letter-spacing: 0.04em; color: var(--accent); margin: 3px 0 6px;
+  }
+  .jq p { font-size: 12.5px; color: var(--ink-soft); margin: 0; line-height: 1.5; position: relative; }
+
+  .tnote {
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid #c99b3f;
+    border-radius: 12px; padding: 16px 22px; margin: 34px 0 8px;
+  }
+  .tnote b { font-size: 13px; letter-spacing: 0.1em; }
+  .tnote ul { margin: 10px 0 2px; padding-left: 18px; }
+  .tnote li { font-size: 14px; line-height: 1.75; color: var(--ink-soft); margin-bottom: 6px; }
+
+  .trel { max-width: 880px; margin: 0 auto; padding: 0 24px 60px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .trel a {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .trel a:hover { background: var(--cinnabar, #c8402f); border-color: var(--cinnabar, #c8402f); color: #fff; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>

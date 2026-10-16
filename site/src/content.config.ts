@@ -152,7 +152,7 @@ const placeCollection = defineCollection({
 const routeCollection = defineCollection({
   loader: glob({ pattern: '*.json', base: 'src/content/routes' }),
   schema: z.object({
-    kick: z.enum(['Journeys', 'By Theme']),
+    kick: z.enum(['Journeys', 'By Theme', 'When to Go']),
     title: z.string(),
     titleEn: z.string().optional(),
     lead: z.string(),
