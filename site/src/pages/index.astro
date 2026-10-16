@@ -1,5 +1,33 @@
 ---
+/**
+ * 首页 —— ChinaTravelCo storyboard 首页 1:1 结构移植（中文原创内容）
+ * Frame 01 hero 轮播 / 跑马灯 / 节气历 / 目的卡 / 活地图(嵌入点亮地图) / 灵感 / 非遗 / 实务 CTA
+ */
+import { getCollection } from 'astro:content';
+
+import '@fontsource/fraunces/300.css';
+import '@fontsource/fraunces/400.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/space-mono/700.css';
+import '@fontsource/noto-serif-sc/500.css';
+import '@fontsource/noto-serif-sc/600.css';
+import '@fontsource/noto-serif-sc/700.css';
+
 import Layout from '~/layouts/PageLayout.astro';
+
+const cities = await getCollection('city');
+const live = cities.filter((c) => c.data.status === 'live');
+const soonNames = ['厦门', '西安', '成都', '大理', '哈尔滨'];
+const destCards = [
+  ...live.slice(0, 1).map((c) => ({ name: c.data.name, en: c.data.nameEn, live: true, days: '3 天', blurb: c.data.tagline })),
+  ...soonNames.map((n) => ({ name: n, en: '', live: false, days: '筹备中', blurb: '内容筹备中，敬请期待' })),
+];
 
 const metadata = {
   title: '城市指南',
@@ -8,35 +36,547 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-4 py-24 md:py-36">
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="mb-5 text-sm tracking-[0.35em]" style="color: var(--ctc-gold)">山河表里 · 一城一页</p>
-      <h1 class="text-5xl leading-tight font-bold md:text-7xl" style="color: var(--ctc-ink); font-family: var(--aw-font-heading)">
-        中国城市<span style="color: var(--ctc-cinnabar)">指南</span>
-      </h1>
-      <p class="mx-auto mt-8 max-w-xl text-lg leading-relaxed" style="color: var(--ctc-ink-soft)">
-        吃住行玩，从福州出发，点亮全国 370 城。
-      </p>
+  <div class="sb-page">
+    <div class="progress" id="progress"></div>
 
-      <!-- token 色卡：验证皮肤变量生效（占位，首页正式版随点亮地图上线） -->
-      <div class="mt-14 flex flex-wrap justify-center gap-4" id="map">
-        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-cinnabar); box-shadow: var(--ctc-shadow-2)">
-          <p class="text-xs opacity-80">朱砂</p>
-          <p class="mt-1 text-sm font-medium">#C8402F</p>
-        </div>
-        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-gold); box-shadow: var(--ctc-shadow-2)">
-          <p class="text-xs opacity-80">描金</p>
-          <p class="mt-1 text-sm font-medium">#B8902F</p>
-        </div>
-        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-azurite); box-shadow: var(--ctc-shadow-2)">
-          <p class="text-xs opacity-80">石青</p>
-          <p class="mt-1 text-sm font-medium">#2F7DA6</p>
-        </div>
-        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-jade); box-shadow: var(--ctc-shadow-2)">
-          <p class="text-xs opacity-80">翠玉</p>
-          <p class="mt-1 text-sm font-medium">#2F8064</p>
+    <!-- Frame 01 · Hero -->
+    <header class="frame hero">
+      <div class="hero-bg">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="hero-scrim"></div>
+      <div class="frame-label"><span class="num">01</span><span class="bar"></span><span class="mono">中国 · 城市指南</span></div>
+      <div class="hero-inner">
+        <p class="hero-kicker mono">山河表里 · FOR THE FIRST-TIMERS</p>
+        <h1>把中国<em>慢慢</em>逛一遍</h1>
+        <p class="hero-sub">吃住行玩，一城一页。从福州出发，点亮全国的 370 座城——先看攻略，再去盖章。</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#destinations">先看城市</a>
+          <a class="btn btn-ghost" href="#map">点亮我的地图</a>
         </div>
       </div>
+      <div class="scroll-hint mono">慢慢往下<i></i></div>
+    </header>
+
+    <!-- 跑马灯 -->
+    <div class="marquee">
+      <div class="marquee-track" id="marquee">
+        <span>福州</span><span>厦门</span><span>泉州</span><span>武夷山</span><span>西安</span><span>成都</span><span>大理</span><span>喀什</span><span>哈尔滨</span><span>拉萨</span>
+      </div>
     </div>
-  </section>
+
+    <!-- Frame 02 · 节气历 -->
+    <section class="frame sec" id="festival-cal">
+      <div class="frame-label"><span class="num">02</span><span class="bar"></span><span class="mono">今日 · 宜出行</span></div>
+      <div class="sec-head r">
+        <span class="spectrum"></span>
+        <p class="kicker">跟着节气去旅行</p>
+        <h2>什么时候去，<em>最对</em></h2>
+      </div>
+      <div class="cal-wrap">
+        <div class="cal-today r">
+          <p class="kicker">今天</p>
+          <div class="cal-bigdate">
+            <span class="wk" id="cal-wk">—</span>
+            <b id="cal-date">—</b>
+            <span class="mo" id="cal-mo">—</span>
+          </div>
+          <div class="cal-next" id="cal-next">—</div>
+          <a class="cal-cta" href="#destinations">看看现在去哪</a>
+        </div>
+        <div class="cal-panel r d1">
+          <div class="cal-head">
+            <h3 id="cal-month-name">—</h3>
+            <div>
+              <button id="cal-prev" aria-label="上月">‹</button>
+              <button id="cal-next-m" aria-label="下月">›</button>
+            </div>
+          </div>
+          <div class="cal-dow"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-legend">
+            <span class="lg fest">节日 / 节气</span>
+            <span class="lg holi">假期</span>
+          </div>
+          <div class="cal-note" id="cal-note">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frame 03 · 目的地 -->
+    <section class="frame sec" id="destinations">
+      <div class="frame-label"><span class="num">03</span><span class="bar"></span><span class="mono">故事从一座城开始</span></div>
+      <div class="sec-head r">
+        <span class="spectrum"></span>
+        <p class="kicker">目的地</p>
+        <h2>故事，从一座<em>城</em>开始</h2>
+        <p>每座城一页攻略：必看、路线、吃住、避坑，全都备好了。</p>
+      </div>
+      <div class="dest-grid">
+        {destCards.map((d, i) => (
+          d.live ? (
+            <a class={`dest r d${Math.min(i, 4)}`} href={`/cities/${live[i].id}`}>
+              <div class="dest-img ph-grad"><span class="tag">已上线</span></div>
+              <div class="dest-body">
+                <p class="mono">{d.en.toUpperCase()}</p>
+                <h3>{d.name}<span>{d.en}</span></h3>
+                <p>{d.blurb}</p>
+                <div class="dest-foot"><span class="days">{d.days}</span><span class="go">去看攻略 →</span></div>
+              </div>
+            </a>
+          ) : (
+            <span class={`dest r d${Math.min(i, 4)} is-soon`}>
+              <div class="dest-img ph-grad"><span class="tag">筹备中</span></div>
+              <div class="dest-body">
+                <h3>{d.name}</h3>
+                <p>{d.blurb}</p>
+                <div class="dest-foot"><span class="days">{d.days}</span></div>
+              </div>
+            </span>
+          )
+        ))}
+      </div>
+    </section>
+
+    <!-- Frame 04 · 活地图（点亮地图融合） -->
+    <section class="frame ways" id="map">
+      <div class="sec" style="padding-bottom:clamp(40px,7vh,90px)">
+        <div class="sec-head r">
+          <span class="spectrum"></span>
+          <p class="kicker">足迹玩法</p>
+          <h2>整个中国，一张<em>活</em>地图</h2>
+        </div>
+        <div class="way-map cardfx r" id="way-map">
+          <iframe src="/map/index.html" title="点亮我的中国城市地图" loading="lazy"></iframe>
+          <div class="way-map-text">
+            <p class="mono">370 城 · 点击点亮</p>
+            <h3>你去过几座城？</h3>
+            <p>全国→省份两级缩放，五档涂色，自动统计成就。地图在下面这张卡里，直接点。</p>
+            <a class="btn btn-primary way-map-btn" href="/map/index.html" target="_blank" rel="noopener">全屏打开地图</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frame 05 · 灵感 -->
+    <section class="frame sec" id="inspiration">
+      <div class="frame-label"><span class="num">05</span><span class="bar"></span><span class="mono">不知道去哪？</span></div>
+      <div class="sec-head r">
+        <span class="spectrum"></span>
+        <p class="kicker">找点灵感</p>
+        <h2>跟着<em>心情</em>去旅行</h2>
+      </div>
+      <div class="inspire-grid">
+        <a class="inspire r" href="#map">
+          <div class="inspire-body"><p class="mono">MOOD · 心情</p><h3>求一签，定去哪</h3><p>六种旅行心情，抽一座城</p></div>
+        </a>
+        <a class="inspire r d1" href="#destinations">
+          <div class="inspire-body"><p class="mono">NOW · 此刻</p><h3>现在正好去</h3><p>当季最舒服的目的地</p></div>
+        </a>
+        <a class="inspire r d2" href="#destinations">
+          <div class="inspire-body"><p class="mono">ROUTE · 路线</p><h3>经典 7 日环线</h3><p>第一次去，照着走就行</p></div>
+        </a>
+        <a class="inspire r d3" href="#heritage">
+          <div class="inspire-body"><p class="mono">THEME · 主题</p><h3>为一门手艺出发</h3><p>非遗、八大菜系、古城镇</p></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Frame 06 · 非遗 -->
+    <section class="frame sec" id="heritage">
+      <div class="frame-label"><span class="num">06</span><span class="bar"></span><span class="mono">一城，一门手艺</span></div>
+      <div class="sec-head r">
+        <span class="spectrum"></span>
+        <p class="kicker">文化遗产</p>
+        <h2>一座城，一门<em>手艺</em></h2>
+      </div>
+      <div class="heritage-grid">
+        {[['珐琅', '景泰蓝', '北京'], ['瓷', '景德镇瓷器', '景德镇'], ['蜡', '蜡染', '贵州'], ['扎', '扎染', '大理'], ['狮', '舞狮', '佛山'], ['舟', '龙舟', '福州']].map(([ch, name, where], i) => (
+          <div class={`craft r d${Math.min(i, 4)}`}>
+            <span class="craft-glyph">{ch}</span>
+            <p class="mono">{where}</p>
+            <h3>{name}</h3>
+          </div>
+        ))}
+      </div>
+      <div class="more-row"><a class="more-link" href="#destinations">看更多主题 →</a></div>
+    </section>
+
+    <!-- Frame 07 · 实务 CTA -->
+    <section class="frame" id="essentials">
+      <div class="cta-wrap">
+        <div class="cta r">
+          <div class="cta-inner">
+            <p class="mono">出发之前</p>
+            <h2>先办好<em>五件事</em></h2>
+            <p>预约、交通、天气、装备、预算——一篇讲清楚。</p>
+            <div class="cta-tags"><span>预约</span><span>交通</span><span>季节</span><span>避坑</span><span>预算</span></div>
+            <a class="btn btn-primary" href="/essentials">打开出行清单</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </Layout>
+
+<style>
+  .sb-page {
+    /* v2 月白/朱砂 token（storyboard 基座） */
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --cinnabar-deep: #a5311f;
+    --azurite: #2f7da6; --jade: #2f8064; --gold: #b8902f;
+    --line: rgba(33, 31, 26, 0.12); --line-strong: rgba(33, 31, 26, 0.22);
+    --r: 18px; --r-sm: 12px;
+    --shadow-1: 0 2px 10px rgba(60, 55, 40, 0.07);
+    --shadow-2: 0 18px 44px rgba(55, 48, 30, 0.1);
+    --shadow-3: 0 36px 90px rgba(48, 42, 26, 0.16);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --mbc: 224, 120, 70;
+
+    color: var(--ink);
+    background:
+      radial-gradient(120% 55% at 88% -8%, rgba(212, 169, 72, 0.07), transparent 52%),
+      radial-gradient(90% 55% at -8% 108%, rgba(47, 125, 166, 0.05), transparent 55%),
+      linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    -webkit-font-smoothing: antialiased;
+    font-family: Inter, ui-sans-serif, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    overflow-x: hidden;
+  }
+  .sb-page a { color: inherit; text-decoration: none; }
+  .sb-page h1, .sb-page h2, .sb-page h3 { font-family: Fraunces, 'Noto Serif SC', Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+  .mono { font-family: 'Space Mono', ui-monospace, monospace; letter-spacing: 0.18em; text-transform: uppercase; }
+  .kicker { font-family: Fraunces, 'Noto Serif SC', serif; font-style: italic; font-weight: 400; font-size: 18px; letter-spacing: 0.005em; color: var(--cinnabar); }
+
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 0; z-index: 120; background: linear-gradient(90deg, #f0d27e, var(--cinnabar)); }
+  .frame { position: relative; }
+  .frame-label { display: flex; align-items: center; gap: 14px; font-size: 11px; color: var(--ink-soft); padding: clamp(82px, 11vh, 108px) clamp(18px, 5vw, 64px) 0; max-width: 1280px; margin: 0 auto; }
+  .frame-label .num { color: var(--cinnabar); }
+  .frame-label .bar { width: 48px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #ffd64a, #f87f37, #ee5740, #e9577e, #b56cae, #5a86c6, #2fa6b4, #46c391); }
+  .hero .frame-label { position: absolute; top: clamp(86px, 12vh, 120px); left: clamp(18px, 5vw, 64px); z-index: 5; padding: 0; margin: 0; color: rgba(255, 255, 255, 0.82); }
+  .hero .frame-label .num { color: #e9c879; }
+  .spectrum { display: block; width: 58px; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #ffd64a, #f87f37, #ee5740, #e9577e, #b56cae, #5a86c6, #2fa6b4, #46c391); }
+
+  .btn { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 500; padding: 15px 26px; border-radius: 999px; border: 1px solid transparent; transition: 0.3s var(--ease); }
+  .btn-primary { background: var(--cinnabar); color: #fff7ef; box-shadow: 0 14px 34px rgba(200, 64, 47, 0.26); }
+  .btn-primary:hover { background: var(--cinnabar-deep); transform: translateY(-2px); }
+  .btn-ghost { border-color: var(--line-strong); color: var(--ink); }
+  .btn-ghost:hover { background: rgba(33, 31, 26, 0.05); }
+
+  /* ===== Hero ===== */
+  .hero { height: 100svh; min-height: 620px; position: relative; overflow: hidden; display: flex; align-items: flex-end; }
+  .hero-bg { position: absolute; inset: 0; }
+  .hero-bg span { position: absolute; inset: 0; opacity: 0; animation: heroCycle 32s infinite; transform: scale(1.08); background-size: cover; background-position: center; }
+  .hero-bg span:nth-child(1) { background: radial-gradient(80% 90% at 80% 10%, rgba(233, 200, 121, 0.55), transparent 55%), radial-gradient(70% 80% at 15% 30%, rgba(47, 125, 166, 0.5), transparent 60%), linear-gradient(160deg, #33454e, #131f26); animation-delay: 0s; }
+  .hero-bg span:nth-child(2) { background: radial-gradient(80% 90% at 20% 20%, rgba(200, 64, 47, 0.5), transparent 58%), radial-gradient(70% 80% at 85% 30%, rgba(233, 200, 121, 0.45), transparent 55%), linear-gradient(160deg, #3a3030, #1c1414); animation-delay: 8s; }
+  .hero-bg span:nth-child(3) { background: radial-gradient(80% 90% at 70% 15%, rgba(47, 125, 166, 0.55), transparent 55%), radial-gradient(60% 70% at 30% 90%, rgba(47, 128, 100, 0.45), transparent 60%), linear-gradient(160deg, #2c3e39, #14201d); animation-delay: 16s; }
+  .hero-bg span:nth-child(4) { background: radial-gradient(80% 90% at 30% 10%, rgba(184, 144, 58, 0.5), transparent 55%), radial-gradient(70% 80% at 80% 70%, rgba(125, 87, 168, 0.4), transparent 58%), linear-gradient(160deg, #3c3648, #191622); animation-delay: 24s; }
+  @keyframes heroCycle { 0% { opacity: 0; transform: scale(1.12); } 5% { opacity: 1; } 22% { opacity: 1; } 30% { opacity: 0; transform: scale(1.04); } 100% { opacity: 0; } }
+  .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 6, 3, 0.1) 0%, rgba(8, 6, 3, 0) 20%, rgba(8, 6, 3, 0.4) 46%, rgba(8, 6, 3, 0.52) 66%, rgba(6, 4, 2, 0.76) 100%), radial-gradient(120% 80% at 80% 8%, rgba(231, 182, 91, 0.14), transparent 55%); }
+  .hero-inner { position: relative; z-index: 3; padding: 0 clamp(18px, 5vw, 64px) clamp(40px, 8vh, 86px); max-width: 1080px; color: #fff; }
+  .hero-kicker { margin-bottom: 22px; font-size: 12px; color: #e9c879; }
+  .hero h1 {
+    font-size: clamp(50px, 9.6vw, 140px); line-height: 0.92; font-weight: 400; letter-spacing: -0.025em; color: #fff8ec;
+    padding-bottom: 0.1em;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero-sub { max-width: 540px; margin: 26px 0 34px; font-size: clamp(16px, 1.7vw, 19px); line-height: 1.7; color: rgba(255, 250, 240, 0.95); text-shadow: 0 2px 12px rgba(8, 10, 12, 0.72); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+  .hero .btn-ghost { border-color: rgba(255, 255, 255, 0.5); color: #fff; background: rgba(255, 255, 255, 0.12); }
+  .hero .btn-ghost:hover { background: rgba(255, 255, 255, 0.22); }
+  .scroll-hint { position: absolute; right: clamp(18px, 5vw, 64px); bottom: clamp(40px, 8vh, 80px); z-index: 3; display: flex; align-items: center; gap: 12px; font-size: 10px; color: rgba(255, 255, 255, 0.8); writing-mode: vertical-rl; }
+  .scroll-hint i { width: 1px; height: 46px; background: linear-gradient(#e9c879, transparent); display: block; animation: drip 2.4s var(--ease) infinite; }
+  @keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 40% { transform: scaleY(1); transform-origin: top; } 60% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  @media (max-width: 680px) { .scroll-hint { display: none; } }
+
+  /* ===== 跑马灯 ===== */
+  .marquee { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 18px 0; overflow: hidden; background: #fffdf8; }
+  .marquee-track { display: flex; width: max-content; animation: slide 40s linear infinite; }
+  .marquee-track span {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-size: clamp(26px, 3.8vw, 44px); font-style: italic; padding: 0 26px; white-space: nowrap;
+    background: linear-gradient(96deg, #a9781f, #f0d27e 30%, #d3a13a 52%, #9c7322 74%, #ecca74);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; background-size: 220% auto; animation: shine 9s linear infinite;
+  }
+  .marquee-track span::after { content: '✦'; font-style: normal; font-size: 0.42em; -webkit-text-fill-color: var(--cinnabar); color: var(--cinnabar); margin-left: 52px; vertical-align: middle; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  @keyframes shine { to { background-position: 220% center; } }
+
+  /* ===== sec 通用 ===== */
+  .sec { padding: clamp(14px, 3vh, 28px) clamp(18px, 5vw, 64px) clamp(80px, 12vh, 150px); max-width: 1280px; margin: 0 auto; position: relative; }
+  .sec-head { max-width: 760px; margin-bottom: 50px; }
+  .sec-head .spectrum { margin-bottom: 20px; }
+  .sec-head .mono { font-size: 11px; color: var(--cinnabar); }
+  .sec-head h2 {
+    font-size: clamp(34px, 5.4vw, 68px); line-height: 1.02; font-weight: 300; margin: 16px 0 0; letter-spacing: -0.02em;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 15%, #d3372f 29%, #c23f6e 44%, #7d57a8 59%, #2f6fa6 73%, #1f8a86 86%, #2f8b5f 100%);
+    background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    animation: flow 14s linear infinite; line-height: 1.12; padding-bottom: 0.2em;
+  }
+  .sec-head h2 em { font-style: italic; }
+  .sec-head p { margin: 22px 0 0; font-size: 16px; line-height: 1.7; color: var(--ink-soft); max-width: 560px; }
+  @keyframes flow { to { background-position: 300% center; } }
+
+  /* ===== 节气历 ===== */
+  .cal-wrap { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 16px; align-items: stretch; }
+  .cal-today { background: linear-gradient(165deg, #b5331f, #8f2718); color: #fff; border-radius: var(--r); padding: 20px 22px; display: flex; flex-direction: column; box-shadow: var(--shadow-2); position: relative; overflow: hidden; }
+  .cal-today::after { content: '岁'; position: absolute; right: -10px; bottom: -22px; font-family: 'Noto Serif SC', serif; font-size: 120px; line-height: 1; opacity: 0.1; }
+  .cal-today .kicker { color: #f4cdb0; opacity: 0.95; }
+  .cal-bigdate { margin-top: 8px; line-height: 1; }
+  .cal-bigdate .wk { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: #f6dccb; }
+  .cal-bigdate b { display: block; font-family: Fraunces, serif; font-weight: 500; font-size: 50px; margin: 2px 0; }
+  .cal-bigdate .mo { font-size: 15px; color: #f6dccb; }
+  .cal-next { margin-top: auto; padding-top: 14px; font-size: 13.5px; color: #fbe6da; position: relative; z-index: 1; }
+  .cal-next b { color: #fff; font-weight: 700; }
+  .cal-cta { margin-top: 12px; display: inline-block; align-self: flex-start; background: #fff; color: #9f2c1b; font-weight: 700; font-size: 13px; padding: 9px 16px; border-radius: 999px; position: relative; z-index: 1; transition: 0.2s; }
+  .cal-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25); }
+  .cal-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px 12px; box-shadow: var(--shadow-1); }
+  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; }
+  .cal-head h3 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: 17px; margin: 0; }
+  .cal-head button { width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); font-size: 17px; cursor: pointer; transition: 0.2s; line-height: 1; }
+  .cal-head button:hover { background: var(--cinnabar); color: #fff; border-color: var(--cinnabar); }
+  .cal-dow, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow span { text-align: center; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink-faint); text-transform: uppercase; padding-bottom: 4px; }
+  .cal-grid { transition: opacity 0.3s var(--ease); }
+  .cell { position: relative; min-height: 30px; padding: 3px 0 6px; border-radius: 7px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 12px; color: var(--ink-soft); border: 1px solid transparent; }
+  .cell.pad { visibility: hidden; }
+  .cell.holi { background: rgba(200, 64, 47, 0.08); }
+  .cell.fest { cursor: pointer; font-weight: 700; color: var(--ink); background: rgba(200, 64, 47, 0.08); }
+  .cell.fest .fdot { width: 5px; height: 5px; border-radius: 50%; background: var(--cinnabar); position: absolute; bottom: 6px; }
+  .cell .fname { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); white-space: nowrap; background: #2a241c; color: #fff; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; opacity: 0; pointer-events: none; transition: 0.18s; z-index: 5; }
+  .cell:hover .fname { opacity: 1; transform: translateX(-50%); }
+  .cell.today { outline: 2px solid var(--cinnabar); outline-offset: -1px; color: var(--cinnabar); font-weight: 800; }
+  .cal-legend { display: flex; gap: 16px; margin-top: 12px; font-size: 11px; color: var(--ink-faint); }
+  .cal-legend .lg { display: flex; align-items: center; gap: 5px; }
+  .cal-legend .lg::before { content: ''; width: 9px; height: 9px; border-radius: 50%; }
+  .cal-legend .fest::before { background: var(--cinnabar); }
+  .cal-legend .holi::before { background: rgba(200, 64, 47, 0.3); border-radius: 3px; }
+  .cal-note { margin-top: 14px; font-size: 13px; color: var(--ink-soft); background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--ink-faint); border-radius: 10px; padding: 10px 14px; line-height: 1.5; box-shadow: var(--shadow-1); }
+  .cal-note b { color: var(--ink); font-weight: 700; }
+  .cal-note.busy { border-left-color: var(--cinnabar); background: rgba(200, 64, 47, 0.05); }
+  .cal-note.mid { border-left-color: var(--gold); }
+  .cal-note.ok { border-left-color: var(--jade); }
+  @media (max-width: 820px) { .cal-wrap { grid-template-columns: 1fr; } .cal-bigdate b { font-size: 62px; } }
+
+  /* ===== 目的地卡 ===== */
+  .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .dest { border-radius: var(--r); overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-2); transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease); display: block; }
+  .dest:hover { transform: translateY(-8px); box-shadow: var(--shadow-3); }
+  .dest.is-soon { opacity: 0.72; }
+  .dest-img { height: 230px; position: relative; }
+  .dest-img .tag { position: absolute; top: 14px; left: 14px; font-size: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.86); backdrop-filter: blur(4px); font-weight: 700; }
+  .dest-body { padding: 22px 22px 26px; }
+  .dest-body .mono { font-size: 10px; color: var(--ink-faint); }
+  .dest-body h3 { font-size: 28px; font-weight: 400; margin: 8px 0 0; }
+  .dest-body h3 span { font-size: 13px; color: var(--ink-soft); font-family: 'Noto Serif SC', serif; margin-left: 8px; }
+  .dest-body p { margin: 12px 0 0; font-size: 14px; line-height: 1.6; color: var(--ink-soft); }
+  .dest-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .dest-foot .days { font-size: 13px; color: var(--ink-soft); }
+  .dest-foot .go { font-size: 12px; color: var(--cinnabar); font-weight: 500; }
+  .dest:hover .dest-foot .go { text-decoration: underline; }
+  @media (max-width: 920px) { .dest-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .dest-grid { grid-template-columns: 1fr; } }
+
+  /* ===== 活地图（点亮地图融合） ===== */
+  .ways { position: relative; }
+  .way-map {
+    position: relative; display: grid; grid-template-columns: 1fr 460px; align-items: stretch;
+    min-height: 560px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
+    box-shadow: var(--shadow-2); background: #f4f1e8; transition: box-shadow 0.5s var(--ease);
+  }
+  .way-map:hover { box-shadow: var(--shadow-3); }
+  .way-map iframe { width: 100%; height: 640px; border: 0; grid-column: 1; grid-row: 1; }
+  .way-map-text { grid-column: 2; grid-row: 1; z-index: 7; padding: clamp(32px, 5vw, 64px); background: linear-gradient(95deg, rgba(244, 241, 232, 0.96) 0%, rgba(244, 241, 232, 0.88) 60%, rgba(244, 241, 232, 0.78) 100%); }
+  .way-map-text .mono { font-size: 11px; color: var(--cinnabar); }
+  .way-map-text h3 { font-weight: 300; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; color: var(--ink); margin: 14px 0 0; letter-spacing: -0.02em; }
+  .way-map-text p { margin: 16px 0 28px; font-size: 16px; line-height: 1.6; color: var(--ink-soft); max-width: 34ch; }
+  @media (max-width: 980px) {
+    .way-map { grid-template-columns: 1fr; }
+    .way-map iframe { height: 70vh; grid-row: 2; }
+    .way-map-text { grid-row: 1; }
+  }
+
+  /* ===== 灵感 ===== */
+  .inspire-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .inspire {
+    position: relative; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
+    box-shadow: var(--shadow-2); min-height: 230px; display: flex; align-items: flex-end; color: #fff;
+    background:
+      radial-gradient(90% 90% at 20% 15%, rgba(233, 200, 121, 0.4), transparent 60%),
+      radial-gradient(80% 80% at 85% 25%, rgba(47, 125, 166, 0.4), transparent 55%),
+      linear-gradient(150deg, #3d4d55, #22303a);
+    transition: transform 1s var(--ease);
+  }
+  .inspire:hover { transform: translateY(-6px); }
+  .inspire-body { position: relative; z-index: 2; padding: 20px; }
+  .inspire-body .mono { font-size: 10px; color: #e9c879; }
+  .inspire-body h3 { font-size: 20px; font-weight: 400; color: #fff; margin-top: 6px; }
+  .inspire-body p { font-size: 12.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.86); margin-top: 8px; }
+  @media (max-width: 920px) { .inspire-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .inspire-grid { grid-template-columns: 1fr; } }
+
+  /* ===== 非遗 ===== */
+  .heritage-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+  .craft { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 24px 14px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-1); transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+  .craft:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); }
+  .craft-glyph {
+    width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+    font-family: 'Noto Serif SC', serif; font-size: 26px; font-weight: 700; color: #fff8ec;
+    background: radial-gradient(circle at 30% 25%, #d0553e, #8f2718);
+    box-shadow: 0 0 0 2px rgba(184, 144, 58, 0.5), 0 0 24px rgba(212, 169, 72, 0.3);
+  }
+  .craft .mono { font-size: 9px; color: var(--ink-faint); }
+  .craft h3 { font-size: 16px; font-weight: 500; color: var(--ink); margin-top: 2px; }
+  @media (max-width: 920px) { .heritage-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 520px) { .heritage-grid { grid-template-columns: repeat(2, 1fr); } }
+  .more-row { margin-top: 26px; }
+  .more-link { font-size: 12px; color: var(--cinnabar); border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; transition: 0.25s; }
+  .more-link:hover { color: var(--cinnabar-deep); border-color: var(--cinnabar); }
+
+  /* ===== 实务 CTA ===== */
+  .cta-wrap { max-width: 1280px; margin: 0 auto; padding: clamp(40px, 7vh, 90px) clamp(18px, 5vw, 64px) clamp(80px, 12vh, 140px); }
+  .cta { position: relative; text-align: center; border-radius: var(--r); overflow: hidden; padding: clamp(60px, 9vh, 110px) 24px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow-3); }
+  .cta::before { content: ''; position: absolute; left: 0; top: 0; right: 0; height: 3px; background: linear-gradient(90deg, #ffd64a, #f87f37, #ee5740, #e9577e, #b56cae, #5a86c6, #2fa6b4, #46c391); }
+  .cta-inner { position: relative; z-index: 2; max-width: 660px; margin: 0 auto; }
+  .cta-inner .mono { font-size: 11px; color: var(--cinnabar); }
+  .cta-inner h2 {
+    font-size: clamp(32px, 5.2vw, 62px); font-weight: 300; margin-top: 12px; letter-spacing: -0.02em;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 15%, #d3372f 29%, #c23f6e 44%, #7d57a8 59%, #2f6fa6 73%, #1f8a86 86%, #2f8b5f 100%);
+    background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    animation: flow 14s linear infinite; line-height: 1.12; padding-bottom: 0.2em;
+  }
+  .cta-inner h2 em { font-style: italic; }
+  .cta-inner p { margin: 20px auto 26px; max-width: 480px; line-height: 1.7; color: var(--ink-soft); }
+  .cta-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 32px; }
+  .cta-tags span { font-size: 12px; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink-soft); }
+
+  /* ===== reveal ===== */
+  .r { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .r.in { opacity: 1; transform: none; }
+  .r.d1 { transition-delay: 0.08s; } .r.d2 { transition-delay: 0.16s; } .r.d3 { transition-delay: 0.24s; } .r.d4 { transition-delay: 0.32s; }
+  @media (prefers-reduced-motion: reduce) {
+    .r { opacity: 1; transform: none; transition: none; }
+    .hero-bg span { animation: none; opacity: 1; }
+    .hero-bg span:nth-child(1) { opacity: 1; }
+    .sec-head h2, .cta-inner h2 { animation: none; }
+    .marquee-track { animation: none; }
+  }
+
+  /* ph-grad（无图占位） */
+  .ph-grad {
+    display: grid; place-items: center; width: 100%; height: 100%;
+    background:
+      radial-gradient(90% 90% at 20% 15%, rgba(233, 200, 121, 0.5), transparent 60%),
+      radial-gradient(80% 80% at 85% 25%, rgba(47, 125, 166, 0.4), transparent 55%),
+      radial-gradient(90% 80% at 50% 100%, rgba(200, 64, 47, 0.4), transparent 60%),
+      linear-gradient(150deg, #3d4d55, #22303a);
+  }
+</style>
+
+<script>
+  // 进度条 + reveal（CTC storyboard.js 配方）
+  const prog = document.getElementById('progress');
+  const onScroll = () => {
+    if (prog) {
+      const h = document.documentElement;
+      prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+    }
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.14, rootMargin: '0px 0px -8% 0px' }
+  );
+  const observeAll = () => document.querySelectorAll('.r:not(.in)').forEach((el) => io.observe(el));
+  observeAll();
+  setTimeout(observeAll, 400);
+
+  // 跑马灯内容复制一份实现无缝循环
+  const mq = document.getElementById('marquee');
+  if (mq) mq.innerHTML += mq.innerHTML;
+
+  // ===== 节气历（2026-2027 公共历法事实表） =====
+  const FESTS: Record<string, string> = {
+    '2026-01-01': '元旦', '2026-02-16': '除夕', '2026-02-17': '春节', '2026-03-03': '元宵',
+    '2026-02-04': '立春', '2026-02-19': '雨水', '2026-03-05': '惊蛰', '2026-03-20': '春分',
+    '2026-04-05': '清明', '2026-04-20': '谷雨', '2026-05-01': '劳动节', '2026-05-05': '立夏',
+    '2026-05-21': '小满', '2026-06-05': '芒种', '2026-06-19': '端午', '2026-06-21': '夏至',
+    '2026-07-07': '小暑', '2026-07-22': '大暑', '2026-08-07': '立秋', '2026-08-23': '处暑',
+    '2026-09-07': '白露', '2026-09-23': '秋分', '2026-09-25': '中秋', '2026-10-01': '国庆',
+    '2026-10-08': '寒露', '2026-10-23': '霜降', '2026-11-07': '立冬', '2026-11-22': '小雪',
+    '2026-12-07': '大雪', '2026-12-21': '冬至', '2027-01-01': '元旦', '2027-02-06': '春节',
+    '2027-02-04': '立春',
+  };
+  const HOLIDAYS = new Set(['2026-01-01', '2026-02-16', '2026-02-17', '2026-02-18', '2026-04-05', '2026-05-01', '2026-06-19', '2026-09-25', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-06', '2026-10-07']);
+  const WEEK = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const key = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+  const today = new Date();
+  const todayK = key(today);
+  const upcoming = Object.keys(FESTS).filter((k) => k >= todayK).sort();
+  const nextK = upcoming[0];
+  const el = (id: string) => document.getElementById(id);
+  if (el('cal-date')) {
+    el('cal-wk')!.textContent = WEEK[today.getDay()];
+    el('cal-date')!.textContent = `${today.getMonth() + 1}月${today.getDate()}日`;
+    el('cal-mo')!.textContent = `${today.getFullYear()} 年`;
+    if (nextK) {
+      const dn = Math.round((+new Date(nextK) - +new Date(todayK)) / 86400000);
+      el('cal-next')!.innerHTML = `下一个：<b>${FESTS[nextK]}</b>（${dn === 0 ? '就是今天' : `还有 ${dn} 天`}）`;
+      const season = ['立春', '春分', '立夏', '夏至', '立秋', '秋分', '立冬', '冬至'].includes(FESTS[nextK]);
+      el('cal-note')!.innerHTML = season
+        ? `<b>${FESTS[nextK]}</b>将至——节气换挡，出行前查好目的地天气。`
+        : `<b>${FESTS[nextK]}</b>临近，热门城市会涨价也热闹；想清静就错峰，想凑趣就赶早订。`;
+      el('cal-note')!.className = 'cal-note ' + (HOLIDAYS.has(nextK) ? 'busy' : season ? 'ok' : 'mid');
+    }
+
+    let view = new Date(today.getFullYear(), today.getMonth(), 1);
+    const renderCal = () => {
+      el('cal-month-name')!.textContent = `${view.getFullYear()} 年 ${view.getMonth() + 1} 月`;
+      const grid = el('cal-grid')!;
+      grid.innerHTML = '';
+      const first = new Date(view.getFullYear(), view.getMonth(), 1);
+      for (let i = 0; i < first.getDay(); i++) {
+        const c = document.createElement('div'); c.className = 'cell pad'; grid.appendChild(c);
+      }
+      const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+      for (let d = 1; d <= days; d++) {
+        const dt = new Date(view.getFullYear(), view.getMonth(), d);
+        const k = key(dt);
+        const c = document.createElement('div');
+        const fest = FESTS[k];
+        c.className = 'cell' + (fest ? ' fest' : '') + (HOLIDAYS.has(k) ? ' holi' : '') + (k === todayK ? ' today' : '');
+        c.innerHTML = `<span>${d}</span>` + (fest ? `<i class="fdot"></i><span class="fname">${fest}</span>` : '');
+        grid.appendChild(c);
+      }
+    };
+    renderCal();
+    el('cal-prev')!.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderCal(); });
+    el('cal-next-m')!.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderCal(); });
+  }
+
+  // cardfx 轻倾斜（活地图卡）
+  const map = document.getElementById('way-map');
+  if (map && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    map.addEventListener('pointermove', (ev) => {
+      const r = (map as HTMLElement).getBoundingClientRect();
+      const x = (ev.clientX - r.left) / r.width;
+      const y = (ev.clientY - r.top) / r.height;
+      (map as HTMLElement).style.setProperty('--px', String(Math.round(x * 100)));
+      (map as HTMLElement).style.setProperty('--py', String(Math.round(y * 100)));
+      (map as HTMLElement).style.setProperty('--gi', '1');
+    });
+    map.addEventListener('pointerleave', () => {
+      (map as HTMLElement).style.setProperty('--gi', '0');
+    });
+  }
+</script>
