@@ -20,8 +20,20 @@ export const headerData = {
       ],
     },
     {
+      text: '目的地',
+      href: getPermalink('/destinations'),
+    },
+    {
       text: '点亮地图',
       href: getPermalink('/#map'),
+    },
+    {
+      text: '求签',
+      href: getPermalink('/fate'),
+    },
+    {
+      text: '实务',
+      href: getPermalink('/essentials'),
     },
     {
       text: '福大',

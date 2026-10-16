@@ -1,0 +1,197 @@
+---
+/**
+ * 目的地 hub —— 大区杂志卡布局（CTC dest-hub/maggrid 同构）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import '@fontsource/fraunces/300.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/noto-serif-sc/500.css';
+import '@fontsource/noto-serif-sc/700.css';
+
+const regions = [
+  {
+    id: 'east', zh: '华东', en: 'EAST',
+    cities: [
+      { slug: 'fuzhou', name: '福州', tag: '闽都温泉', live: true },
+      { name: '上海', tag: '十里洋场' }, { name: '杭州', tag: '西湖龙井' },
+      { name: '南京', tag: '六朝金粉' }, { name: '苏州', tag: '园林水巷' },
+      { name: '厦门', tag: '海上花园' }, { name: '黄山', tag: '云海奇松' },
+    ],
+  },
+  {
+    id: 'north', zh: '华北', en: 'NORTH',
+    cities: [
+      { name: '北京', tag: '千年帝都', b5a: true }, { name: '大同', tag: '云冈石窟', b5a: true },
+      { name: '天津', tag: '洋楼海河' }, { name: '承德', tag: '避暑山庄' },
+    ],
+  },
+  {
+    id: 'central', zh: '华中', en: 'CENTRAL',
+    cities: [
+      { name: '武汉', tag: '江城樱花' }, { name: '张家界', tag: '峰林奇观', b5a: true },
+      { name: '洛阳', tag: '龙门石窟', b5a: true }, { name: '长沙', tag: '烟火湘江' },
+    ],
+  },
+  {
+    id: 'south', zh: '华南', en: 'SOUTH',
+    cities: [
+      { name: '广州', tag: '食在广州' }, { name: '桂林', tag: '山水甲天下', b5a: true },
+      { name: '深圳', tag: '未来之城' }, { name: '珠海', tag: '浪漫海滨' },
+    ],
+  },
+  {
+    id: 'sw', zh: '西南', en: 'SOUTHWEST',
+    cities: [
+      { name: '成都', tag: '巴适安逸', b5a: true }, { name: '重庆', tag: '8D 魔幻' },
+      { name: '大理', tag: '风花雪月' }, { name: '丽江', tag: '古城柔软', b5a: true },
+      { name: '拉萨', tag: '日光圣城', b5a: true }, { name: '香格里拉', tag: '消失地平线' },
+    ],
+  },
+  {
+    id: 'nw', zh: '西北', en: 'NORTHWEST',
+    cities: [
+      { name: '西安', tag: '长安回望', b5a: true }, { name: '敦煌', tag: '莫高千年', b5a: true },
+      { name: '喀什', tag: '丝路活化石' }, { name: '西宁', tag: '高原门户' },
+    ],
+  },
+  {
+    id: 'ne', zh: '东北', en: 'NORTHEAST',
+    cities: [
+      { name: '哈尔滨', tag: '冰雪之城' }, { name: '长春', tag: '电影之城' },
+      { name: '大连', tag: '北方明珠' },
+    ],
+  },
+];
+
+const metadata = { title: '目的地', description: '全国城市指南索引——按大区浏览 370 城足迹。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="hub">
+    <header class="hub-hero">
+      <div class="wrap">
+        <p class="kicker">目的地索引</p>
+        <h1>把地图<em>摊开</em>挑</h1>
+        <p class="sub">七大区，370 座城。已上线的是点亮的，其余在筹备名单里——先收藏，慢慢等。</p>
+        <div class="legend mono">● 已上线 · ○ 筹备中 · <span class="b5a">5A</span> 国家 5A 景区所在城</div>
+      </div>
+    </header>
+
+    {regions.map((r, ri) => (
+      <section class="region">
+        <div class="wrap">
+          <div class="region-head">
+            <h2>{r.zh}</h2>
+            <span class="region-en mono">{r.en}</span>
+          </div>
+          <div class="maggrid">
+            {r.cities.map((c, i) => (
+              c.live ? (
+                <a class={`magcard feat ${ri % 2 ? 'alt' : ''}`} href={`/cities/${c.slug}`}>
+                  <span class="ph-grad full"></span>
+                  <span class="bar"></span>
+                  <div class="t">
+                    <p class="eb mono">{c.tag}</p>
+                    <h3>{c.name}</h3>
+                    <p>吃住行玩一页看全——全站第一份完整城市指南。</p>
+                  </div>
+                </a>
+              ) : (
+                <span class={`magcard ${i === 0 ? 'tall' : ''}`}>
+                  <span class="ph-grad full"></span>
+                  <span class="bar"></span>
+                  <div class="t">
+                    <p class="eb mono">{c.tag}{c.b5a && <span class="b5a">5A</span>}</p>
+                    <h3>{c.name}</h3>
+                    <p>内容筹备中。</p>
+                  </div>
+                </span>
+              )
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .hub {
+    --paper: #f9f6ee; --card: #fffdf8; --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --gold: #b8902f; --line: rgba(33, 31, 26, 0.12); --r: 18px;
+    --shadow-2: 0 18px 44px rgba(55, 48, 30, 0.1); --shadow-3: 0 36px 90px rgba(48, 42, 26, 0.16);
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+  }
+  .hub a { text-decoration: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: 'Space Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+  .kicker { font-family: Fraunces, 'Noto Serif SC', serif; font-style: italic; color: var(--cinnabar); font-size: 18px; }
+
+  .hub-hero { padding: clamp(90px, 14vh, 150px) 0 clamp(30px, 5vh, 60px); }
+  .hub-hero h1 {
+    font-size: clamp(44px, 7vw, 96px); font-weight: 300; line-height: 1.02; margin: 14px 0 20px;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 15%, #d3372f 29%, #c23f6e 44%, #7d57a8 59%, #2f6fa6 73%, #1f8a86 86%, #2f8b5f 100%);
+    background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: flow 14s linear infinite; line-height: 1.12; padding-bottom: 0.15em;
+  }
+  .hub-hero h1 em { font-style: italic; }
+  .hub-hero .sub { color: var(--ink-soft); max-width: 560px; line-height: 1.75; }
+  .hub-hero .legend { margin-top: 18px; font-size: 10.5px; color: var(--ink-faint); }
+  @keyframes flow { to { background-position: 300% center; } }
+
+  .b5a {
+    display: inline-block; font-size: 9px; font-weight: 800; color: #7c5f16;
+    background: #f4df9c; border: 1px solid #d9bc62; border-radius: 5px;
+    padding: 0 4px; margin-left: 6px; vertical-align: 1.5px; line-height: 1.5; letter-spacing: 0.02em;
+  }
+
+  .region { padding: clamp(28px, 4vh, 54px) 0; }
+  .region-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 22px; }
+  .region-head h2 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-size: clamp(24px, 2.8vw, 34px); font-weight: 600;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 18%, #d3372f 40%, #c23f6e 62%, #2f6fa6 82%, #1f8a86 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    padding-bottom: 0.08em;
+  }
+  .region-en { font-size: 11px; color: var(--ink-faint); }
+
+  .maggrid { display: flex; flex-wrap: wrap; gap: 22px; align-items: stretch; }
+  .magcard {
+    flex: 1 1 320px; position: relative; min-height: 248px; border-radius: 16px; overflow: hidden;
+    display: flex; align-items: flex-end; color: #fff; box-shadow: var(--shadow-2); transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+  a.magcard:hover { transform: translateY(-8px); box-shadow: var(--shadow-3); }
+  .magcard.tall { min-height: 300px; flex: 1.6 1 380px; }
+  .magcard.feat { flex: 2.4 1 540px; min-height: 340px; }
+  .ph-grad {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(90% 90% at 20% 15%, rgba(233, 200, 121, 0.5), transparent 60%),
+      radial-gradient(80% 80% at 85% 25%, rgba(47, 125, 166, 0.4), transparent 55%),
+      radial-gradient(90% 80% at 50% 100%, rgba(200, 64, 47, 0.4), transparent 60%),
+      linear-gradient(150deg, #3d4d55, #22303a);
+  }
+  .magcard.alt .ph-grad {
+    background:
+      radial-gradient(90% 90% at 80% 15%, rgba(47, 128, 100, 0.45), transparent 60%),
+      radial-gradient(80% 80% at 15% 25%, rgba(233, 200, 121, 0.45), transparent 55%),
+      linear-gradient(150deg, #37504a, #1c2b27);
+  }
+  .magcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0, 0, 0, 0.04) 28%, rgba(0, 0, 0, 0.46) 64%, rgba(0, 0, 0, 0.74)); }
+  .magcard .bar { position: absolute; top: 16px; left: 16px; z-index: 3; width: 52px; height: 5px; border-radius: 3px; background: linear-gradient(90deg, #c7553d, #d8a13a, #3fb27f, #3a6ea5); }
+  .magcard .t { position: relative; z-index: 2; padding: 22px 24px; }
+  .magcard .eb { font-size: 11.5px; letter-spacing: 0.14em; opacity: 0.92; margin: 0 0 6px; color: #f4df9c; }
+  .magcard h3 {
+    font-family: Fraunces, 'Noto Serif SC', Georgia, serif; font-size: clamp(26px, 3.2vw, 46px);
+    font-weight: 600; line-height: 1.16; margin: 0; padding-bottom: 0.12em;
+    background-image: linear-gradient(100deg, #ffe1ad, #ffc878 50%, #ffe9bf);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .magcard.feat h3 { font-size: clamp(34px, 4.4vw, 60px); }
+  .magcard .t p:last-child { margin: 9px 0 0; font-size: 14.5px; line-height: 1.45; opacity: 0.92; max-width: 40ch; }
+</style>

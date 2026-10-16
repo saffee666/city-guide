@@ -1,0 +1,143 @@
+---
+/**
+ * 出行实务 —— CTC essentials 同构（5 组 ess-grid 卡片，内容原创）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import '@fontsource/fraunces/300.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/noto-serif-sc/500.css';
+
+const groups = [
+  {
+    id: 'pay', kicker: 'MONEY', title: '支付，怎么弄',
+    desc: '一部手机走遍中国——先把支付绑好。',
+    cards: [
+      { g: '码', t: '扫码是默认动作', d: '大到商场小到煎饼摊，扫码支付无处不在。现金反而少见，备少量零钱即可。' },
+      { g: '卡', t: '绑卡两条路', d: '支付宝/微信都支持绑国际卡；国内银行卡哪家手续费低，出发前比一比。' },
+      { g: '现', t: '现金兜底', d: '偏远景区、老年摊位偶尔只收现金，备 200 元应急就够。' },
+      { g: '退', t: '离境退税', d: '标有「Tax Free」的商场满额可退税，留好小票，机场海关盖章后办理。' },
+    ],
+  },
+  {
+    id: 'net', kicker: 'NETWORK', title: '上网，别断线',
+    desc: '地图、翻译、打车全靠网——先把网解决了。',
+    cards: [
+      { g: '卡', t: '流量卡优先', d: '落地机场或线上买一张本地流量卡，比漫游便宜得多；高铁上信号基本满格。' },
+      { g: 'Wi', t: 'Wi-Fi 到处有', d: '商场、地铁、咖啡店基本覆盖，连店名 Wi-Fi 通常免密。' },
+      { g: '图', t: '离线地图备份', d: '进山（如张家界、黄山）前先下离线地图，山区信号会飘。' },
+      { g: '充', t: '充电宝自由', d: '共享充电宝遍布商圈，扫码即用；带插头记得是国标双扁脚。' },
+    ],
+  },
+  {
+    id: 'docs', kicker: 'DOCUMENTS', title: '证件与预约',
+    desc: '中国旅行的隐形门槛：实名制。',
+    cards: [
+      { g: '证', t: '证件随身', d: '高铁、酒店、景区全部实名制，身份证（或护照）随时要掏，拍照存档一份。' },
+      { g: '约', t: '热门要预约', d: '故宫、莫高窟这类顶流景点提前 5-7 天在官方小程序放票，抢票定闹钟。' },
+      { g: '票', t: '高铁购票', d: '12306 官方渠道购票，开车前退改免费额度看清规则；身份证直接闸机刷进站。' },
+      { g: '保', t: '保险别省', d: '短期旅行险一天几块钱，覆盖意外和医疗，高原线路尤其建议买。' },
+    ],
+  },
+  {
+    id: 'apps', kicker: 'APPS', title: '装好这几个 APP',
+    desc: '本地人的手机里，出行靠这五件套。',
+    cards: [
+      { g: '行', t: '地图导航', d: '高德/百度地图二选一，公交地铁驾车步行全覆盖，还能看餐厅排队。' },
+      { g: '车', t: '打车出行', d: '滴滴一家通吃；高峰期溢价正常，地铁站出口排队打车更快。' },
+      { g: '译', t: '翻译沟通', d: '翻译 APP 的拍照识菜单功能是外食神器；年轻人英语普遍能蹦单词。' },
+      { g: '吃', t: '找吃找玩', d: '大众点评看评分排队的本地基准，小红书看最新玩法和避雷。' },
+    ],
+  },
+  {
+    id: 'tips', kicker: 'TIPS', title: '老玩家的五条贴士',
+    desc: '少走弯路的经验之谈。',
+    cards: [
+      { g: '错', t: '错峰是王道', d: '黄金周（5.1/10.1）全家出门，能躲就躲；淡季体验和价格都好一半。' },
+      { g: '早', t: '景点赶早', d: '热门景点开门即入，8 点的景区和 11 点的景区是两个世界。' },
+      { g: '辣', t: '辣度可谈', d: '「微辣」在外省人嘴里已经是辣，点单时说「不辣」最保险。' },
+      { g: '水', t: '热水文化', d: '餐厅免费热水随便要；肠胃敏感者直饮水建议烧开或买瓶装。' },
+    ],
+  },
+];
+
+const metadata = { title: '出行实务', description: '支付、上网、证件、APP、贴士——出发前办好五件事。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="ess">
+    <header class="hero">
+      <div class="wrap">
+        <p class="kicker">出发之前</p>
+        <h1>五件事，<em>先办好</em></h1>
+        <p class="sub">支付、上网、证件、APP、贴士——这一页读完，落地不慌。</p>
+      </div>
+    </header>
+
+    {groups.map((g) => (
+      <section class="band" id={g.id}>
+        <div class="wrap">
+          <div class="band-head">
+            <p class="mono gk">{g.kicker}</p>
+            <h2>{g.title}</h2>
+            <p class="gd">{g.desc}</p>
+          </div>
+          <div class="ess-grid">
+            {g.cards.map((c) => (
+              <div class="card">
+                <span class="glyph">{c.g}</span>
+                <h3>{c.t}</h3>
+                <p>{c.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .ess {
+    --paper: #f9f6ee; --card: #fffdf8; --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --tipbg: #fbf3ef; --mist: #eceeeb; --line: rgba(33, 31, 26, 0.12);
+    color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .mono { font-family: 'Space Mono', monospace; letter-spacing: 0.16em; text-transform: uppercase; }
+  .kicker { font-family: Fraunces, 'Noto Serif SC', serif; font-style: italic; color: var(--cinnabar); font-size: 18px; }
+
+  .hero { padding: clamp(90px, 14vh, 150px) 0 clamp(20px, 4vh, 40px); }
+  .hero h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif;
+    font-size: clamp(44px, 7vw, 96px); font-weight: 300; line-height: 1.1; margin: 14px 0 20px; padding-bottom: 0.15em;
+    background-image: linear-gradient(100deg, #c8902f, #dd5f2c 15%, #d3372f 29%, #c23f6e 44%, #7d57a8 59%, #2f6fa6 73%, #1f8a86 86%, #2f8b5f 100%);
+    background-size: 300% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    animation: flow 14s linear infinite;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero .sub { color: var(--ink-soft); max-width: 520px; line-height: 1.75; }
+  @keyframes flow { to { background-position: 300% center; } }
+
+  .band { padding: clamp(36px, 6vh, 70px) 0; }
+  .band-head { margin-bottom: 30px; }
+  .band-head .gk { font-size: 11px; color: var(--cinnabar); }
+  .band-head h2 { font-family: Fraunces, 'Noto Serif SC', serif; font-size: clamp(28px, 3.6vw, 44px); font-weight: 600; margin: 8px 0 0; }
+  .band-head .gd { color: var(--ink-soft); margin-top: 10px; }
+
+  .ess-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(60, 55, 40, 0.07); transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.4s; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 18px 44px rgba(55, 48, 30, 0.1); }
+  .glyph {
+    display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 12px;
+    background: var(--tipbg); color: var(--cinnabar);
+    font-family: 'Noto Serif SC', serif; font-size: 19px; font-weight: 700;
+  }
+  .card h3 { font-size: 16.5px; font-weight: 700; margin: 14px 0 8px; }
+  .card p { margin: 0; font-size: 13.5px; line-height: 1.75; color: var(--ink-soft); }
+  @media (max-width: 980px) { .ess-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .ess-grid { grid-template-columns: 1fr; } }
+</style>
