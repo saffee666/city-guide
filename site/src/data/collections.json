@@ -4,7 +4,14 @@
     "title": "主题榜单",
     "lead": "把中国之最排成榜——风景、美食、遗产、名山、博物馆与奇境。"
   },
-  "order": ["scenic-5a", "food-cities", "heritage-sites", "famous-mountains", "museums", "wonderland"],
+  "order": [
+    "scenic-5a",
+    "food-cities",
+    "heritage-sites",
+    "famous-mountains",
+    "museums",
+    "wonderland"
+  ],
   "tags": {
     "scenic-5a": "风景 · 5A",
     "food-cities": "美食之城",
@@ -19,16 +26,76 @@
       "subtitle": "国家级评定的天花板风景",
       "intro": "5A 是中国景区评定的最高等级，但三百多家 5A 里真正「值回门票+路程」的是少数。这份榜单按「画面震撼 ÷ 排队痛苦」排——第一名的名字你大概已经背下来了。",
       "items": [
-        { "name": "九寨沟", "sub": "世界自然遗产", "blurb": "108 个海子把颜色玩到极限，秋天的五花池是整个国家的调色盘样品柜。", "link": "/destinations" },
-        { "name": "黄山", "sub": "世界文化与自然双遗产", "blurb": "奇松、怪石、云海、温泉——「五岳归来不看山」的下半句主角。", "link": "/destinations" },
-        { "name": "漓江（桂林—阳朔）", "sub": "喀斯特峰林", "blurb": "20 元人民币背面实景，坐船是标准答案，骑行是进阶答案。", "link": "/cities/guilin" },
-        { "name": "张家界武陵源", "sub": "世界自然遗产", "blurb": "三千根石英砂岩柱从谷底拔起，《阿凡达》悬浮山的原型地。", "link": "/cities/zhangjiajie" },
-        { "name": "颐和园", "sub": "世界文化遗产", "blurb": "昆明湖加万寿山把皇家园林的尺度感推到顶，四季都有不同的打开方式。", "link": "/cities/beijing" },
-        { "name": "长白山天池", "sub": "火山口湖", "blurb": "中朝界湖藏在火山锥顶，能看到全貌要靠运气——运气好的那天值回所有等待。", "link": "/destinations" },
-        { "name": "普达措", "sub": "高原湖泊群", "blurb": "香格里拉旁边的属都湖与碧塔海，栈道、牧场与云杉构成的高原明信片。", "link": "/cities/shangrila" },
-        { "name": "喀纳斯", "sub": "冰川湖泊", "blurb": "阿尔泰山深处的变色湖，秋天白桦林金黄时是新疆的颜值巅峰。", "link": "/destinations" },
-        { "name": "武夷山九曲溪", "sub": "世界双遗产", "blurb": "竹筏漂流九曲十八弯，两岸丹霞岩壁配大红袍茶园。", "link": "/destinations" },
-        { "name": "稻城亚丁", "sub": "雪山圣湖", "blurb": "三座神山夹着牛奶海与五色海，高原徒步的终极考场。", "link": "/destinations" }
+        {
+          "name": "九寨沟",
+          "sub": "世界自然遗产",
+          "blurb": "108 个海子把颜色玩到极限，秋天的五花池是整个国家的调色盘样品柜。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-1.jpg"
+        },
+        {
+          "name": "黄山",
+          "sub": "世界文化与自然双遗产",
+          "blurb": "奇松、怪石、云海、温泉——「五岳归来不看山」的下半句主角。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-2.jpg"
+        },
+        {
+          "name": "漓江（桂林—阳朔）",
+          "sub": "喀斯特峰林",
+          "blurb": "20 元人民币背面实景，坐船是标准答案，骑行是进阶答案。",
+          "link": "/cities/guilin",
+          "img": "/images/collections/scenic-5a-3.jpg"
+        },
+        {
+          "name": "张家界武陵源",
+          "sub": "世界自然遗产",
+          "blurb": "三千根石英砂岩柱从谷底拔起，《阿凡达》悬浮山的原型地。",
+          "link": "/cities/zhangjiajie",
+          "img": "/images/collections/scenic-5a-4.jpg"
+        },
+        {
+          "name": "颐和园",
+          "sub": "世界文化遗产",
+          "blurb": "昆明湖加万寿山把皇家园林的尺度感推到顶，四季都有不同的打开方式。",
+          "link": "/cities/beijing",
+          "img": "/images/collections/scenic-5a-5.jpg"
+        },
+        {
+          "name": "长白山天池",
+          "sub": "火山口湖",
+          "blurb": "中朝界湖藏在火山锥顶，能看到全貌要靠运气——运气好的那天值回所有等待。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-6.jpg"
+        },
+        {
+          "name": "普达措",
+          "sub": "高原湖泊群",
+          "blurb": "香格里拉旁边的属都湖与碧塔海，栈道、牧场与云杉构成的高原明信片。",
+          "link": "/cities/shangrila",
+          "img": "/images/collections/scenic-5a-7.jpg"
+        },
+        {
+          "name": "喀纳斯",
+          "sub": "冰川湖泊",
+          "blurb": "阿尔泰山深处的变色湖，秋天白桦林金黄时是新疆的颜值巅峰。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-8.jpg"
+        },
+        {
+          "name": "武夷山九曲溪",
+          "sub": "世界双遗产",
+          "blurb": "竹筏漂流九曲十八弯，两岸丹霞岩壁配大红袍茶园。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-9.jpg"
+        },
+        {
+          "name": "稻城亚丁",
+          "sub": "雪山圣湖",
+          "blurb": "三座神山夹着牛奶海与五色海，高原徒步的终极考场。",
+          "link": "/destinations",
+          "img": "/images/collections/scenic-5a-10.jpg"
+        }
       ]
     },
     "food-cities": {
@@ -36,16 +103,76 @@
       "subtitle": "胃比相机先做决定",
       "intro": "这份榜单的评分标准只有一条：为这一口的单独跑一趟值不值。有些城市靠一个菜系立住，有些靠一碗宵夜——排名不分贵贱，只分馋度。",
       "items": [
-        { "name": "成都", "sub": "联合国美食之都", "blurb": "火锅、串串、冒菜、钟水饺——辣得有层次，闲适是佐餐曲。", "link": "/cities/chengdu" },
-        { "name": "广州", "sub": "食在广州", "blurb": "早茶从早吃到午，烧腊、煲汤、艇仔粥——粤菜的原产地现货。", "link": "/cities/guangzhou" },
-        { "name": "西安", "sub": "碳水之都", "blurb": "肉夹馍、biangbiang 面、羊肉泡馍——回民街只是入口，全城都是餐桌。", "link": "/cities/xian" },
-        { "name": "重庆", "sub": "火锅原教旨主义", "blurb": "九宫格牛油火锅 + 小面 + 江湖菜，麻辣在这里是一种城市性格。", "link": "/cities/chongqing" },
-        { "name": "长沙", "sub": "夜宵之城", "blurb": "臭豆腐、口味虾、茶颜悦色——凌晨两点坡子街还在排队。", "link": "/cities/changsha" },
-        { "name": "顺德", "sub": "世界美食之都", "blurb": "双皮奶、鱼生、桑拿鱼——「食在广州，厨出凤城」的后半句。", "link": "/cities/guangzhou" },
-        { "name": "扬州", "sub": "淮扬菜根据地", "blurb": "早茶配烫干丝，狮子头、文思豆腐——刀工就是表演。", "link": "/cities/nanjing" },
-        { "name": "北京", "sub": "宫廷菜与卤煮并存", "blurb": "烤鸭涮肉炸酱面豆汁儿——皇城的胃兼容并包，争议菜也值得试一次。", "link": "/cities/beijing" },
-        { "name": "昆明", "sub": "菌子季限定", "blurb": "雨季的野生菌火锅 + 全年过桥米线，鲜字在这里有官方定义。", "link": "/cities/kunming" },
-        { "name": "哈尔滨", "sub": "东北菜与俄式融合", "blurb": "锅包肉、红肠、格瓦斯、马迭尔冰棍——零下二十度吃冰棍是本地礼节。", "link": "/cities/harbin" }
+        {
+          "name": "成都",
+          "sub": "联合国美食之都",
+          "blurb": "火锅、串串、冒菜、钟水饺——辣得有层次，闲适是佐餐曲。",
+          "link": "/cities/chengdu",
+          "img": "/images/collections/food-cities-1.jpg"
+        },
+        {
+          "name": "广州",
+          "sub": "食在广州",
+          "blurb": "早茶从早吃到午，烧腊、煲汤、艇仔粥——粤菜的原产地现货。",
+          "link": "/cities/guangzhou",
+          "img": "/images/collections/food-cities-2.jpg"
+        },
+        {
+          "name": "西安",
+          "sub": "碳水之都",
+          "blurb": "肉夹馍、biangbiang 面、羊肉泡馍——回民街只是入口，全城都是餐桌。",
+          "link": "/cities/xian",
+          "img": "/images/collections/food-cities-3.jpg"
+        },
+        {
+          "name": "重庆",
+          "sub": "火锅原教旨主义",
+          "blurb": "九宫格牛油火锅 + 小面 + 江湖菜，麻辣在这里是一种城市性格。",
+          "link": "/cities/chongqing",
+          "img": "/images/collections/food-cities-4.jpg"
+        },
+        {
+          "name": "长沙",
+          "sub": "夜宵之城",
+          "blurb": "臭豆腐、口味虾、茶颜悦色——凌晨两点坡子街还在排队。",
+          "link": "/cities/changsha",
+          "img": "/images/collections/food-cities-5.jpg"
+        },
+        {
+          "name": "顺德",
+          "sub": "世界美食之都",
+          "blurb": "双皮奶、鱼生、桑拿鱼——「食在广州，厨出凤城」的后半句。",
+          "link": "/cities/guangzhou",
+          "img": "/images/collections/food-cities-6.jpg"
+        },
+        {
+          "name": "扬州",
+          "sub": "淮扬菜根据地",
+          "blurb": "早茶配烫干丝，狮子头、文思豆腐——刀工就是表演。",
+          "link": "/cities/nanjing",
+          "img": "/images/collections/food-cities-7.jpg"
+        },
+        {
+          "name": "北京",
+          "sub": "宫廷菜与卤煮并存",
+          "blurb": "烤鸭涮肉炸酱面豆汁儿——皇城的胃兼容并包，争议菜也值得试一次。",
+          "link": "/cities/beijing",
+          "img": "/images/collections/food-cities-8.jpg"
+        },
+        {
+          "name": "昆明",
+          "sub": "菌子季限定",
+          "blurb": "雨季的野生菌火锅 + 全年过桥米线，鲜字在这里有官方定义。",
+          "link": "/cities/kunming",
+          "img": "/images/collections/food-cities-9.jpg"
+        },
+        {
+          "name": "哈尔滨",
+          "sub": "东北菜与俄式融合",
+          "blurb": "锅包肉、红肠、格瓦斯、马迭尔冰棍——零下二十度吃冰棍是本地礼节。",
+          "link": "/cities/harbin",
+          "img": "/images/collections/food-cities-10.jpg"
+        }
       ]
     },
     "heritage-sites": {
@@ -53,16 +180,76 @@
       "subtitle": "1987 年以来的封存现场",
       "intro": "中国有五十多项世界遗产，第一次来不必贪多。这份十选按「现场感」排序——站在原地时能听见历史的那种。",
       "items": [
-        { "name": "故宫", "sub": "北京 · 1987", "blurb": "现存最大木构宫殿群，明清两朝的家国现场。", "link": "/places/forbidden-city" },
-        { "name": "兵马俑", "sub": "西安 · 1987", "blurb": "2200 年前列队完成的地下军团，千人千面。", "link": "/places/terracotta-army" },
-        { "name": "莫高窟", "sub": "敦煌 · 1987", "blurb": "一整面崖壁的千年佛教壁画库，预约制看窟，讲解即艺术史课。", "link": "/destinations" },
-        { "name": "长城（慕田峪/金山岭）", "sub": "1987", "blurb": "修好的敌楼与野长城各有味道——第一次去选慕田峪，人少景不输八达岭。", "link": "/cities/beijing" },
-        { "name": "布达拉宫", "sub": "拉萨 · 1994", "blurb": "红白宫立在 3700 米的山上，参观限时一小时，需提前一天预约。", "link": "/cities/lhasa" },
-        { "name": "苏州园林（拙政园等）", "sub": "苏州 · 1997", "blurb": "「咫尺之内再造乾坤」——文人把宇宙装进院子里的实验现场。", "link": "/cities/suzhou" },
-        { "name": "丽江古城", "sub": "丽江 · 1997", "blurb": "雪山融水穿街过巷的纳西都城，清晨才是它的正版。", "link": "/cities/lijiang" },
-        { "name": "云冈石窟", "sub": "大同 · 2001", "blurb": "五万一千尊北魏造像沿崖排开，第 20 章大佛是明信片本片。", "link": "/cities/datong" },
-        { "name": "鼓浪屿", "sub": "厦门 · 2017", "blurb": "万国建筑博览 + 无车岛屿——步行两小时穿越十国建筑史。", "link": "/cities/xiamen" },
-        { "name": "开平碉楼", "sub": "广东 · 2007", "blurb": "华侨回乡盖的防御式洋楼，稻田里的中西合璧孤本。", "link": "/cities/guangzhou" }
+        {
+          "name": "故宫",
+          "sub": "北京 · 1987",
+          "blurb": "现存最大木构宫殿群，明清两朝的家国现场。",
+          "link": "/places/forbidden-city",
+          "img": "/images/collections/heritage-sites-1.jpg"
+        },
+        {
+          "name": "兵马俑",
+          "sub": "西安 · 1987",
+          "blurb": "2200 年前列队完成的地下军团，千人千面。",
+          "link": "/places/terracotta-army",
+          "img": "/images/collections/heritage-sites-2.jpg"
+        },
+        {
+          "name": "莫高窟",
+          "sub": "敦煌 · 1987",
+          "blurb": "一整面崖壁的千年佛教壁画库，预约制看窟，讲解即艺术史课。",
+          "link": "/destinations",
+          "img": "/images/collections/heritage-sites-3.jpg"
+        },
+        {
+          "name": "长城（慕田峪/金山岭）",
+          "sub": "1987",
+          "blurb": "修好的敌楼与野长城各有味道——第一次去选慕田峪，人少景不输八达岭。",
+          "link": "/cities/beijing",
+          "img": "/images/collections/heritage-sites-4.jpg"
+        },
+        {
+          "name": "布达拉宫",
+          "sub": "拉萨 · 1994",
+          "blurb": "红白宫立在 3700 米的山上，参观限时一小时，需提前一天预约。",
+          "link": "/cities/lhasa",
+          "img": "/images/collections/heritage-sites-5.jpg"
+        },
+        {
+          "name": "苏州园林（拙政园等）",
+          "sub": "苏州 · 1997",
+          "blurb": "「咫尺之内再造乾坤」——文人把宇宙装进院子里的实验现场。",
+          "link": "/cities/suzhou",
+          "img": "/images/collections/heritage-sites-6.jpg"
+        },
+        {
+          "name": "丽江古城",
+          "sub": "丽江 · 1997",
+          "blurb": "雪山融水穿街过巷的纳西都城，清晨才是它的正版。",
+          "link": "/cities/lijiang",
+          "img": "/images/collections/heritage-sites-7.jpg"
+        },
+        {
+          "name": "云冈石窟",
+          "sub": "大同 · 2001",
+          "blurb": "五万一千尊北魏造像沿崖排开，第 20 章大佛是明信片本片。",
+          "link": "/cities/datong",
+          "img": "/images/collections/heritage-sites-8.jpg"
+        },
+        {
+          "name": "鼓浪屿",
+          "sub": "厦门 · 2017",
+          "blurb": "万国建筑博览 + 无车岛屿——步行两小时穿越十国建筑史。",
+          "link": "/cities/xiamen",
+          "img": "/images/collections/heritage-sites-9.jpg"
+        },
+        {
+          "name": "开平碉楼",
+          "sub": "广东 · 2007",
+          "blurb": "华侨回乡盖的防御式洋楼，稻田里的中西合璧孤本。",
+          "link": "/cities/guangzhou",
+          "img": "/images/collections/heritage-sites-10.jpg"
+        }
       ]
     },
     "famous-mountains": {
@@ -70,16 +257,76 @@
       "subtitle": "五岳之外还有答案",
       "intro": "「三山五岳」是入门语法，但中国的名山体系远比它大。这十座按「第一次去不会后悔」排——体力和脚程都算进去了。",
       "items": [
-        { "name": "黄山", "sub": "安徽 · 1860m", "blurb": "云海日出的最高性价比，西海大峡谷是精华中的精华。", "link": "/destinations" },
-        { "name": "泰山", "sub": "山东 · 1545m", "blurb": "夜爬看日出是保留节目——「会当凌绝顶」的实体体验课。", "link": "/destinations" },
-        { "name": "华山", "sub": "陕西 · 2154m", "blurb": "五岳里最险，长空栈道要系安全带的那种——缆车上下也能玩满一天。", "link": "/cities/xian" },
-        { "name": "峨眉山", "sub": "四川 · 3099m", "blurb": "金顶云海 + 佛光 + 沿途猴群——佛教名山里景观最立体的一座。", "link": "/cities/chengdu" },
-        { "name": "玉龙雪山", "sub": "云南 · 5596m", "blurb": "大索道直上 4506 米冰川公园——不登山也能踩到雪线的雪山。", "link": "/cities/lijiang" },
-        { "name": "武当山", "sub": "湖北 · 1612m", "blurb": "道教建筑群挂在绝壁上，太极发源地，金顶日出配云海。", "link": "/cities/wuhan" },
-        { "name": "庐山", "sub": "江西 · 1474m", "blurb": "「不识庐山真面目」——云雾、别墅群与三叠泉瀑布的文学现场。", "link": "/destinations" },
-        { "name": "长白山", "sub": "吉林 · 2749m", "blurb": "天池、瀑布、温泉、雪季雾凇——一座山承包四种景观。", "link": "/destinations" },
-        { "name": "衡山", "sub": "湖南 · 1300m", "blurb": "南岳独秀，香火最旺的五岳——半日往返难度最低。", "link": "/cities/changsha" },
-        { "name": "恒山", "sub": "山西 · 2016m", "blurb": "北岳配悬空寺——山的看点在山下，1500 年木构挂壁的力学奇迹。", "link": "/cities/datong" }
+        {
+          "name": "黄山",
+          "sub": "安徽 · 1860m",
+          "blurb": "云海日出的最高性价比，西海大峡谷是精华中的精华。",
+          "link": "/destinations",
+          "img": "/images/collections/famous-mountains-1.jpg"
+        },
+        {
+          "name": "泰山",
+          "sub": "山东 · 1545m",
+          "blurb": "夜爬看日出是保留节目——「会当凌绝顶」的实体体验课。",
+          "link": "/destinations",
+          "img": "/images/collections/famous-mountains-2.jpg"
+        },
+        {
+          "name": "华山",
+          "sub": "陕西 · 2154m",
+          "blurb": "五岳里最险，长空栈道要系安全带的那种——缆车上下也能玩满一天。",
+          "link": "/cities/xian",
+          "img": "/images/collections/famous-mountains-3.jpg"
+        },
+        {
+          "name": "峨眉山",
+          "sub": "四川 · 3099m",
+          "blurb": "金顶云海 + 佛光 + 沿途猴群——佛教名山里景观最立体的一座。",
+          "link": "/cities/chengdu",
+          "img": "/images/collections/famous-mountains-4.jpg"
+        },
+        {
+          "name": "玉龙雪山",
+          "sub": "云南 · 5596m",
+          "blurb": "大索道直上 4506 米冰川公园——不登山也能踩到雪线的雪山。",
+          "link": "/cities/lijiang",
+          "img": "/images/collections/famous-mountains-5.jpg"
+        },
+        {
+          "name": "武当山",
+          "sub": "湖北 · 1612m",
+          "blurb": "道教建筑群挂在绝壁上，太极发源地，金顶日出配云海。",
+          "link": "/cities/wuhan",
+          "img": "/images/collections/famous-mountains-6.jpg"
+        },
+        {
+          "name": "庐山",
+          "sub": "江西 · 1474m",
+          "blurb": "「不识庐山真面目」——云雾、别墅群与三叠泉瀑布的文学现场。",
+          "link": "/destinations",
+          "img": "/images/collections/famous-mountains-7.jpg"
+        },
+        {
+          "name": "长白山",
+          "sub": "吉林 · 2749m",
+          "blurb": "天池、瀑布、温泉、雪季雾凇——一座山承包四种景观。",
+          "link": "/destinations",
+          "img": "/images/collections/famous-mountains-8.jpg"
+        },
+        {
+          "name": "衡山",
+          "sub": "湖南 · 1300m",
+          "blurb": "南岳独秀，香火最旺的五岳——半日往返难度最低。",
+          "link": "/cities/changsha",
+          "img": "/images/collections/famous-mountains-9.jpg"
+        },
+        {
+          "name": "恒山",
+          "sub": "山西 · 2016m",
+          "blurb": "北岳配悬空寺——山的看点在山下，1500 年木构挂壁的力学奇迹。",
+          "link": "/cities/datong",
+          "img": "/images/collections/famous-mountains-10.jpg"
+        }
       ]
     },
     "museums": {
@@ -87,16 +334,76 @@
       "subtitle": "文明的仓库与客厅",
       "intro": "中国头部博物馆全部免费，但好馆靠抢预约。这份榜单按「馆藏独占性」排——只有在这里能看到的镇馆之宝才算分。",
       "items": [
-        { "name": "故宫博物院", "sub": "北京", "blurb": "186 万件藏品 + 建筑本身就是展品，钟表馆珍宝馆各加 10 元。", "link": "/places/forbidden-city" },
-        { "name": "国家博物馆", "sub": "北京", "blurb": "「古代中国」基本陈列把教科书变成实物——免费但提前约。", "link": "/cities/beijing" },
-        { "name": "陕西历史博物馆", "sub": "西安", "blurb": "周秦汉唐的正统库存——鎏金舞马衔杯壶是大唐审美顶点。", "link": "/cities/xian" },
-        { "name": "上海博物馆", "sub": "上海", "blurb": "青铜馆与书画馆亚洲顶级，人民广场馆+东馆双馆运营。", "link": "/cities/shanghai" },
-        { "name": "秦始皇帝陵博物院", "sub": "西安", "blurb": "兵马俑本体就是最大的博物馆——铜车马是青铜之冠。", "link": "/places/terracotta-army" },
-        { "name": "湖南省博物院", "sub": "长沙", "blurb": "马王堆汉墓原址陈列，辛追夫人与素纱襌衣两件顶流。", "link": "/cities/changsha" },
-        { "name": "敦煌研究院（莫高窟数字中心）", "sub": "敦煌", "blurb": "球幕电影先看一遍再进窟，看窟体验直接翻倍。", "link": "/destinations" },
-        { "name": "苏州博物馆", "sub": "苏州", "blurb": "贝聿铭封山之作——建筑本身就是第一件展品。", "link": "/cities/suzhou" },
-        { "name": "四川广汉三星堆", "sub": "成都周边", "blurb": "青铜面具、神树、金杖——最像「外星文明」的古蜀现场。", "link": "/cities/chengdu" },
-        { "name": "湖北省博物馆", "sub": "武汉", "blurb": "曾侯乙编钟全套出土现场，每天有编钟演奏场次。", "link": "/cities/wuhan" }
+        {
+          "name": "故宫博物院",
+          "sub": "北京",
+          "blurb": "186 万件藏品 + 建筑本身就是展品，钟表馆珍宝馆各加 10 元。",
+          "link": "/places/forbidden-city",
+          "img": "/images/collections/museums-1.jpg"
+        },
+        {
+          "name": "国家博物馆",
+          "sub": "北京",
+          "blurb": "「古代中国」基本陈列把教科书变成实物——免费但提前约。",
+          "link": "/cities/beijing",
+          "img": "/images/collections/museums-2.jpg"
+        },
+        {
+          "name": "陕西历史博物馆",
+          "sub": "西安",
+          "blurb": "周秦汉唐的正统库存——鎏金舞马衔杯壶是大唐审美顶点。",
+          "link": "/cities/xian",
+          "img": "/images/collections/museums-3.jpg"
+        },
+        {
+          "name": "上海博物馆",
+          "sub": "上海",
+          "blurb": "青铜馆与书画馆亚洲顶级，人民广场馆+东馆双馆运营。",
+          "link": "/cities/shanghai",
+          "img": "/images/collections/museums-4.jpg"
+        },
+        {
+          "name": "秦始皇帝陵博物院",
+          "sub": "西安",
+          "blurb": "兵马俑本体就是最大的博物馆——铜车马是青铜之冠。",
+          "link": "/places/terracotta-army",
+          "img": "/images/collections/museums-5.jpg"
+        },
+        {
+          "name": "湖南省博物院",
+          "sub": "长沙",
+          "blurb": "马王堆汉墓原址陈列，辛追夫人与素纱襌衣两件顶流。",
+          "link": "/cities/changsha",
+          "img": "/images/collections/museums-6.jpg"
+        },
+        {
+          "name": "敦煌研究院（莫高窟数字中心）",
+          "sub": "敦煌",
+          "blurb": "球幕电影先看一遍再进窟，看窟体验直接翻倍。",
+          "link": "/destinations",
+          "img": "/images/collections/museums-7.jpg"
+        },
+        {
+          "name": "苏州博物馆",
+          "sub": "苏州",
+          "blurb": "贝聿铭封山之作——建筑本身就是第一件展品。",
+          "link": "/cities/suzhou",
+          "img": "/images/collections/museums-8.jpg"
+        },
+        {
+          "name": "四川广汉三星堆",
+          "sub": "成都周边",
+          "blurb": "青铜面具、神树、金杖——最像「外星文明」的古蜀现场。",
+          "link": "/cities/chengdu",
+          "img": "/images/collections/museums-9.jpg"
+        },
+        {
+          "name": "湖北省博物馆",
+          "sub": "武汉",
+          "blurb": "曾侯乙编钟全套出土现场，每天有编钟演奏场次。",
+          "link": "/cities/wuhan",
+          "img": "/images/collections/museums-10.jpg"
+        }
       ]
     },
     "wonderland": {
@@ -104,16 +411,75 @@
       "subtitle": "不太像地球的地方",
       "intro": "这份榜单收留那些「照片像 P 图」的地方——不是 5A 也不是遗产名录专属，它们入选只因为一个理由：不像人间。",
       "items": [
-        { "name": "张掖七彩丹霞", "sub": "甘肃", "blurb": "大地被泼了颜料——雨后色彩最饱和，日落时分最魔幻。", "link": "/routes/silk-road" },
-        { "name": "茶卡盐湖", "sub": "青海", "blurb": "「天空之镜」本镜——无风时湖面与天空完全对称。", "link": "/destinations" },
-        { "name": "艾肯泉（恶魔之眼）", "sub": "青海", "blurb": "航拍视角下的硫磺泉眼，像大地的虹膜。", "link": "/destinations" },
-        { "name": "元阳梯田", "sub": "云南", "blurb": "冬季灌水期，几万亩梯田变成上千面镜子接住日出。", "link": "/routes/yunnan-loop" },
-        { "name": "喀纳斯三湾", "sub": "新疆", "blurb": "月亮湾的水色会随季节换装，神仙湾的晨雾自带滤镜。", "link": "/destinations" },
-        { "name": "梵净山", "sub": "贵州", "blurb": "红云金顶一柱擎天，山顶天桥横跨两座佛殿——世界自然遗产。", "link": "/destinations" },
-        { "name": "恩施大峡谷", "sub": "湖北", "blurb": "一炷香石柱孤悬绝壁，云龙地缝里走到底抬头只剩一线天。", "link": "/cities/wuhan" },
-        { "name": "盘锦红海滩", "sub": "辽宁", "blurb": "碱蓬草秋天变红，把海岸线染成整片绛红——季节限定窗口。", "link": "/destinations" },
-        { "name": "禾木村", "sub": "新疆", "blurb": "图瓦人的木屋村落在晨雾与白桦林之间，秋色顶流。", "link": "/destinations" },
-        { "name": "雾凇岛", "sub": "吉林", "blurb": "零下二十五度江雾凝在树上，整座岛一夜变成玻璃世界。", "link": "/cities/harbin" }
+        {
+          "name": "张掖七彩丹霞",
+          "sub": "甘肃",
+          "blurb": "大地被泼了颜料——雨后色彩最饱和，日落时分最魔幻。",
+          "link": "/routes/silk-road",
+          "img": "/images/collections/wonderland-1.jpg"
+        },
+        {
+          "name": "茶卡盐湖",
+          "sub": "青海",
+          "blurb": "「天空之镜」本镜——无风时湖面与天空完全对称。",
+          "link": "/destinations",
+          "img": "/images/collections/wonderland-2.jpg"
+        },
+        {
+          "name": "艾肯泉（恶魔之眼）",
+          "sub": "青海",
+          "blurb": "航拍视角下的硫磺泉眼，像大地的虹膜。",
+          "link": "/destinations"
+        },
+        {
+          "name": "元阳梯田",
+          "sub": "云南",
+          "blurb": "冬季灌水期，几万亩梯田变成上千面镜子接住日出。",
+          "link": "/routes/yunnan-loop",
+          "img": "/images/collections/wonderland-4.jpg"
+        },
+        {
+          "name": "喀纳斯三湾",
+          "sub": "新疆",
+          "blurb": "月亮湾的水色会随季节换装，神仙湾的晨雾自带滤镜。",
+          "link": "/destinations",
+          "img": "/images/collections/wonderland-5.jpg"
+        },
+        {
+          "name": "梵净山",
+          "sub": "贵州",
+          "blurb": "红云金顶一柱擎天，山顶天桥横跨两座佛殿——世界自然遗产。",
+          "link": "/destinations",
+          "img": "/images/collections/wonderland-6.jpg"
+        },
+        {
+          "name": "恩施大峡谷",
+          "sub": "湖北",
+          "blurb": "一炷香石柱孤悬绝壁，云龙地缝里走到底抬头只剩一线天。",
+          "link": "/cities/wuhan",
+          "img": "/images/collections/wonderland-7.jpg"
+        },
+        {
+          "name": "盘锦红海滩",
+          "sub": "辽宁",
+          "blurb": "碱蓬草秋天变红，把海岸线染成整片绛红——季节限定窗口。",
+          "link": "/destinations",
+          "img": "/images/collections/wonderland-8.jpg"
+        },
+        {
+          "name": "禾木村",
+          "sub": "新疆",
+          "blurb": "图瓦人的木屋村落在晨雾与白桦林之间，秋色顶流。",
+          "link": "/destinations",
+          "img": "/images/collections/wonderland-9.jpg"
+        },
+        {
+          "name": "雾凇岛",
+          "sub": "吉林",
+          "blurb": "零下二十五度江雾凝在树上，整座岛一夜变成玻璃世界。",
+          "link": "/cities/harbin",
+          "img": "/images/collections/wonderland-10.jpg"
+        }
       ]
     }
   }

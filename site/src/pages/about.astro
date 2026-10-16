@@ -1,0 +1,114 @@
+---
+/**
+ * 关于与鸣谢 —— 对齐 ChinaTravelCo contributors.html 的形式（hero + wip 徽章卡 + 联系位）
+ * 内容承担：自玩声明 + 开源资产署名（5A 数据 CC BY-SA 合规）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+const metadata = { title: '关于与鸣谢 · 城市指南', description: '这是一个自己玩的作品——附技术栈与数据来源鸣谢。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="about-page">
+    <header class="hero">
+      <div class="kicker">With thanks · 鸣谢</div>
+      <h1>关于本站</h1>
+      <p class="lead">一个 vibe coding 的自玩作品：致敬三家开源旅行站的版式与玩法，把中国 22 座城先写成中文指南。</p>
+    </header>
+
+    <main>
+      <div class="wip">
+        <div class="wip-badge">✦ 持续建设中</div>
+        <h2>这是一个永远在做的东西。</h2>
+        <p>
+          城市一篇一篇加，景点一页一页补，地图一盏一盏点亮。没有商业目标，没有邮件列表——它存在的理由就是好玩。
+        </p>
+        <p class="wip-cn">页面陆续上线 · 数据仅供参考</p>
+        <a class="ccta" href={`${B}/`}>先去逛逛 →</a>
+      </div>
+
+      <section class="credits">
+        <h3>版式致敬</h3>
+        <p>
+          本站的版式结构、设计 token 与页面骨架学习自三个优秀的前辈作品：<b>China Travel Co</b>（编辑式长文与榜单体系）、
+          <b>Your-China-Travel</b>（点亮地图玩法）、<b>湖北工程学院校园指南</b>（动线叙事页）。 schema 与布局参数对齐，代码与内容全部原创或来自下述开源项目。
+        </p>
+
+        <h3>开源资产</h3>
+        <ul>
+          <li><b>AstroWind</b>（MIT）— Astro 底座模板</li>
+          <li><b>china-ex-city</b>（MIT）— 370 城点亮地图内核</li>
+          <li><b>Fraunces / Noto Serif SC / Space Mono / Inter</b>（OFL）— 字体</li>
+          <li><b>china-5a-scenic-areas</b>（CC BY-SA 4.0）— 5A 景区数据（本站署名并同享）</li>
+          <li><b>DataV GeoAtlas</b> — 地图矢量数据</li>
+          <li><b>Unsplash / Wikimedia Commons</b> — 图片位将逐步替换为可溯源的开放图源</li>
+        </ul>
+
+        <h3>数据口径</h3>
+        <p>
+          票价、开放时间、交通与政策随时可能变化——出行前请以官方渠道为准。农历换算与节气日期为公知历法事实；节假日安排以国务院年度通知为准。
+        </p>
+      </section>
+    </main>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/essentials`}>实务</a>
+      <br />© 2026 城市指南 · 自玩作品 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .about-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f;
+    --line: rgba(33, 31, 26, 0.12);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .about-page a { text-decoration: none; color: inherit; }
+
+  .hero { padding: 140px clamp(18px, 5vw, 64px) 26px; max-width: 1180px; margin: 0 auto; }
+  .kicker { color: var(--cinnabar); font: 700 12px/1.4 'Space Mono', ui-monospace, monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+  .hero h1 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(34px, 6vw, 58px); margin: 12px 0 0; }
+  .lead { color: var(--ink-soft); font-size: 16.5px; line-height: 1.8; max-width: 720px; margin: 16px 0 0; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 64px) 50px; }
+
+  .wip {
+    background: var(--card); border: 1px dashed var(--line); border-radius: 18px;
+    padding: 40px clamp(24px, 4vw, 48px); text-align: center; margin: 10px 0 30px;
+  }
+  .wip-badge {
+    display: inline-block; font: 700 12px/1 'Space Mono', ui-monospace, monospace;
+    letter-spacing: 0.08em; color: var(--cinnabar); background: rgba(200, 64, 47, 0.08);
+    border: 1px solid rgba(200, 64, 47, 0.25); border-radius: 999px; padding: 6px 14px;
+  }
+  .wip h2 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: 26px; margin: 18px 0 10px; }
+  .wip p { color: var(--ink-soft); font-size: 15px; line-height: 1.8; max-width: 560px; margin: 0 auto 10px; }
+  .wip-cn { color: var(--ink-faint); font-size: 13px; }
+  .ccta {
+    display: inline-block; margin-top: 14px; background: var(--cinnabar); color: #fff;
+    font-size: 14px; font-weight: 700; padding: 10px 22px; border-radius: 999px;
+  }
+  .ccta:hover { background: #8f2a1b; }
+
+  .credits {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 30px clamp(24px, 4vw, 44px); box-shadow: 0 2px 10px rgba(60, 55, 40, 0.07);
+  }
+  .credits h3 { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 19px; margin: 22px 0 10px; color: var(--cinnabar); }
+  .credits h3:first-child { margin-top: 0; }
+  .credits p { color: var(--ink-soft); font-size: 14.5px; line-height: 1.85; margin: 0 0 8px; }
+  .credits ul { margin: 0 0 8px; padding-left: 20px; }
+  .credits li { color: var(--ink-soft); font-size: 14.5px; line-height: 1.9; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>
