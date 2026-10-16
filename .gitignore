@@ -4,3 +4,4 @@ node_modules/
 *.log
 dist/
 .astro/
+素材-参考/
