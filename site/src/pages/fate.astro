@@ -199,7 +199,7 @@ const metadata = { title: '求签选城', description: '不知道去哪？抽一
   @media (max-width: 860px) { .mood-grid { grid-template-columns: 1fr; } }
 </style>
 
-<script define:vars={{ pool, B: import.meta.env.BASE_URL }}>
+<script define:vars={{ pool, B: import.meta.env.BASE_URL.replace(/\/$/, '') }}>
   const lrCity = document.getElementById('lr-city');
   const lrWhy = document.getElementById('lr-why');
   const lrGo = document.getElementById('lr-go');

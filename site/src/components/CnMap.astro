@@ -1,5 +1,5 @@
 ---
-const B = import.meta.env.BASE_URL;
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
 /**
  * 水彩中国地图 —— 基于 china-ex-city（MIT）的预处理 SVG 路径数据自绘
  * 悬停显示省份名；已上线城市可点击跳转
