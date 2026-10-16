@@ -5,13 +5,31 @@
  */
 import mapData from '~/data/china-map.json';
 
-const liveCities: Record<string, { slug: string; name: string }> = {
-  fuzhou: { slug: '/cities/fuzhou', name: '福州' },
-};
-// 已上线城市 → 省份 code（点击目标）
-const liveProvinces: Record<string, string> = {
-  fuzhou: '350000',
-};
+// 已上线城市 → 省份 code + 城市名 + 相对省会 label 的偏移
+const liveCities: { prov: string; slug: string; name: string; dx: number; dy: number }[] = [
+  { prov: '350000', slug: 'fuzhou', name: '福州', dx: 14, dy: 26 },
+  { prov: '350000', slug: 'xiamen', name: '厦门', dx: 6, dy: 48 },
+  { prov: '440000', slug: 'guangzhou', name: '广州', dx: 2, dy: 16 },
+  { prov: '440000', slug: 'shenzhen', name: '深圳', dx: 12, dy: 38 },
+  { prov: '420000', slug: 'wuhan', name: '武汉', dx: 6, dy: 10 },
+  { prov: '430000', slug: 'changsha', name: '长沙', dx: 2, dy: 26 },
+  { prov: '430000', slug: 'zhangjiajie', name: '张家界', dx: -22, dy: 6 },
+  { prov: '610000', slug: 'xian', name: '西安', dx: 6, dy: 14 },
+  { prov: '510000', slug: 'chengdu', name: '成都', dx: -6, dy: 14 },
+  { prov: '500000', slug: 'chongqing', name: '重庆', dx: 16, dy: 26 },
+  { prov: '530000', slug: 'kunming', name: '昆明', dx: -2, dy: 22 },
+  { prov: '530000', slug: 'lijiang', name: '丽江', dx: -12, dy: 46 },
+  { prov: '540000', slug: 'lhasa', name: '拉萨', dx: 8, dy: 10 },
+  { prov: '110000', slug: 'beijing', name: '北京', dx: 6, dy: 14 },
+  { prov: '310000', slug: 'shanghai', name: '上海', dx: 12, dy: 16 },
+  { prov: '330000', slug: 'hangzhou', name: '杭州', dx: 6, dy: 20 },
+  { prov: '330000', slug: 'suzhou', name: '苏州', dx: -8, dy: 4 },
+  { prov: '320000', slug: 'nanjing', name: '南京', dx: 2, dy: 6 },
+  { prov: '230000', slug: 'harbin', name: '哈尔滨', dx: 10, dy: 4 },
+  { prov: '450000', slug: 'guilin', name: '桂林', dx: 0, dy: 8 },
+  { prov: '650000', slug: 'kashgar', name: '喀什', dx: 0, dy: 0 },
+  { prov: '140000', slug: 'datong', name: '大同', dx: 8, dy: -6 },
+];
 // 省份 → 水彩色调（暖纸色系五色轮转，柔和晕染感）
 const PALETTE = ['#e9e2cf', '#dfe4d3', '#dbe3e8', '#e8e0d2', '#d9e2dc', '#e4ded0', '#dce0d8'];
 const hashCode = (s: string) => {
@@ -43,19 +61,25 @@ const dot = fujian ? { x: fujian.x + 14, y: fujian.y + 26 } : { x: 810, y: 640 }
       d={u.d}
       fill={fills.get(provOf(u.c))}
       data-prov={provOf(u.c)}
-    >
-      <title>{liveProvinces[provOf(u.c)] ? Object.keys(liveCities).find((k) => liveProvinces[k] === provOf(u.c)) : ''}</title>
-    </path>
+    />
   ))}
-  <a href={liveCities.fuzhou.slug} class="city-dot-link">
-    <circle class="dot-pulse" cx={dot.x} cy={dot.y} r="10" />
-    <circle class="dot" cx={dot.x} cy={dot.y} r="5" />
-    <text class="dot-label" x={dot.x + 12} y={dot.y + 4}>福州</text>
-  </a>
+  {liveCities.map((c) => {
+    const lbl = mapData.labels.find((l) => l.c === c.prov);
+    if (!lbl) return null;
+    const x = lbl.x + c.dx;
+    const y = lbl.y + c.dy;
+    return (
+      <a href={`/cities/${c.slug}`} class="city-dot-link">
+        <title>{c.name}</title>
+        <circle class="dot-pulse" cx={x} cy={y} r="9" />
+        <circle class="dot" cx={x} cy={y} r="4.2" />
+        <text class="dot-label" x={x + 9} y={y + 4}>{c.name}</text>
+      </a>
+    );
+  })}
 </svg>
 
-<style>
-  .cn-map { width: 100%; height: 100%; display: block; }
+<style>  .cn-map { width: 100%; height: 100%; display: block; }
   .unit {
     stroke: rgba(33, 31, 26, 0.28);
     stroke-width: 0.6;

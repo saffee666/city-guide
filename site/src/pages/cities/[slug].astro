@@ -29,8 +29,15 @@ export async function getStaticPaths() {
 
 const { city, slug } = Astro.props;
 const allCities = await getCollection('city');
+const FALLBACK_NAMES: Record<string, string> = {
+  dali: '大理', urumqi: '乌鲁木齐', changchun: '长春', shenyang: '沈阳',
+  xining: '西宁', lanzhou: '兰州', guiyang: '贵阳', pingyao: '平遥',
+  luoyang: '洛阳', yangzhou: '扬州', tianjin: '天津', qingdao: '青岛',
+  huangshan: '黄山', qufu: '曲阜', dunhuang: '敦煌', jiuzhaigou: '九寨沟',
+  guyuan: '固原', turpan: '吐鲁番', yili: '伊犁', hulunbuir: '呼伦贝尔',
+};
 const nameOf = (k: string) =>
-  allCities.find((c) => c.id === k)?.data.name ?? k;
+  allCities.find((c) => c.id === k)?.data.name ?? FALLBACK_NAMES[k] ?? k;
 const liveOf = (k: string) => allCities.find((c) => c.id === k)?.data.status === 'live';
 
 // CTC 同款占位渐变（无图时的单字色块）

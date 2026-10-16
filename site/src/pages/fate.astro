@@ -14,26 +14,26 @@ import '@fontsource/noto-serif-sc/700.css';
 
 const pool = [
   { name: '福州', why: '温泉与茉莉香，慢慢逛的闽都', live: true, slug: 'fuzhou' },
-  { name: '成都', why: '茶馆、熊猫和火锅的松弛感' },
-  { name: '西安', why: '一脚踏进长安的城墙上' },
-  { name: '大理', why: '风花雪月，晒到忘记时间' },
-  { name: '哈尔滨', why: '冰雕与俄式老街的北方浪漫' },
-  { name: '喀什', why: '丝路尽头的活化石' },
-  { name: '厦门', why: '海风、沙茶面和环岛骑行' },
-  { name: '重庆', why: '8D 魔幻山城，火锅配夜景' },
-  { name: '拉萨', why: '日光城里晒太阳的高原日子' },
-  { name: '苏州', why: '小桥流水，评弹慢生活' },
-  { name: '张家界', why: '阿凡达峰林里的悬空栈道' },
-  { name: '敦煌', why: '大漠驼铃与千年壁画' },
+  { name: '成都', why: '茶馆、熊猫和火锅的松弛感', live: true, slug: 'chengdu' },
+  { name: '西安', why: '一脚踏进长安的城墙上', live: true, slug: 'xian' },
+  { name: '哈尔滨', why: '冰雕与俄式老街的北方浪漫', live: true, slug: 'harbin' },
+  { name: '喀什', why: '丝路尽头的活化石', live: true, slug: 'kashgar' },
+  { name: '厦门', why: '海风、沙茶面和环岛骑行', live: true, slug: 'xiamen' },
+  { name: '重庆', why: '8D 魔幻山城，火锅配夜景', live: true, slug: 'chongqing' },
+  { name: '拉萨', why: '日光城里晒太阳的高原日子', live: true, slug: 'lhasa' },
+  { name: '苏州', why: '小桥流水，评弹慢生活', live: true, slug: 'suzhou' },
+  { name: '张家界', why: '阿凡达峰林里的悬空栈道', live: true, slug: 'zhangjiajie' },
+  { name: '昆明', why: '四季如春，鲜花论斤称', live: true, slug: 'kunming' },
+  { name: '大同', why: '云冈大佛看了你 1500 年', live: true, slug: 'datong' },
 ];
 
 const moods = [
-  { id: 'slow', label: '想躺平', desc: '节奏归零，晒太阳发呆', pick: ['苏州', '大理', '福州'] },
+  { id: 'slow', label: '想躺平', desc: '节奏归零，晒太阳发呆', pick: ['苏州', '福州', '成都'] },
   { id: 'eat', label: '想吃好', desc: '为了一口味道跨省', pick: ['成都', '重庆', '厦门'] },
-  { id: 'wow', label: '想看奇观', desc: '大自然的震撼教育', pick: ['张家界', '敦煌', '哈尔滨'] },
-  { id: 'history', label: '想穿越', desc: '触摸千年的时间', pick: ['西安', '敦煌', '苏州'] },
+  { id: 'wow', label: '想看奇观', desc: '大自然的震撼教育', pick: ['张家界', '哈尔滨', '桂林'] },
+  { id: 'history', label: '想穿越', desc: '触摸千年的时间', pick: ['西安', '大同', '苏州'] },
   { id: 'wild', label: '想去远方', desc: '越远越有意思', pick: ['喀什', '拉萨', '哈尔滨'] },
-  { id: 'city', label: '想逛城', desc: '街巷烟火气最迷人', pick: ['重庆', '厦门', '福州'] },
+  { id: 'city', label: '想逛城', desc: '街巷烟火气最迷人', pick: ['重庆', '厦门', '长沙'] },
 ];
 
 const allNames = pool.map((p) => p.name);

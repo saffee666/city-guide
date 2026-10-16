@@ -24,10 +24,15 @@ import CnMap from '~/components/CnMap.astro';
 
 const cities = await getCollection('city');
 const live = cities.filter((c) => c.data.status === 'live');
-const soonNames = ['厦门', '西安', '成都', '大理', '哈尔滨'];
+const pickOrder = ['fuzhou', 'xiamen', 'xian', 'chengdu', 'harbin', 'zhangjiajie'];
+const soonNames = ['大理', '敦煌', '呼伦贝尔'];
+const liveCards = pickOrder
+  .map((slug) => live.find((c) => c.id === slug))
+  .filter(Boolean)
+  .map((c) => ({ slug: c!.id, name: c!.data.name, en: c!.data.nameEn, live: true, days: '3 天', blurb: c!.data.tagline }));
 const destCards = [
-  ...live.slice(0, 1).map((c) => ({ name: c.data.name, en: c.data.nameEn, live: true, days: '3 天', blurb: c.data.tagline })),
-  ...soonNames.map((n) => ({ name: n, en: '', live: false, days: '筹备中', blurb: '内容筹备中，敬请期待' })),
+  ...liveCards,
+  ...soonNames.map((n) => ({ slug: '', name: n, en: '', live: false, days: '筹备中', blurb: '内容筹备中，敬请期待' })),
 ];
 
 const metadata = {
@@ -116,7 +121,7 @@ const metadata = {
       <div class="dest-grid">
         {destCards.map((d, i) => (
           d.live ? (
-            <a class={`dest r d${Math.min(i, 4)}`} href={`/cities/${live[i].id}`}>
+            <a class={`dest r d${Math.min(i, 4)}`} href={`/cities/${d.slug}`}>
               <div class="dest-img ph-grad"><span class="tag">已上线</span></div>
               <div class="dest-body">
                 <p class="mono">{d.en.toUpperCase()}</p>
