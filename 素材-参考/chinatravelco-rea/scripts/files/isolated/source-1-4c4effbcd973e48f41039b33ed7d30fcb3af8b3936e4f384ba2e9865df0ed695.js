@@ -1,0 +1,1 @@
+(function(){var n=document.getElementById('ctcnav');if(!n)return;function s(){n.classList.toggle('scrolled',scrollY>40);}addEventListener('scroll',s,{passive:true});s();})();

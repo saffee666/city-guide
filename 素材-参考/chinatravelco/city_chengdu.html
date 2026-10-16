@@ -1,0 +1,982 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+:root { --ink: #1a1a1a; --ink-2: #444b4a; --ink-3: #6b7270; --line: #e6e6e3; --paper: #fff; --mist: #eceeeb; --tipbg: #fbf3ef; --red: #c7553d; --red-deep: #a8432f; --radius: 14px; --radius-sm: 10px; --maxw: 1180px; --shadow: 0 18px 50px rgba(20,30,28,.12); --shadow-sm: 0 8px 24px rgba(20,30,28,.10); }
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body { margin: 0px; color: var(--ink); background: var(--paper); font-family: Inter, ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+h1, h2, h3 { line-height: 1.15; letter-spacing: -0.01em; }
+
+.wrap { max-width: var(--maxw); margin: 0px auto; padding: 0px 28px; }
+
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin: 0px 0px 8px; }
+
+.section { padding: 60px 0px; scroll-margin-top: 72px; }
+
+.section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin: 0px 0px 12px; }
+
+.section-sub { color: var(--ink-3); margin: 0px 0px 34px; max-width: 720px; }
+
+.nav { position: sticky; top: 0px; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 14px 28px; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+
+.nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+
+.nav-brand img { width: 34px; height: 34px; object-fit: contain; }
+
+.nav-links { display: flex; gap: 28px; font-weight: 600; font-size: 15px; }
+
+.nav-links a:hover { color: var(--red); }
+
+.nav-cta { padding: 9px 18px; border-radius: 999px; background: var(--red); color: rgb(255, 255, 255); font-weight: 600; font-size: 14px; }
+
+.nav-cta:hover { background: var(--red-deep); }
+
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+}
+
+.hero { position: relative; min-height: 62vh; display: flex; align-items: flex-end; color: rgb(255, 255, 255); background-size: cover; background-position: center center; }
+
+.hero::after { content: ""; position: absolute; inset: 0px; background: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.62) 100%); }
+
+.hero-inner { position: relative; z-index: 2; width: 100%; max-width: var(--maxw); margin: 0px auto; padding: 0px 28px 52px; }
+
+.hero .kicker { font-size: 15px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.95; margin: 0px 0px 6px; }
+
+.hero h1 { font-size: clamp(48px, 9vw, 100px); font-weight: 700; margin: 0px 0px 10px; letter-spacing: -0.02em; }
+
+.hero .tagline { font-size: clamp(18px, 2.4vw, 26px); font-weight: 400; max-width: 640px; margin: 0px; text-shadow: rgba(0, 0, 0, 0.3) 0px 1px 16px; }
+
+.summary { margin-top: -38px; position: relative; z-index: 5; }
+
+.summary-card { background: rgb(255, 255, 255); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 10px; display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
+
+.sum-item { display: flex; gap: 12px; align-items: center; padding: 16px 14px; border-radius: var(--radius-sm); transition: background 0.2s; }
+
+.sum-item:hover { background: var(--mist); }
+
+.sum-ic { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 10px; background: var(--tipbg); display: grid; place-items: center; font-size: 19px; }
+
+.sum-tx b { display: block; font-size: 15px; }
+
+.sum-tx span { font-size: 13px; color: var(--ink-3); }
+
+@media (max-width: 880px) {
+  .summary-card { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 520px) {
+  .summary-card { grid-template-columns: 1fr; }
+}
+
+.intro-grid { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: start; }
+
+.intro-lead { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; margin: 0px 0px 22px; }
+
+.intro-body p { color: var(--ink-2); margin: 0px 0px 18px; }
+
+.intro-body h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 700; margin: 44px 0px 16px; }
+
+details.more { margin-top: 6px; }
+
+details.more > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; color: var(--red); font-weight: 600; }
+
+details.more > summary::-webkit-details-marker { display: none; }
+
+details.more > summary .ic { width: 20px; height: 20px; border: 1.5px solid var(--red); border-radius: 50%; display: inline-grid; place-items: center; font-size: 14px; line-height: 1; }
+
+details.more[open] > summary .ic::after { content: "−"; }
+
+details.more:not([open]) > summary .ic::after { content: "+"; }
+
+details.more .more-body { margin-top: 16px; color: var(--ink-2); }
+
+.reco h3 { font-size: 19px; font-weight: 700; margin: 0px 0px 18px; }
+
+.reco-card { display: block; margin-bottom: 22px; }
+
+.reco-card .thumb { aspect-ratio: 16 / 10; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+
+.reco-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+
+.reco-card:hover .thumb img { transform: scale(1.05); }
+
+.reco-card .cap { font-weight: 700; margin-top: 10px; font-size: 16px; }
+
+@media (max-width: 900px) {
+  .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+.dontmiss { background: var(--mist); border-radius: var(--radius); padding: 40px 44px; }
+
+.dontmiss h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; margin: 0px 0px 22px; }
+
+.dontmiss ul { margin: 0px; padding: 0px; list-style: none; }
+
+.dontmiss li { position: relative; padding-left: 26px; margin: 0px 0px 16px; color: var(--ink-2); }
+
+.dontmiss li::before { content: "•"; position: absolute; left: 4px; top: -1px; color: var(--ink); font-size: 20px; }
+
+.dontmiss li:last-child { margin-bottom: 0px; }
+
+.spot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+
+.spot { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: rgb(255, 255, 255); display: flex; flex-direction: column; box-shadow: var(--shadow-sm); }
+
+.spot .img { aspect-ratio: 4 / 3; overflow: hidden; }
+
+.spot .img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+
+.spot:hover .img img { transform: scale(1.05); }
+
+.spot.noimg .img { display: none; }
+
+.spot .body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1 1 0%; }
+
+.spot h3 { font-size: 20px; font-weight: 700; margin: 0px; }
+
+.spot p { color: var(--ink-2); margin: 0px; font-size: 15.5px; }
+
+.spot .tip { margin-top: auto; background: var(--tipbg); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: rgb(138, 59, 40); }
+
+.spot .tip b { color: var(--red-deep); }
+
+@media (max-width: 900px) {
+  .spot-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .spot-grid { grid-template-columns: 1fr; }
+}
+
+.itin { display: grid; gap: 22px; }
+
+.day { border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 28px; box-shadow: var(--shadow-sm); }
+
+.day-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+
+.day-badge { flex: 0 0 auto; background: var(--red); color: rgb(255, 255, 255); font-weight: 700; border-radius: 10px; padding: 6px 14px; font-size: 15px; }
+
+.day-head h3 { font-size: 21px; font-weight: 700; margin: 0px; }
+
+.day-head .path { color: var(--ink-3); font-size: 14px; width: 100%; }
+
+.slot { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding: 14px 0px; border-top: 1px dashed var(--line); }
+
+.slot:first-of-type { border-top: 0px; }
+
+.slot .when { font-weight: 700; color: var(--red-deep); font-size: 14px; padding-top: 1px; }
+
+.slot .what { color: var(--ink-2); font-size: 15.5px; }
+
+.slot .what b { color: var(--ink); }
+
+.route-fallback { display: grid; gap: 18px; }
+
+@media (max-width: 520px) {
+  .slot { grid-template-columns: 1fr; gap: 4px; }
+}
+
+.tiktok-wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+
+.tiktok-copy h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 700; margin: 0px 0px 14px; }
+
+.tiktok-copy p { color: var(--ink-2); margin: 0px; }
+
+.tiktok-slot { position: relative; margin: 0px auto; width: 100%; max-width: 325px; aspect-ratio: 9 / 16; border-radius: 18px; border: 2px dashed rgb(201, 201, 196); background: rgb(246, 246, 243); display: grid; place-items: center; text-align: center; color: var(--ink-3); }
+
+.tiktok-slot .badge { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); }
+
+.tiktok-slot .hint { font-size: 14px; margin-top: 8px; padding: 0px 26px; }
+
+.tiktok-slot svg { width: 46px; height: 46px; margin-bottom: 12px; }
+
+@media (max-width: 820px) {
+  .tiktok-wrap { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+
+.food { display: grid; grid-template-columns: 104px 1fr; gap: 18px; padding: 18px 0px; border-bottom: 1px solid var(--line); align-items: start; }
+
+.food .fimg { width: 104px; height: 104px; border-radius: 12px; overflow: hidden; position: relative; color: rgb(255, 255, 255); font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 30px; box-shadow: var(--shadow-sm); }
+
+.food .fimg img { position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; }
+
+.food .fimg.mono { display: grid; place-items: center; }
+
+.food .fimg.mono::after { content: attr(data-zh); text-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px; }
+
+.food h3 { font-size: 18px; font-weight: 700; margin: 0px 0px 4px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.food .tag { font-size: 12px; font-weight: 600; color: var(--red-deep); background: var(--tipbg); padding: 3px 9px; border-radius: 999px; }
+
+.food p { color: var(--ink-2); margin: 0px; font-size: 15px; }
+
+@media (max-width: 760px) {
+  .food-grid { grid-template-columns: 1fr; gap: 0px; }
+}
+
+.stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+.stay { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 24px 26px; box-shadow: var(--shadow-sm); }
+
+.stay .lvl { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+
+.stay h3 { font-size: 19px; font-weight: 700; margin: 6px 0px 10px; }
+
+.stay p { color: var(--ink-2); margin: 0px; font-size: 15px; }
+
+@media (max-width: 820px) {
+  .stay-grid { grid-template-columns: 1fr; }
+}
+
+.tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.tipcard { background: var(--mist); border-radius: var(--radius); padding: 24px 26px; }
+
+.tipcard h3 { font-size: 18px; font-weight: 700; margin: 0px 0px 10px; display: flex; align-items: center; gap: 10px; }
+
+.tipcard h3 .e { font-size: 20px; }
+
+.tipcard p { color: var(--ink-2); margin: 0px; font-size: 15px; }
+
+@media (max-width: 720px) {
+  .tips-grid { grid-template-columns: 1fr; }
+}
+
+.season-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 48px; }
+
+.season { display: grid; grid-template-columns: 170px 1fr; gap: 22px; align-items: start; }
+
+.season .thumb { aspect-ratio: 1 / 1; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+
+.season .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.season .thumb.ph { display: grid; place-items: center; background: linear-gradient(150deg, rgb(155, 183, 201), rgb(91, 116, 136)); color: rgb(255, 255, 255); }
+
+.season .thumb.ph span { font-weight: 700; font-size: 18px; text-shadow: rgba(0, 0, 0, 0.3) 0px 1px 8px; }
+
+.season h3 { font-size: 21px; font-weight: 700; margin: 0px 0px 9px; }
+
+.season p { color: var(--ink-2); margin: 0px; font-size: 15.5px; }
+
+@media (max-width: 820px) {
+  .season-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+.besttime { border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 34px; box-shadow: var(--shadow-sm); }
+
+.besttime h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; margin: 0px 0px 12px; }
+
+.besttime .lead { color: var(--ink-2); margin: 0px 0px 24px; max-width: 840px; }
+
+.bt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+
+.bt-season { border-radius: var(--radius-sm); background: var(--mist); padding: 15px 16px; }
+
+.bt-season .s { display: block; font-weight: 700; margin-bottom: 3px; font-size: 15px; }
+
+.bt-season .d { font-size: 13.5px; color: var(--ink-3); }
+
+.bt-season.best { background: var(--tipbg); box-shadow: inset 0 0 0 1.5px var(--red); }
+
+.bt-season.best .s { color: var(--red-deep); }
+
+@media (max-width: 760px) {
+  .bt-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 440px) {
+  .bt-grid { grid-template-columns: 1fr; }
+}
+
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 48px; }
+
+.spec { display: grid; grid-template-columns: 130px 1fr; gap: 20px; align-items: start; }
+
+.spec .ph { aspect-ratio: 3 / 4; border-radius: var(--radius-sm); overflow: hidden; position: relative; color: rgb(255, 255, 255); box-shadow: var(--shadow-sm); }
+
+.spec .ph img { position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; }
+
+.spec .ph.mono { display: grid; place-items: center; }
+
+.spec .ph.mono::after { content: attr(data-zh); font-family: "Noto Serif SC", serif; font-size: 26px; font-weight: 700; text-shadow: rgba(0, 0, 0, 0.4) 0px 2px 12px; }
+
+.spec h3 { font-size: 19px; font-weight: 700; margin: 0px 0px 9px; }
+
+.spec p { color: var(--ink-2); margin: 0px; font-size: 15px; }
+
+@media (max-width: 820px) {
+  .spec-grid { grid-template-columns: 1fr; gap: 26px; }
+}
+
+.more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+
+.more-card { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); display: grid; place-items: center; color: rgb(255, 255, 255); }
+
+.more-card img { position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+
+.more-card::after { content: ""; position: absolute; inset: 0px; background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45)); }
+
+.more-card span { position: relative; z-index: 2; font-size: 24px; font-weight: 700; text-shadow: rgba(0, 0, 0, 0.5) 0px 2px 14px; }
+
+.more-card:hover img { transform: scale(1.06); }
+
+@media (max-width: 880px) {
+  .more-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.foot { border-top: 1px solid var(--line); padding: 40px 28px; margin-top: 20px; }
+
+.foot-inner { max-width: var(--maxw); margin: 0px auto; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: center; justify-content: space-between; }
+
+.foot-brand { display: flex; align-items: center; gap: 12px; }
+
+.foot-brand img { width: 38px; height: 38px; object-fit: contain; }
+
+.foot-brand b { display: block; }
+
+.foot-brand small { color: var(--ink-3); }
+
+.foot-links { display: flex; flex-wrap: wrap; gap: 22px; font-weight: 600; font-size: 15px; }
+
+.foot-links a:hover { color: var(--red); }
+
+.dest-hub { max-width: var(--maxw,1180px); margin: 0px auto; }
+
+.dest-hub .eyebrow { color: var(--red,#c7553d); font: 600 13px / 1.4 Inter, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; margin: 0px 0px 6px; }
+
+.maggrid { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 26px; align-items: stretch; }
+
+.magcard { flex: 1 1 320px; position: relative; min-height: 248px; border-radius: 16px; overflow: hidden; display: flex; align-items: flex-end; color: rgb(255, 255, 255); box-shadow: var(--shadow-sm,0 8px 24px rgba(20,30,28,.10)); text-decoration: none; }
+
+.magcard img { position: absolute; inset: 0px; width: 100%; height: 100%; object-fit: cover; object-position: center 32%; transition: transform 0.6s; }
+
+.magcard::after { content: ""; position: absolute; inset: 0px; background: linear-gradient(rgba(0, 0, 0, 0.04) 28%, rgba(0, 0, 0, 0.46) 64%, rgba(0, 0, 0, 0.74)); }
+
+.magcard:hover img { transform: scale(1.05); }
+
+.magcard .bar { position: absolute; top: 16px; left: 16px; z-index: 3; width: 52px; height: 5px; border-radius: 3px; background: linear-gradient(90deg, rgb(199, 85, 61), rgb(216, 161, 58), rgb(63, 178, 127), rgb(58, 110, 165)); }
+
+.magcard .t { position: relative; z-index: 2; padding: 22px 24px; }
+
+.magcard .t .eb { font: 600 11.5px / 1.4 Inter, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.92; margin: 0px 0px 6px; }
+
+.magcard .t h3 { font-family: Fraunces, "Noto Serif SC", Georgia, serif; font-size: clamp(26px, 3.2vw, 46px); font-weight: 600; margin: 0px; line-height: 1.16; padding-bottom: 0.12em; }
+
+.magcard .t p { margin: 9px 0px 0px; font-size: 14.5px; line-height: 1.45; opacity: 0.92; max-width: 40ch; }
+
+.magcard.feat { flex: 2.4 1 540px; min-height: 380px; }
+
+.magcard.feat .t h3 { font-size: clamp(34px, 4.4vw, 60px); }
+
+.region-block { margin-top: 48px; }
+
+.region-block:first-of-type { margin-top: 26px; }
+
+.region-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 22px; }
+
+.region-head h2 { font-family: Fraunces, "Noto Serif SC", Georgia, serif; font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; margin: 0px; color: var(--ink); letter-spacing: -0.01em; }
+
+.region-head .region-zh { font: 600 12px / 1 "Space Mono", ui-monospace, monospace; letter-spacing: 0.16em; color: var(--ink-3); text-transform: uppercase; }
+
+.region-block .maggrid { margin-top: 0px; }
+
+.dest-hub .section-title { background-image: linear-gradient(100deg, rgb(200, 144, 47), rgb(221, 95, 44) 15%, rgb(211, 55, 47) 29%, rgb(194, 63, 110) 44%, rgb(125, 87, 168) 59%, rgb(47, 111, 166) 73%, rgb(31, 138, 134) 86%, rgb(47, 139, 95) 100%); background-clip: text; -webkit-text-fill-color: transparent; color: transparent; padding-bottom: 0.08em; }
+
+.region-head h2 { background-image: linear-gradient(100deg, rgb(200, 144, 47), rgb(221, 95, 44) 18%, rgb(194, 63, 110) 45%, rgb(125, 87, 168) 62%, rgb(47, 111, 166) 80%, rgb(31, 138, 134) 100%); background-clip: text; -webkit-text-fill-color: transparent; color: transparent; padding-bottom: 0.06em; }
+
+.magcard .t h3 { background-clip: text; -webkit-text-fill-color: transparent; color: transparent; background-size: 200% auto; }
+
+.magcard.r-north .t h3 { background-image: linear-gradient(100deg, rgb(255, 225, 173), rgb(255, 200, 120) 50%, rgb(255, 233, 191)); }
+
+.magcard.r-east .t h3 { background-image: linear-gradient(100deg, rgb(205, 236, 207), rgb(234, 244, 194) 55%, rgb(211, 236, 174)); }
+
+.magcard.r-central .t h3 { background-image: linear-gradient(100deg, rgb(211, 236, 230), rgb(234, 246, 240) 50%, rgb(198, 230, 218)); }
+
+.magcard.r-south .t h3 { background-image: linear-gradient(100deg, rgb(201, 230, 248), rgb(234, 246, 255) 45%, rgb(255, 231, 173)); }
+
+.magcard.r-sw .t h3 { background-image: linear-gradient(100deg, rgb(255, 226, 180), rgb(214, 235, 198) 55%, rgb(198, 230, 218)); }
+
+.magcard.r-nw .t h3 { background-image: linear-gradient(100deg, rgb(255, 230, 173), rgb(255, 211, 131) 55%, rgb(255, 238, 203)); }
+
+.hero .map-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 13px 26px; border-radius: 999px; background: var(--red); color: rgb(255, 255, 255); font: 600 14px / 1 "Space Mono", ui-monospace, monospace; letter-spacing: 0.1em; text-transform: uppercase; box-shadow: rgba(199, 85, 61, 0.4) 0px 10px 30px; transition: 0.25s; }
+
+.hero .map-cta:hover { background: var(--red-deep); transform: translateY(-2px); }
+
+@media (max-width: 760px) {
+  .magcard, .magcard.feat { flex: 1 1 100%; min-height: 228px; }
+}
+
+.nav-links { font-family: "Space Mono", ui-monospace, monospace; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+
+.nav-links a { color: rgb(87, 79, 68); }
+
+.nav-links a:hover { color: rgb(199, 85, 61); }
+
+.nav-cta { font-family: "Space Mono", ui-monospace, monospace; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+
+.nav-brand b, .nav-brand span, .nav-left b { font-family: Fraunces, "Noto Serif SC", Georgia, serif; text-transform: none; letter-spacing: 0px; color: rgb(33, 31, 26); }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.tiktok-wrap { grid-template-columns: 1fr minmax(300px, 360px) !important; align-items: center !important; gap: 48px !important; }
+
+.tiktok-embed { background: rgb(0, 0, 0); margin: 0px auto !important; min-width: 0px !important; max-width: 340px !important; width: 100% !important; border-radius: 18px !important; overflow: hidden !important; box-shadow: rgba(20, 30, 28, 0.18) 0px 18px 50px !important; }
+
+.tiktok-wrap iframe { display: block; min-width: 0px !important; max-width: 100% !important; width: 100% !important; border: 0px !important; border-radius: 18px !important; }
+
+@media (max-width: 860px) {
+  .tiktok-wrap { grid-template-columns: 1fr !important; gap: 26px !important; }
+  .tiktok-copy { text-align: center; }
+  .tiktok-embed { max-width: 325px !important; }
+}</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.vcar { position: relative; }
+
+.vcar-track { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 2px 16px; scrollbar-width: thin; }
+
+.vcar-track::-webkit-scrollbar { height: 8px; }
+
+.vcar-track::-webkit-scrollbar-thumb { background: rgb(217, 205, 181); border-radius: 8px; }
+
+.vslide { flex: 0 0 300px; scroll-snap-align: start; border-radius: 16px; overflow: hidden; height: 545px; background: rgb(0, 0, 0); position: relative; box-shadow: var(--shadow-sm); }
+
+.vslide-ph { position: absolute; inset: 0px; width: 100%; border: 0px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: rgb(255, 255, 255); background-size: cover; background-position: center center; overflow: hidden; }
+
+.vslide-ph::before { content: ""; position: absolute; inset: 0px; background: linear-gradient(rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.55)); }
+
+.vslide-ph .vcity, .vslide-ph .vplay { position: relative; z-index: 1; }
+
+.vslide-ph .vcity { font-family: Fraunces, "Noto Serif SC", serif; font-size: 25px; font-weight: 600; text-shadow: rgba(0, 0, 0, 0.4) 0px 2px 14px; }
+
+.vslide-ph .vplay { padding: 9px 18px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); border: 1.5px solid rgba(255, 255, 255, 0.75); font: 600 13px "Space Mono", monospace; letter-spacing: 0.08em; backdrop-filter: blur(3px); transition: transform 0.2s; }
+
+.vslide-ph:hover .vplay { transform: scale(1.1); background: rgba(255, 255, 255, 0.28); }
+
+.vcar-track .tiktok-embed { margin: 0px !important; min-width: 0px !important; max-width: 300px !important; }
+
+.vcar-track iframe { border-radius: 16px !important; min-width: 0px !important; max-width: 300px !important; }
+
+.vcar-nav { position: absolute; top: 255px; z-index: 6; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.96); box-shadow: var(--shadow-sm); cursor: pointer; font-size: 24px; line-height: 1; color: var(--ink); display: grid; place-items: center; }
+
+.vcar-nav:hover { background: var(--red); color: rgb(255, 255, 255); border-color: var(--red); }
+
+.vcar-nav.prev { left: -12px; }
+
+.vcar-nav.next { right: -12px; }
+
+@media (max-width: 560px) {
+  .vslide { flex-basis: 82vw; }
+  .vcar-nav { display: none; }
+}</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.tiktok-player { max-width: 340px; margin: 0px auto; width: 100%; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; box-shadow: rgba(20, 30, 28, 0.18) 0px 18px 50px; background: rgb(0, 0, 0); }
+
+.tiktok-player iframe { width: 100%; height: 100%; border: 0px; display: block; }
+
+@media (max-width: 860px) {
+  .tiktok-player { max-width: 325px; }
+}</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+nav.nav#ctcnav { position: sticky; top: 0px; left: 0px; right: 0px; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 11px clamp(16px, 4vw, 54px); transition: 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); border-bottom: 1px solid rgba(33, 31, 26, 0.12); background: rgba(249, 246, 238, 0.94); backdrop-filter: blur(12px); }
+
+nav.nav#ctcnav .nav-left { display: flex; align-items: center; gap: 11px; }
+
+nav.nav#ctcnav .nav-left img { width: 34px; height: 34px; border-radius: 50%; object-fit: contain; background: rgb(255, 255, 255); padding: 2px; box-shadow: rgba(60, 55, 40, 0.07) 0px 2px 10px; }
+
+nav.nav#ctcnav .nav-left b { letter-spacing: 0.01em; font-family: Fraunces, serif !important; font-size: 19px !important; font-weight: 600 !important; color: rgb(165, 49, 31) !important; text-shadow: none !important; }
+
+nav.nav#ctcnav .nav-links { display: flex; gap: 28px; align-items: center; }
+
+nav.nav#ctcnav .nav-links a, nav.nav#ctcnav .nav-cta { text-decoration: none; }
+
+nav.nav#ctcnav .nav-cta { padding: 9px 16px; border: 1px solid rgba(33, 31, 26, 0.22); border-radius: 999px; transition: 0.3s cubic-bezier(0.22, 0.61, 0.36, 1); font-family: Inter, sans-serif !important; font-size: 12.5px !important; font-weight: 600 !important; color: rgb(33, 31, 26) !important; text-transform: none !important; }
+
+nav.nav#ctcnav .nav-cta:hover { background: rgb(33, 31, 26); border-color: rgb(33, 31, 26); color: rgb(249, 246, 238) !important; }
+
+.nav { backdrop-filter: blur(12px); background: rgba(249, 246, 238, 0.94) !important; border-bottom: 1px solid rgba(33, 31, 26, 0.12) !important; }
+
+.nav-links { display: flex; gap: 30px; align-items: center; }
+
+.nav-links > a, .hasmega > a { cursor: pointer; font-family: Inter, sans-serif !important; font-size: 14px !important; font-weight: 600 !important; letter-spacing: 0.01em !important; text-transform: none !important; color: rgb(33, 31, 26) !important; }
+
+.nav-links > a:hover, .hasmega > a:hover { color: rgb(200, 64, 47) !important; }
+
+.nav-cta { font-family: Inter, sans-serif !important; font-weight: 600 !important; text-transform: none !important; letter-spacing: 0.01em !important; font-size: 13px !important; }
+
+.hasmega { position: static; }
+
+.mega { position: fixed; left: 0px; right: 0px; top: 62px; background: rgba(249, 246, 238, 0.99); backdrop-filter: blur(16px); border-top: 1px solid rgba(33, 31, 26, 0.12); border-bottom: 1px solid rgba(33, 31, 26, 0.12); box-shadow: rgba(55, 48, 30, 0.1) 0px 18px 44px; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: 0.18s cubic-bezier(0.22, 0.61, 0.36, 1); z-index: 99; }
+
+.hasmega:hover .mega { opacity: 1; visibility: visible; transform: none; }
+
+.mega-in { max-width: 1320px; margin: 0px auto; padding: 26px clamp(18px, 5vw, 64px); display: grid; gap: 20px; }
+
+.mega-in.d7 { grid-template-columns: repeat(7, 1fr); }
+
+.mega-in.d2cap { grid-template-columns: 1fr 1fr; max-width: 680px; margin: 0px; }
+
+.megacol h5 { margin-bottom: 10px; font-family: Fraunces, "Noto Serif SC", serif !important; font-size: 15px !important; font-weight: 600 !important; color: rgb(200, 64, 47) !important; text-transform: none !important; letter-spacing: 0px !important; }
+
+.megacol a { display: block; font-family: Inter, sans-serif !important; font-size: 13.5px !important; font-weight: 400 !important; letter-spacing: 0px !important; text-transform: none !important; color: rgb(87, 79, 68) !important; padding: 3px 0px !important; }
+
+.megacol a:hover { color: rgb(200, 64, 47) !important; }
+
+.megaprov { margin-bottom: 11px; }
+
+.megaprov b { display: block; font-family: Inter, sans-serif; font-size: 10px; font-weight: 700; color: rgb(138, 130, 117); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+
+.megaprov b.soon { color: rgba(138, 130, 117, 0.5) !important; }
+
+.megaprov a.munilink { display: block; margin-bottom: 11px; font-family: Inter, sans-serif !important; font-size: 13.5px !important; font-weight: 700 !important; color: rgb(33, 31, 26) !important; padding: 2px 0px !important; }
+
+.megaprov a.munilink:hover { color: rgb(200, 64, 47) !important; }
+
+.mega-legend { max-width: 1320px; margin: 0px auto; padding: 0px clamp(18px, 5vw, 64px) 20px; font-family: Inter, sans-serif; font-size: 11px; color: rgb(138, 130, 117); }
+
+@media (max-width: 980px) {
+  .mega { display: none; }
+}
+
+.megacol .megasoon { display: block; font-family: Inter, sans-serif; font-size: 13.5px; color: rgba(138, 130, 117, 0.5); padding: 3px 0px; cursor: default; }
+
+.megacol .megasoon::after { content: " · soon"; font-size: 10px; letter-spacing: 0.05em; color: rgba(138, 130, 117, 0.42); }
+
+.megacol .megasoon { font-family: Inter, sans-serif !important; font-size: 13.5px !important; font-weight: 400 !important; letter-spacing: 0px !important; text-transform: none !important; }
+
+.megaprov b { margin-bottom: 1px; font-family: Inter, sans-serif !important; font-size: 13.5px !important; font-weight: 700 !important; color: var(--ink) !important; text-transform: none !important; letter-spacing: 0px !important; }
+
+.megaprov b.soon { color: rgba(138, 130, 117, 0.5) !important; font-weight: 600 !important; }
+
+.megaprov a { padding-left: 12px !important; font-size: 13px !important; }
+
+.megaprov a.munilink { padding-left: 0px !important; font-size: 13.5px !important; }
+
+.megaprov a.county { font-size: 12px !important; color: var(--ink-faint) !important; padding-left: 20px !important; }
+
+.megaprov a.county:hover { color: var(--cinnabar) !important; }
+
+.megacol .megasoon { color: var(--ink-soft) !important; cursor: default; }
+
+.megacol .megasoon::after { content: " · soon"; font-size: 10px; letter-spacing: 0.05em; color: var(--ink-faint); }
+
+.megaprov .megasoon { font-size: 13px !important; padding-left: 12px; }
+
+.megaprov .megasoon.muni { display: block; margin-bottom: 11px; padding-left: 0px !important; font-size: 13.5px !important; font-weight: 700 !important; color: var(--ink) !important; }
+
+.megaprov .megasoon.county { font-size: 12px !important; padding-left: 20px; }
+
+.megaprov b.soon { color: var(--ink) !important; font-weight: 700 !important; opacity: 1 !important; }
+
+.megaprov b.soon::after { content: " · soon"; font-size: 9.5px; font-weight: 600; color: var(--ink-faint); letter-spacing: 0.02em; }
+
+.megaprov .megasoon { padding-left: 12px; }
+
+.b5a { display: inline-block; font-family: Inter, sans-serif; font-style: normal; font-size: 9px; font-weight: 800; letter-spacing: 0.02em; color: rgb(124, 95, 22); background: rgb(244, 223, 156); border: 1px solid rgb(217, 188, 98); border-radius: 5px; padding: 0px 4px; margin-left: 6px; vertical-align: 1.5px; line-height: 1.5; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+.nav-links > a.on, .nav-links .hasmega > a.on { font-weight: 800 !important; color: var(--cinnabar,#c8402f) !important; }</style><style rel="stylesheet" type="text/css">@charset "utf-8";
+
+:root { --mbc: 216,150,72; }
+
+.cardfx { transition: transform 0.16s ease-out; will-change: transform; transform-style: preserve-3d; --px: 50; --py: 50; --gi: 0; }
+
+.cardfx .fx-holo { position: absolute; inset: 0px; border-radius: inherit; pointer-events: none; z-index: 5; opacity: calc(var(--gi)*.5); transition: opacity 0.35s; background-image: linear-gradient(110deg, transparent 22%, rgba(255, 110, 170, 0.55), rgba(120, 140, 255, 0.55), rgba(120, 255, 205, 0.55), rgba(255, 225, 120, 0.55), transparent 78%); background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: 220% 220%; background-position: calc(var(--px)*1%) calc(var(--py)*1%); mix-blend-mode: overlay; }
+
+.cardfx .fx-glow { position: absolute; inset: 0px; border-radius: inherit; pointer-events: none; z-index: 6; padding: 2.5px; background: radial-gradient(230px circle at calc(var(--px)*1%) calc(var(--py)*1%),
+    rgba(var(--mbc),calc(var(--gi)*.95)) 0%,rgba(var(--mbc),calc(var(--gi)*.4)) 35%,transparent 62%); mask: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px) content-box exclude, linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px); transition: opacity 0.3s; }
+
+.cardfx .fx-ripple { position: absolute; border-radius: 50%; pointer-events: none; z-index: 7; background: radial-gradient(circle,rgba(var(--mbc),.4) 0%,rgba(var(--mbc),.2) 30%,transparent 70%); transform: scale(0); opacity: 1; transition: transform 0.7s ease-out, opacity 0.7s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cardfx { transition: none; }
+}</style>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chengdu | China Travel Co</title>
+  <meta name="description" content="China city travel guides: must-see attractions with insider tips, day-by-day routes, where to eat, where to stay, seasonal highlights and how to avoid common pitfalls.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&amp;family=Inter:wght@400;500;600;700&amp;family=Noto+Serif+SC:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+  
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+
+
+
+
+  <link rel="canonical" href="https://chinatravelco.com/city.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="China Travel Co">
+  <meta property="og:title" content="Destination | China Travel Co">
+  <meta property="og:description" content="China city travel guides: must-see attractions with insider tips, day-by-day routes, where to eat, where to stay, seasonal highlights and how to avoid common pitfalls.">
+  <meta property="og:url" content="https://chinatravelco.com/city.html">
+  <meta property="og:image" content="https://chinatravelco.com/images/hero-1.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Destination | China Travel Co">
+  <meta name="twitter:description" content="China city travel guides: must-see attractions with insider tips, day-by-day routes, where to eat, where to stay, seasonal highlights and how to avoid common pitfalls.">
+  <meta name="twitter:image" content="https://chinatravelco.com/images/hero-1.jpg">
+  <link rel="icon" type="image/png" href="https://chinatravelco.com/images/logo.png">
+  <meta name="theme-color" content="#A83C34">
+
+</head>
+<body>
+<nav class="nav" id="ctcnav">
+  <a class="nav-left" href="https://chinatravelco.com/index.html" style="text-decoration:none;color:inherit"><img src="https://chinatravelco.com/images/logo.png" alt="China Travel Co"><b>China Travel Co</b></a>
+  <div class="nav-links">
+    <a href="https://chinatravelco.com/index.html">Home</a>
+    <span class="hasmega"><a href="https://chinatravelco.com/city.html">Destinations</a>
+      <div class="mega"><div class="mega-in d7">
+        <div class="megacol"><h5>North</h5>
+          <div class="megaprov"><a class="munilink" href="https://chinatravelco.com/city.html?city=beijing">Beijing</a></div>
+          <div class="megaprov"><span class="megasoon muni">Tianjin</span></div>
+          <div class="megaprov"><b>Shanxi</b><a href="https://chinatravelco.com/city.html?city=datong">Datong</a></div>
+          <div class="megaprov"><b>Shandong</b><span class="megasoon">Qingdao</span></div>
+          <div class="megaprov"><b class="soon">Hebei</b></div><div class="megaprov"><b class="soon">Henan</b></div><div class="megaprov"><b class="soon">Inner Mongolia</b></div></div>
+        <div class="megacol"><h5>Northeast</h5>
+          <div class="megaprov"><b>Heilongjiang</b><a href="https://chinatravelco.com/city.html?city=harbin">Harbin</a></div>
+          <div class="megaprov"><b class="soon">Liaoning</b></div><div class="megaprov"><b class="soon">Jilin</b></div></div>
+        <div class="megacol"><h5>East</h5>
+          <div class="megaprov"><a class="munilink" href="https://chinatravelco.com/city.html?city=shanghai">Shanghai</a></div>
+          <div class="megaprov"><b>Jiangsu</b><a href="https://chinatravelco.com/city.html?city=nanjing">Nanjing</a><a href="https://chinatravelco.com/city.html?city=suzhou">Suzhou</a></div>
+          <div class="megaprov"><b>Zhejiang</b><a href="https://chinatravelco.com/city.html?city=hangzhou">Hangzhou</a></div>
+          <div class="megaprov"><b>Fujian</b><a href="https://chinatravelco.com/city.html?city=xiamen">Xiamen</a></div>
+          <div class="megaprov"><b class="soon">Anhui</b></div><div class="megaprov"><b class="soon">Jiangxi</b></div><div class="megaprov"><b class="soon">Taiwan</b></div></div>
+        <div class="megacol"><h5>Central</h5>
+          <div class="megaprov"><b>Hubei</b><a href="https://chinatravelco.com/city.html?city=wuhan">Wuhan</a></div>
+          <div class="megaprov"><b>Hunan</b><a href="https://chinatravelco.com/city.html?city=zhangjiajie">Zhangjiajie<i class="b5a">5A</i></a><a href="https://chinatravelco.com/city.html?city=changsha">Changsha</a></div></div>
+        <div class="megacol"><h5>South</h5>
+          <div class="megaprov"><b>Guangdong</b><a href="https://chinatravelco.com/city.html?city=guangzhou">Guangzhou</a><a href="https://chinatravelco.com/city.html?city=shenzhen">Shenzhen</a></div>
+          <div class="megaprov"><b>Guangxi</b><a href="https://chinatravelco.com/city.html?city=guilin">Guilin<i class="b5a">5A</i></a></div>
+          <div class="megaprov"><span class="megasoon muni">Hong Kong</span></div>
+          <div class="megaprov"><span class="megasoon muni">Macau</span></div>
+          <div class="megaprov"><b class="soon">Hainan</b></div></div>
+        <div class="megacol"><h5>Southwest</h5>
+          <div class="megaprov"><a class="munilink" href="https://chinatravelco.com/city.html?city=chongqing">Chongqing</a></div>
+          <div class="megaprov"><b>Sichuan</b><a href="https://chinatravelco.com/city.html?city=chengdu">Chengdu</a></div>
+          <div class="megaprov"><b>Yunnan</b><a href="https://chinatravelco.com/city.html?city=kunming">Kunming</a><span class="megasoon county">Dali</span><a href="https://chinatravelco.com/city.html?city=lijiang">Lijiang</a><a class="county" href="https://chinatravelco.com/city.html?city=shangrila">Shangri-La<i class="b5a">5A</i></a></div>
+          <div class="megaprov"><b>Tibet</b><a href="https://chinatravelco.com/city.html?city=lhasa">Lhasa</a></div>
+          <div class="megaprov"><b class="soon">Guizhou</b></div></div>
+        <div class="megacol"><h5>Northwest</h5>
+          <div class="megaprov"><b>Shaanxi</b><a href="https://chinatravelco.com/city.html?city=xian">Xi'an</a></div>
+          <div class="megaprov"><b>Gansu</b><span class="megasoon county">Dunhuang<i class="b5a">5A</i></span><span class="megasoon">Lanzhou</span></div>
+          <div class="megaprov"><b>Xinjiang</b><span class="megasoon">Urumqi</span><a class="county" href="https://chinatravelco.com/city.html?city=kashgar">Kashgar<i class="b5a">5A</i></a></div>
+          <div class="megaprov"><b class="soon">Qinghai</b></div><div class="megaprov"><b class="soon">Ningxia</b></div></div>
+      </div><div class="mega-legend"><i class="b5a" style="margin-left:0">5A</i> national 5A scenic area &nbsp;·&nbsp; bold = province level &nbsp;·&nbsp; indented = prefecture / county city &nbsp;·&nbsp; grey = coming soon</div></div></span>
+    <span class="hasmega"><a href="https://chinatravelco.com/heritage.html">Experiences</a>
+      <div class="mega"><div class="mega-in d2cap">
+        <div class="megacol"><h5>Nature &amp; Landscapes</h5><a href="https://chinatravelco.com/sacred-mountains.html">Sacred Mountains</a><a href="https://chinatravelco.com/rivers-lakes.html">Rivers &amp; Lakes</a><a href="https://chinatravelco.com/national-parks.html">National Parks</a>
+          <h5>Food</h5><a href="https://chinatravelco.com/eight-cuisines.html">Eight Cuisines</a><a href="https://chinatravelco.com/hotpot.html">Hotpot</a><a href="https://chinatravelco.com/street-food.html">Street Food</a>
+          <h5>Wellness</h5><a href="https://chinatravelco.com/hot-springs.html">Hot Springs</a><a href="https://chinatravelco.com/tcm-wellness.html">TCM &amp; Wellness</a></div>
+        <div class="megacol"><h5>Culture &amp; Heritage</h5><a href="https://chinatravelco.com/heritage.html">Culture &amp; Heritage</a><a href="https://chinatravelco.com/opera-theatre.html">Opera &amp; Theatre</a><a href="https://chinatravelco.com/tea-porcelain-silk.html">Tea · Porcelain · Silk</a><a href="https://chinatravelco.com/museums.html">Museums</a><a href="https://chinatravelco.com/hanfu.html">Hanfu</a>
+          <h5>Festivals &amp; Seasons</h5><a href="https://chinatravelco.com/temple-fairs.html">Temple Fairs</a>
+          <h5>Towns &amp; Cities</h5><a href="https://chinatravelco.com/ancient-towns.html">Ancient Towns</a><a href="https://chinatravelco.com/modern-cities.html">Modern Cities</a><a href="https://chinatravelco.com/night-economy.html">Night Economy</a></div>
+      </div></div></span>
+    <span class="hasmega"><a href="https://chinatravelco.com/jieqi.html">When to Go</a>
+      <div class="mega"><div class="mega-in d2cap">
+        <div class="megacol"><h5>Seasons &amp; Terms</h5><a href="https://chinatravelco.com/jieqi.html">24 Solar Terms</a><a href="https://chinatravelco.com/festival.html">Festival Calendar</a></div>
+        <div class="megacol"><h5>Timing Your Trip</h5><a href="https://chinatravelco.com/best-season.html">Best Season by Region</a><a href="https://chinatravelco.com/avoiding-crowds.html">Avoiding the Crowds</a></div>
+      </div></div></span>
+    <span class="hasmega"><a href="https://chinatravelco.com/inspiration.html">Journeys</a>
+      <div class="mega"><div class="mega-in d2cap">
+        <div class="megacol"><h5>Start here</h5><a href="https://chinatravelco.com/first-time-china.html">First Time in China</a><a href="https://chinatravelco.com/classic-7-days.html">Classic 7 Days</a><a href="https://chinatravelco.com/classic-14-days.html">Classic 14 Days</a><a href="https://chinatravelco.com/beijing-xian-shanghai.html">Beijing–Xi'an–Shanghai</a>
+          <h5>Ride the rails</h5><a href="https://chinatravelco.com/rail-beijing-shanghai.html">Beijing–Shanghai</a><a href="https://chinatravelco.com/rail-xian-chengdu.html">Xi'an–Chengdu</a><a href="https://chinatravelco.com/rail-guiyang-guangzhou.html">Guiyang–Guangzhou</a></div>
+        <div class="megacol"><h5>Follow the dynasties</h5><a href="https://chinatravelco.com/tang-xian.html">Tang Xi'an</a><a href="https://chinatravelco.com/ming-qing-beijing.html">Ming–Qing Beijing</a><a href="https://chinatravelco.com/six-dynasties-nanjing.html">Six Dynasties Nanjing</a>
+          <h5>By theme</h5><a href="https://chinatravelco.com/food-routes.html">Food Routes</a><a href="https://chinatravelco.com/silk-road.html">Silk Road</a><a href="https://chinatravelco.com/yunnan-loop.html">Yunnan Loop</a><a href="https://chinatravelco.com/winter-harbin.html">Winter / Harbin</a></div>
+      </div></div></span>
+    <span class="hasmega"><a href="https://chinatravelco.com/essentials.html">Plan Your Trip</a>
+      <div class="mega"><div class="mega-in d2cap">
+        <div class="megacol"><h5>Before you go</h5><a href="https://chinatravelco.com/essentials.html#visa">Visa &amp; Entry</a><a href="https://chinatravelco.com/essentials.html#payments">Payments Setup</a><a href="https://chinatravelco.com/essentials.html#internet">Internet &amp; eSIM</a></div>
+        <div class="megacol"><h5>On the ground</h5><a href="https://chinatravelco.com/essentials.html#apps">Apps You Need</a><a href="https://chinatravelco.com/essentials.html#tips">Practical Tips</a></div>
+      </div></div></span>
+  <a class="nav-credits" href="https://chinatravelco.com/contributors.html">Contributors</a>
+  </div>
+  <a class="nav-cta" href="https://chinatravelco.com/fate.html">Begin →</a>
+</nav>
+
+<script>(function(){var p=(location.pathname.split('/').pop()||'index.html');
+document.querySelectorAll('.nav-links>a').forEach(function(a){ if(a.getAttribute('href')===p) a.classList.add('on'); });
+document.querySelectorAll('.nav-links .hasmega').forEach(function(w){
+  var top=w.querySelector(':scope>a'); if(!top) return;
+  if(top.getAttribute('href')===p){ top.classList.add('on'); return; }
+  var hit=Array.prototype.some.call(w.querySelectorAll('.mega a[href]'),function(a){
+    var h=a.getAttribute('href')||''; return h===p||h.indexOf(p+'?')===0; });
+  if(hit) top.classList.add('on');
+});})();</script>
+
+
+  
+
+  <main id="cityRoot"><header class="hero" style="background-image:url('images/draw/chengdu.jpg')"><div class="hero-inner"><p class="kicker">Southwest</p><h1>Chengdu</h1><p class="tagline">A city that turns daily life into a holiday</p></div></header><section class="summary"><div class="wrap"><div class="summary-card"><a class="sum-item" href="https://chinatravelco.com/city?city=chengdu#spots"><span class="sum-ic">🏯</span><span class="sum-tx"><b>Must-See</b><span>6 top sights</span></span></a><a class="sum-item" href="https://chinatravelco.com/city?city=chengdu#route"><span class="sum-ic">🗺️</span><span class="sum-tx"><b>Route</b><span>3-day itinerary</span></span></a><a class="sum-item" href="https://chinatravelco.com/city?city=chengdu#food"><span class="sum-ic">🥢</span><span class="sum-tx"><b>Food</b><span>5 local picks</span></span></a><a class="sum-item" href="https://chinatravelco.com/city?city=chengdu#stay"><span class="sum-ic">🛏️</span><span class="sum-tx"><b>Stay</b><span>Where to base</span></span></a><a class="sum-item" href="https://chinatravelco.com/city?city=chengdu#tips"><span class="sum-ic">💡</span><span class="sum-tx"><b>Tips</b><span>Booking &amp; pitfalls</span></span></a></div></div></section><section class="section"><div class="wrap intro-grid"><div class="intro-body"><h2 class="intro-lead">A city that turns daily life into a holiday — pandas, teahouses, hotpot and ancient Shu wonders</h2><p>A city that turns daily life into a holiday. Covered-bowl tea, hotpot, pandas and greenways — the pace is so slow you won't want to rush. Chengdu's charm isn't in its sights, but in its ease.</p><h2>How to Get There</h2><p>Chengdu has two international airports (Tianfu TFU and Shuangliu CTU) and is a high-speed rail hub, reaching Chongqing, Xi'an, Kunming and beyond.</p><details class="more"><summary><span class="ic"></span> Show More Information</summary><div class="more-body"><p>Fly into Tianfu or Shuangliu (both linked by metro) or arrive at Chengdu East and South stations. The metro plus ride-hailing cover the city; the Panda Base is on the metro, while Sanxingdui and Dujiangyan are day trips by tour or high-speed train.</p></div></details></div><aside class="reco"><h3>Recommended for You</h3><a class="reco-card" href="https://chinatravelco.com/city.html?city=chongqing"><div class="thumb"><img src="https://chinatravelco.com/images/draw/chongqing.jpg" alt="Chongqing" loading="lazy"></div><div class="cap">Chongqing</div></a><a class="reco-card" href="https://chinatravelco.com/city.html?city=xian"><div class="thumb"><img src="https://chinatravelco.com/images/draw/xian.jpg" alt="Xi'an" loading="lazy"></div><div class="cap">Xi'an</div></a></aside></div></section><section class="section" style="padding-top:0"><div class="wrap"><div class="dontmiss"><h2>Don't Miss</h2><ul><li>Sip covered-bowl tea on a bamboo chair in People's Park</li><li>See the roly-poly pandas at the panda base</li><li>Have a late-night spicy hotpot</li><li>Find a hole-in-the-wall for authentic Sichuan food</li></ul></div></div></section><section class="section" id="spots" style="padding-top:0"><div class="wrap"><h2 class="section-title">Must-See Attractions</h2><p class="section-sub">Chengdu's essential sights — with a practical tip for each.</p><div class="spot-grid"><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-0.jpg" alt="Giant Panda Breeding Base" loading="lazy"></div><div class="body"><h3>Giant Panda Breeding Base</h3><p>Watch adorable giant pandas munch bamboo and tumble about in the early morning — the earlier you go, the more active they are.</p><div class="tip"><b>Tip:</b> Go right at opening (around 8am) when pandas are most active and feeding — book ahead. To see star panda 'Hua Hua', expect a long, separate queue.</div></div></article><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-1.jpg" alt="Kuanzhai Alley" loading="lazy"></div><div class="body"><h3>Kuanzhai Alley</h3><p>Qing-dynasty lanes turned leisure district — tea houses, ear-cleaning and snacks, the model of laid-back old Chengdu.</p><div class="tip"><b>Tip:</b> Qing-era lanes of tea houses, ear-cleaning and snacks — touristy but fun; pair it with People's Park for the real teahouse vibe.</div></div></article><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-2.jpg" alt="Jinli &amp; Wuhou Shrine" loading="lazy"></div><div class="body"><h3>Jinli &amp; Wuhou Shrine</h3><p>A Three Kingdoms-themed old street and shrine — red lanterns, opera stages and chuan-chuan skewers.</p><div class="tip"><b>Tip:</b> A Three Kingdoms shrine and themed old street — red lanterns and chuan-chuan; liveliest in the evening.</div></div></article><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-3.jpg" alt="People's Park · Heming Teahouse" loading="lazy"></div><div class="body"><h3>People's Park · Heming Teahouse</h3><p>Bamboo chairs, covered-bowl tea, ear-cleaning and mahjong — the most authentic Chengdu afternoon.</p><div class="tip"><b>Tip:</b> The most authentic Chengdu afternoon — bamboo chairs, covered-bowl tea, ear-cleaning and mahjong. Free to enter; just buy a tea.</div></div></article><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-4.jpg" alt="Dujiangyan" loading="lazy"></div><div class="body"><h3>Dujiangyan</h3><p>An ancient irrigation marvel still working after 2,000+ years; the Min River splits where engineering meets landscape. (Nearby)</p><div class="tip"><b>Tip:</b> A 2,000-year-old irrigation marvel about 1h out — engineering meets landscape; combine with Mount Qingcheng for a day trip.</div></div></article><article class="spot"><div class="img"><img src="https://chinatravelco.com/images/attractions/chengdu-5.jpg" alt="Du Fu Thatched Cottage" loading="lazy"></div><div class="body"><h3>Du Fu Thatched Cottage</h3><p>A garden built on the poet-sage's former home — bamboo groves, flowing water and quiet poetry.</p><div class="tip"><b>Tip:</b> A serene garden on the poet Du Fu's former home — red walls, bamboo and water; a calm, photogenic break.</div></div></article></div></div></section><section class="section" id="route" style="padding-top:0"><div class="wrap"><h2 class="section-title">A 3-Day Chengdu Route</h2><p class="section-sub">An efficient first-timer's loop, grouped by theme and split into morning, afternoon and evening.</p><div class="itin"><div class="day"><div class="day-head"><span class="day-badge">Day 1</span><h3>Shu Stroll</h3><span class="path">Wuhou Shrine → Jinli → Jiuyanqiao</span></div><div class="slot"><div class="when">Morning</div><div class="what">The <b>Wuhou Shrine</b> and Three Kingdoms <b>Jinli</b> street.</div></div><div class="slot"><div class="when">Afternoon</div><div class="what">Quiet bamboo and water at <b>Du Fu's Thatched Cottage</b>.</div></div><div class="slot"><div class="when">Evening</div><div class="what">Riverside bars at <b>Jiuyanqiao</b>.</div></div></div><div class="day"><div class="day-head"><span class="day-badge">Day 2</span><h3>Pandas &amp; Old Lanes</h3><span class="path">Panda Base → Kuanzhai Alley → People's Park</span></div><div class="slot"><div class="when">Morning</div><div class="what">The <b>Panda Base</b> at opening, while the pandas are active.</div></div><div class="slot"><div class="when">Afternoon</div><div class="what"><b>Kuanzhai Alley</b>'s tea houses and snacks.</div></div><div class="slot"><div class="when">Evening</div><div class="what">Covered-bowl tea at <b>People's Park</b>, then a spicy hotpot.</div></div></div><div class="day"><div class="day-head"><span class="day-badge">Day 3</span><h3>Ancient Shu</h3><span class="path">Sanxingdui Museum → Chunxi Road → Taikoo Li</span></div><div class="slot"><div class="when">Morning</div><div class="what">The golden masks and bronze trees of <b>Sanxingdui</b> (day trip).</div></div><div class="slot"><div class="when">Afternoon</div><div class="what">Shopping at <b>Chunxi Road</b>.</div></div><div class="slot"><div class="when">Evening</div><div class="what"><b>Taikoo Li</b> and the 3D Daci Temple billboard, a last hotpot.</div></div></div></div></div></section><section class="section" id="food" style="padding-top:0"><div class="wrap"><h2 class="section-title">Where to Eat</h2><p class="section-sub">Well-loved Chengdu tables — popular spots, so reserve ahead or expect a wait at peak times.</p><div class="food-grid"><article class="food"><div class="fimg" data-zh="锅" style="background:linear-gradient(150deg,#b5462f,#7d2c1d)"><img src="https://chinatravelco.com/images/food/chengdu-0.jpg" alt="Chengdu Hotpot" loading="lazy"></div><div><h3>Chengdu Hotpot <span class="tag">Must-do</span></h3><p>Numbing-spicy beef-tallow hotpot — the city's headline meal; order mild if you're new to it.</p></div></article><article class="food"><div class="fimg" data-zh="串" style="background:linear-gradient(150deg,#1f6f78,#0e3f49)"><img src="https://chinatravelco.com/images/food/chengdu-1.jpg" alt="Chuan-Chuan &amp; Maocai" loading="lazy"></div><div><h3>Chuan-Chuan &amp; Maocai <span class="tag">Street</span></h3><p>Skewers and bowl-served 'pick-your-own' spicy broth — casual Chengdu comfort food.</p></div></article><article class="food"><div class="fimg" data-zh="蹄" style="background:linear-gradient(150deg,#7a3b86,#3f2350)"><img src="https://chinatravelco.com/images/food/chengdu-2.jpg" alt="Laoma Pig-Trotter Soup" loading="lazy"></div><div><h3>Laoma Pig-Trotter Soup <span class="tag">Local</span></h3><p>Silky stewed trotters in a mild, collagen-rich soup — a Chengdu late-night favourite.</p></div></article><article class="food"><div class="fimg" data-zh="糕" style="background:linear-gradient(150deg,#c0853a,#7c5220)"><img src="https://chinatravelco.com/images/food/chengdu-3.jpg" alt="Egg Pancake (Danhonggao)" loading="lazy"></div><div><h3>Egg Pancake (Danhonggao) <span class="tag">Snack</span></h3><p>Little folded egg cakes with sweet or savoury fillings — a beloved street snack.</p></div></article><article class="food"><div class="fimg" data-zh="鸡" style="background:linear-gradient(150deg,#3f7a4a,#234d2c)"><img src="https://chinatravelco.com/images/food/chengdu-4.jpg" alt="Bobo Chicken" loading="lazy"></div><div><h3>Bobo Chicken <span class="tag">Cold dish</span></h3><p>Skewered cold bites bathed in a fragrant chilli-and-sesame sauce.</p></div></article></div></div></section><section class="section" id="stay" style="padding-top:0"><div class="wrap"><h2 class="section-title">Where to Stay</h2><div class="stay-grid"><article class="stay"><span class="lvl">Downtown</span><h3>Chunxi Road / Taikoo Li</h3><p>Central shopping, dining and metro — the easy first-timer base.</p></article><article class="stay"><span class="lvl">Old-town charm</span><h3>Kuanzhai Alley / People's Park</h3><p>Near the teahouses and lanes, central and atmospheric.</p></article><article class="stay"><span class="lvl">Best value</span><h3>Along the metro</h3><p>Anywhere on the metro gives cheap, fast access — including straight to the Panda Base line.</p></article></div></div></section><section class="section" id="tips" style="padding-top:0"><div class="wrap"><h2 class="section-title">Tips &amp; Pitfalls</h2><div class="tips-grid"><article class="tipcard"><h3><span class="e">🐼</span> Pandas, go early</h3><p>Arrive at opening (~8am) for active pandas; star panda 'Hua Hua' has a long separate queue.</p></article><article class="tipcard"><h3><span class="e">📅</span> Book ahead</h3><p>Reserve the Panda Base and Sanxingdui online; both get busy.</p></article><article class="tipcard"><h3><span class="e">🚇</span> Getting around</h3><p>Metro plus ride-hailing cover the city; Sanxingdui and Dujiangyan are day trips by train or tour.</p></article><article class="tipcard"><h3><span class="e">🌶️</span> Tame the spice</h3><p>Hotpot is fierce — order a mild or split pot and pace the chillies.</p></article></div></div></section><section class="section" style="padding-top:0"><div class="wrap"><div class="besttime"><h2>Best Time to Visit</h2><p class="lead">Chengdu is mild much of the year; <b>spring and autumn</b> are best. Summers are hot and humid, winters cool, grey and often overcast — but the city's slow teahouse charm works in any season.</p><div class="bt-grid"><div class="bt-season"><span class="s">Spring</span><span class="d">Mar–May · mild, flowers — best</span></div><div class="bt-season"><span class="s">Summer</span><span class="d">Jun–Aug · hot, humid</span></div><div class="bt-season best"><span class="s">Autumn ★</span><span class="d">Sep–Nov · comfortable — best</span></div><div class="bt-season"><span class="s">Winter</span><span class="d">Dec–Feb · cool, grey</span></div></div></div></div></section><section class="section" style="padding-top:0"><div class="wrap"><h2 class="section-title">Local Specialties</h2><div class="spec-grid"><article class="spec"><div class="ph" data-zh="底料" style="background:linear-gradient(150deg,#b5462f,#7d2c1d)"><img src="https://chinatravelco.com/images/specialties/chengdu-0.jpg" alt="Hotpot Base" loading="lazy"></div><div><h3>Hotpot Base</h3><p>Boxed Sichuan hotpot and maocai bases to take the heat home.</p></div></article><article class="spec"><div class="ph" data-zh="蜀绣" style="background:linear-gradient(150deg,#7a3b86,#3f2350)"><img src="https://chinatravelco.com/images/specialties/chengdu-1.jpg" alt="Shu Embroidery" loading="lazy"></div><div><h3>Shu Embroidery</h3><p>One of China's four great embroidery styles, with panda and flower motifs.</p></div></article><article class="spec"><div class="ph" data-zh="熊猫" style="background:linear-gradient(150deg,#1f6f78,#0e3f49)"><img src="https://chinatravelco.com/images/specialties/chengdu-2.jpg" alt="Panda Goods" loading="lazy"></div><div><h3>Panda Goods</h3><p>Endless adorable panda toys, tea tins and creative gifts.</p></div></article><article class="spec"><div class="ph" data-zh="茶" style="background:linear-gradient(150deg,#c0853a,#7c5220)"><img src="https://chinatravelco.com/images/specialties/chengdu-3.jpg" alt="Sichuan Tea &amp; Brocade" loading="lazy"></div><div><h3>Sichuan Tea &amp; Brocade</h3><p>Mengding and jasmine teas, and Shu brocade — classic Chengdu gifts.</p></div></article></div></div></section><section class="section" style="padding-top:0"><div class="wrap"><h2 class="section-title">Explore More Destinations</h2><div class="more-grid"><a class="more-card" href="https://chinatravelco.com/city.html?city=chongqing"><img src="https://chinatravelco.com/images/draw/chongqing.jpg" alt="Chongqing" loading="lazy"><span>Chongqing</span></a><a class="more-card" href="https://chinatravelco.com/city.html?city=xian"><img src="https://chinatravelco.com/images/draw/xian.jpg" alt="Xi'an" loading="lazy"><span>Xi'an</span></a><a class="more-card" href="https://chinatravelco.com/city.html?city=guilin"><img src="https://chinatravelco.com/images/draw/guilin.jpg" alt="Guilin" loading="lazy"><span>Guilin</span></a><a class="more-card" href="https://chinatravelco.com/city.html?city=lhasa"><img src="https://chinatravelco.com/images/draw/lhasa.jpg" alt="Lhasa" loading="lazy"><span>Lhasa</span></a></div></div></section><section class="section vcar-sec" style="padding-top:0"><div class="wrap"><p class="eyebrow">Watch</p><h2 class="section-title" style="margin-bottom:6px">Other cities, on TikTok</h2><p class="section-sub">Real traveller clips from across China — swipe through.</p><div class="vcar"><button class="vcar-nav prev" aria-label="Previous">‹</button><div class="vcar-track" id="vcarTrack"><div class="vslide" data-id="7609289358239108374" data-cite="https://www.tiktok.com/@hanfu.folk.china/video/7609289358239108374" data-city="Beijing"><button class="vslide-ph" style="background-image:url('images/draw/beijing.jpg')" aria-label="Play Beijing video"><span class="vcity">Beijing</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7565602614243609859" data-cite="https://www.tiktok.com/@acasainlume/video/7565602614243609859" data-city="Shanghai"><button class="vslide-ph" style="background-image:url('images/draw/shanghai.jpg')" aria-label="Play Shanghai video"><span class="vcity">Shanghai</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7525781223625461023" data-cite="https://www.tiktok.com/@chinatravelbee/video/7525781223625461023" data-city="Hangzhou"><button class="vslide-ph" style="background-image:url('images/draw/hangzhou.jpg')" aria-label="Play Hangzhou video"><span class="vcity">Hangzhou</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7547057780914408722" data-cite="https://www.tiktok.com/@boy_dylan17/video/7547057780914408722" data-city="Guangzhou"><button class="vslide-ph" style="background-image:url('images/draw/guangzhou.jpg')" aria-label="Play Guangzhou video"><span class="vcity">Guangzhou</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7512841973795998994" data-cite="https://www.tiktok.com/@lucy_lux2/video/7512841973795998994" data-city="Xiamen"><button class="vslide-ph" style="background-image:url('images/draw/xiamen.jpg')" aria-label="Play Xiamen video"><span class="vcity">Xiamen</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7548027059063229713" data-cite="https://www.tiktok.com/@sundatraveladventure/video/7548027059063229713" data-city="Chongqing"><button class="vslide-ph" style="background-image:url('images/draw/chongqing.jpg')" aria-label="Play Chongqing video"><span class="vcity">Chongqing</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7634349384246856991" data-cite="https://www.tiktok.com/@kongholidaytravel/video/7634349384246856991" data-city="Kunming"><button class="vslide-ph" style="background-image:url('images/draw/kunming.jpg')" aria-label="Play Kunming video"><span class="vcity">Kunming</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7553172924073594134" data-cite="https://www.tiktok.com/@poetic.china/video/7553172924073594134" data-city="Guilin"><button class="vslide-ph" style="background-image:url('images/draw/guilin.jpg')" aria-label="Play Guilin video"><span class="vcity">Guilin</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7567644998057921814" data-cite="https://www.tiktok.com/@poetic.china/video/7567644998057921814" data-city="Zhangjiajie"><button class="vslide-ph" style="background-image:url('images/draw/zhangjiajie.jpg')" aria-label="Play Zhangjiajie video"><span class="vcity">Zhangjiajie</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7550521410163100958" data-cite="https://www.tiktok.com/@kongholidaytravel/video/7550521410163100958" data-city="Kashgar"><button class="vslide-ph" style="background-image:url('images/draw/kashgar.jpg')" aria-label="Play Kashgar video"><span class="vcity">Kashgar</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7589682322430004535" data-cite="https://www.tiktok.com/@sansu.zhouj/video/7589682322430004535" data-city="Datong"><button class="vslide-ph" style="background-image:url('images/draw/datong.jpg')" aria-label="Play Datong video"><span class="vcity">Datong</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7572992444715764999" data-cite="https://www.tiktok.com/@chelseainbeijing/video/7572992444715764999" data-city="Harbin"><button class="vslide-ph" style="background-image:url('images/draw/harbin.jpg')" aria-label="Play Harbin video"><span class="vcity">Harbin</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7527928747434069266" data-cite="https://www.tiktok.com/@xia.nan6/video/7527928747434069266" data-city="Xi'an"><button class="vslide-ph" style="background-image:url('images/draw/xian.jpg')" aria-label="Play Xi'an video"><span class="vcity">Xi'an</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7525413781585874206" data-cite="https://www.tiktok.com/@chinatravelbee/video/7525413781585874206" data-city="Chengdu"><button class="vslide-ph" style="background-image:url('images/draw/chengdu.jpg')" aria-label="Play Chengdu video"><span class="vcity">Chengdu</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7536085582523436290" data-cite="https://www.tiktok.com/@lamartin183/video/7536085582523436290" data-city="Nanjing"><button class="vslide-ph" style="background-image:url('images/draw/nanjing.jpg')" aria-label="Play Nanjing video"><span class="vcity">Nanjing</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7589573356962254102" data-cite="https://www.tiktok.com/@china.travelers.t/video/7589573356962254102" data-city="Shenzhen"><button class="vslide-ph" style="background-image:url('images/draw/shenzhen.jpg')" aria-label="Play Shenzhen video"><span class="vcity">Shenzhen</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7536042724982623519" data-cite="https://www.tiktok.com/@kongholidaytravel/video/7536042724982623519" data-city="Changsha"><button class="vslide-ph" style="background-image:url('images/draw/changsha.jpg')" aria-label="Play Changsha video"><span class="vcity">Changsha</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7532444489823096086" data-cite="https://www.tiktok.com/@lamartin183/video/7532444489823096086" data-city="Lijiang"><button class="vslide-ph" style="background-image:url('images/draw/lijiang.jpg')" aria-label="Play Lijiang video"><span class="vcity">Lijiang</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7536177995267198239" data-cite="https://www.tiktok.com/@kongholidaytravel/video/7536177995267198239" data-city="Lhasa"><button class="vslide-ph" style="background-image:url('images/draw/lhasa.jpg')" aria-label="Play Lhasa video"><span class="vcity">Lhasa</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7535713047499853078" data-cite="https://www.tiktok.com/@lamartin183/video/7535713047499853078" data-city="Suzhou"><button class="vslide-ph" style="background-image:url('images/draw/suzhou.jpg')" aria-label="Play Suzhou video"><span class="vcity">Suzhou</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7625076745762262293" data-cite="https://www.tiktok.com/@mexedich5/video/7625076745762262293" data-city="Shangri-La"><button class="vslide-ph" style="background-image:url('images/draw/shangrila.jpg')" aria-label="Play Shangri-La video"><span class="vcity">Shangri-La</span><span class="vplay">▶ Play</span></button></div><div class="vslide" data-id="7537284585869118750" data-cite="https://www.tiktok.com/@kongholidaytravel/video/7537284585869118750" data-city="Wuhan"><button class="vslide-ph" style="background-image:url('images/draw/wuhan.jpg')" aria-label="Play Wuhan video"><span class="vcity">Wuhan</span><span class="vplay">▶ Play</span></button></div></div><button class="vcar-nav next" aria-label="Next">›</button></div></div></section></main>
+
+  <footer class="foot">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <img src="https://chinatravelco.com/images/logo.png" alt="China Travel Co">
+        <div><b>China Travel Co</b><small>For first-timers, and for those rediscovering China.</small></div>
+      </div>
+      <nav class="foot-links">
+        <a href="https://chinatravelco.com/city.html">Destinations</a>
+        <a href="https://chinatravelco.com/fate.html">Travel Sign</a>
+        <a href="https://chinatravelco.com/essentials.html">Essentials</a>
+        <a href="https://chinatravelco.com/free.html">Free</a>
+        
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://chinatravelco.com/destinations.js"></script>
+  <script src="https://chinatravelco.com/city-content.js"></script>
+  <script>
+    const CC = window.cityContent || {};
+    const params = new URLSearchParams(location.search);
+    const key = params.get("city");
+    const root = document.getElementById("cityRoot");
+
+    const FOOD_COLORS = ["linear-gradient(150deg,#b5462f,#7d2c1d)","linear-gradient(150deg,#1f6f78,#0e3f49)","linear-gradient(150deg,#7a3b86,#3f2350)","linear-gradient(150deg,#c0853a,#7c5220)","linear-gradient(150deg,#3f7a4a,#234d2c)","linear-gradient(150deg,#3a6ea5,#22436a)"];
+    const SPEC_COLORS = ["linear-gradient(150deg,#b5462f,#7d2c1d)","linear-gradient(150deg,#7a3b86,#3f2350)","linear-gradient(150deg,#1f6f78,#0e3f49)","linear-gradient(150deg,#c0853a,#7c5220)"];
+    const SEASON_SLUGS = ["spring","summer","autumn","winter"];
+
+    const draw = (k) => `images/draw/${k}.jpg`;
+    const reco = (k) => { const g = cityGuides[k]; return `<a class="reco-card" href="city.html?city=${k}"><div class="thumb"><img src="${draw(k)}" alt="${g.cityEn}" loading="lazy"></div><div class="cap">${g.cityEn}</div></a>`; };
+    const moreCard = (k) => { const g = cityGuides[k]; return `<a class="more-card" href="city.html?city=${k}"><img src="${draw(k)}" alt="${g.cityEn}" loading="lazy"><span>${g.cityEn}</span></a>`; };
+
+    const VIDEOS = {
+      beijing:["7609289358239108374","https://www.tiktok.com/@hanfu.folk.china/video/7609289358239108374"],
+      shanghai:["7565602614243609859","https://www.tiktok.com/@acasainlume/video/7565602614243609859"],
+      hangzhou:["7525781223625461023","https://www.tiktok.com/@chinatravelbee/video/7525781223625461023"],
+      guangzhou:["7547057780914408722","https://www.tiktok.com/@boy_dylan17/video/7547057780914408722"],
+      xiamen:["7512841973795998994","https://www.tiktok.com/@lucy_lux2/video/7512841973795998994"],
+      chongqing:["7548027059063229713","https://www.tiktok.com/@sundatraveladventure/video/7548027059063229713"],
+      kunming:["7634349384246856991","https://www.tiktok.com/@kongholidaytravel/video/7634349384246856991"],
+      guilin:["7553172924073594134","https://www.tiktok.com/@poetic.china/video/7553172924073594134"],
+      zhangjiajie:["7567644998057921814","https://www.tiktok.com/@poetic.china/video/7567644998057921814"],
+      kashgar:["7550521410163100958","https://www.tiktok.com/@kongholidaytravel/video/7550521410163100958"],
+      datong:["7589682322430004535","https://www.tiktok.com/@sansu.zhouj/video/7589682322430004535"],
+      harbin:["7572992444715764999","https://www.tiktok.com/@chelseainbeijing/video/7572992444715764999"],
+      xian:["7527928747434069266","https://www.tiktok.com/@xia.nan6/video/7527928747434069266"],
+      chengdu:["7525413781585874206","https://www.tiktok.com/@chinatravelbee/video/7525413781585874206"],
+      nanjing:["7536085582523436290","https://www.tiktok.com/@lamartin183/video/7536085582523436290"],
+      shenzhen:["7589573356962254102","https://www.tiktok.com/@china.travelers.t/video/7589573356962254102"],
+      changsha:["7536042724982623519","https://www.tiktok.com/@kongholidaytravel/video/7536042724982623519"],
+      lijiang:["7532444489823096086","https://www.tiktok.com/@lamartin183/video/7532444489823096086"],
+      lhasa:["7536177995267198239","https://www.tiktok.com/@kongholidaytravel/video/7536177995267198239"],
+      suzhou:["7535713047499853078","https://www.tiktok.com/@lamartin183/video/7535713047499853078"],
+      shangrila:["7625076745762262293","https://www.tiktok.com/@mexedich5/video/7625076745762262293"],
+      wuhan:["7537284585869118750","https://www.tiktok.com/@kongholidaytravel/video/7537284585869118750"],
+    };
+
+    function tiktokHTML(name, k) {
+      const v = VIDEOS[k];
+      const slot = v
+        ? `<div class="tiktok-player"><iframe src="https://www.tiktok.com/player/v1/${v[0]}?controls=1&progress_bar=1&play_button=1&volume_control=1&rel=0&description=0&music_info=0&fullscreen_button=1&native_context_menu=0" allow="fullscreen; encrypted-media" title="${name} on TikTok" loading="lazy"></iframe></div>`
+        : `<div class="tiktok-slot" role="img" aria-label="TikTok video placeholder"><div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17a3 3 0 1 0 3-3V4c.5 2.5 2.5 4 5 4"/></svg>
+          <div class="badge">TikTok video</div><div class="hint">Paste a TikTok embed for ${name} here.</div>
+        </div></div>`;
+      return `<section class="section" style="padding-top:0"><div class="wrap tiktok-wrap">
+        <div class="tiktok-copy"><p class="eyebrow">Watch</p><h2>${name} on TikTok</h2><p>A short vertical video from a real traveller — playing right here on the page.</p></div>
+        ${slot}
+      </div></section>`;
+    }
+
+
+    /* ===== On-the-map section removed (former AMap street map) ===== */
+    function onMapHTML(k){ return ""; }
+    function initCityAmap(k){ }
+
+    function renderCity(k) {
+      const g = cityGuides[k];
+      const c = CC[k] || {};
+      document.title = `${g.cityEn} | China Travel Co`;
+      const kicker = (g.region || "").split(" · ")[0];
+      const explore = (c.exploreMore && c.exploreMore.length) ? c.exploreMore.filter((x) => cityGuides[x]) : cityOrder.filter((x) => x !== k).slice(0, 4);
+      const recoKeys = explore.slice(0, 2);
+
+      const sum = [{ i: "🏯", b: "Must-See", s: `${g.attractions.length} top sights`, h: "#spots" }];
+      if (c.itinerary) sum.push({ i: "🗺️", b: "Route", s: `${c.itinerary.length}-day itinerary`, h: "#route" });
+      if (c.food) sum.push({ i: "🥢", b: "Food", s: `${c.food.length} local picks`, h: "#food" });
+      if (c.stay) sum.push({ i: "🛏️", b: "Stay", s: "Where to base", h: "#stay" });
+      if (c.pitfalls) sum.push({ i: "💡", b: "Tips", s: "Booking & pitfalls", h: "#tips" });
+
+      let h = "";
+      // HERO
+      h += `<header class="hero" style="background-image:url('${draw(k)}')"><div class="hero-inner"><p class="kicker">${kicker}</p><h1>${g.cityEn}</h1><p class="tagline">${g.tagline}</p></div></header>`;
+      // SUMMARY
+      h += `<section class="summary"><div class="wrap"><div class="summary-card">` +
+        sum.map((x) => `<a class="sum-item" href="${x.h}"><span class="sum-ic">${x.i}</span><span class="sum-tx"><b>${x.b}</b><span>${x.s}</span></span></a>`).join("") +
+        `</div></div></section>`;
+      // INTRO + RECO
+      h += `<section class="section"><div class="wrap intro-grid"><div class="intro-body"><h2 class="intro-lead">${c.lead || g.tagline}</h2><p>${g.intro}</p>`;
+      if (c.getThere) {
+        h += `<h2>How to Get There</h2><p>${c.getThere.short}</p>`;
+        if (c.getThere.more) h += `<details class="more"><summary><span class="ic"></span> Show More Information</summary><div class="more-body"><p>${c.getThere.more}</p></div></details>`;
+      }
+      h += `</div><aside class="reco"><h3>Recommended for You</h3>${recoKeys.map(reco).join("")}</aside></div></section>`;
+      // DON'T MISS
+      if (typeof dontMiss !== "undefined" && dontMiss[k]) {
+        h += `<section class="section" style="padding-top:0"><div class="wrap"><div class="dontmiss"><h2>Don't Miss</h2><ul>${dontMiss[k].map((d) => `<li>${d}</li>`).join("")}</ul></div></div></section>`;
+      }
+      // MUST-SEE
+      h += `<section class="section" id="spots" style="padding-top:0"><div class="wrap"><h2 class="section-title">Must-See Attractions</h2><p class="section-sub">${g.cityEn}'s essential sights${c.tips ? " — with a practical tip for each" : ""}.</p><div class="spot-grid">` +
+        g.attractions.map((a, i) => {
+          const tip = (c.tips && c.tips[i]) ? `<div class="tip"><b>Tip:</b> ${c.tips[i]}</div>` : "";
+          return `<article class="spot"><div class="img"><img src="images/attractions/${k}-${i}.jpg" alt="${a.name}" loading="lazy" onerror="this.closest('.spot').classList.add('noimg');this.remove()"></div><div class="body"><h3>${a.name}</h3><p>${a.blurb}</p>${tip}</div></article>`;
+        }).join("") +
+        `</div></div></section>`;
+      // ROUTE
+      if (c.itinerary) {
+        h += `<section class="section" id="route" style="padding-top:0"><div class="wrap"><h2 class="section-title">A ${c.itinerary.length}-Day ${g.cityEn} Route</h2><p class="section-sub">An efficient first-timer's loop, grouped by theme and split into morning, afternoon and evening.</p><div class="itin">` +
+          c.itinerary.map((d) => `<div class="day"><div class="day-head"><span class="day-badge">${d.day}</span><h3>${d.theme}</h3><span class="path">${d.path}</span></div>` +
+            d.slots.map((s) => `<div class="slot"><div class="when">${s.when}</div><div class="what">${s.what}</div></div>`).join("") + `</div>`).join("") +
+          `</div></div></section>`;
+      } else if (g.routes && g.routes.length) {
+        h += `<section class="section" id="route" style="padding-top:0"><div class="wrap"><h2 class="section-title">Suggested Routes</h2><div class="route-fallback">` +
+          g.routes.map((r) => `<div class="day"><div class="day-head"><span class="day-badge">Route ${r.no}</span><h3>${r.theme}</h3><span class="path">${r.stops.join(" → ")}</span></div><div class="slot"><div class="when">${r.days}</div><div class="what">${r.note}</div></div></div>`).join("") +
+          `</div></div></section>`;
+      }
+      // (Per-city Watch removed — all city videos live in the carousel on the Destinations hub)
+      // FOOD
+      if (c.food) {
+        h += `<section class="section" id="food" style="padding-top:0"><div class="wrap"><h2 class="section-title">Where to Eat</h2><p class="section-sub">Well-loved ${g.cityEn} tables — popular spots, so reserve ahead or expect a wait at peak times.</p><div class="food-grid">` +
+          c.food.map((f, i) => `<article class="food"><div class="fimg" data-zh="${f.zh}" style="background:${FOOD_COLORS[i % FOOD_COLORS.length]}"><img src="images/food/${k}-${i}.jpg" alt="${f.name}" loading="lazy" onerror="this.parentNode.classList.add('mono');this.remove()"></div><div><h3>${f.name} <span class="tag">${f.tag}</span></h3><p>${f.blurb}</p></div></article>`).join("") +
+          `</div></div></section>`;
+      }
+      // STAY
+      if (c.stay) {
+        h += `<section class="section" id="stay" style="padding-top:0"><div class="wrap"><h2 class="section-title">Where to Stay</h2><div class="stay-grid">` +
+          c.stay.map((s) => `<article class="stay"><span class="lvl">${s.level}</span><h3>${s.name}</h3><p>${s.blurb}</p></article>`).join("") +
+          `</div></div></section>`;
+      }
+      // TIPS / PITFALLS
+      if (c.pitfalls) {
+        h += `<section class="section" id="tips" style="padding-top:0"><div class="wrap"><h2 class="section-title">Tips &amp; Pitfalls</h2><div class="tips-grid">` +
+          c.pitfalls.map((p) => `<article class="tipcard"><h3><span class="e">${p.emoji}</span> ${p.title}</h3><p>${p.text}</p></article>`).join("") +
+          `</div></div></section>`;
+      }
+      // SEASONAL or BEST TIME
+      if (c.seasonal === true && c.seasons) {
+        h += `<section class="section" style="padding-top:0"><div class="wrap"><h2 class="section-title">Seasonal Highlights</h2><div class="season-grid">` +
+          c.seasons.map((se, i) => {
+            const slug = SEASON_SLUGS[i] || ("s" + i);
+            return `<article class="season"><div class="thumb" data-label="${se.name}"><img src="images/seasons/${k}-${slug}.jpg" alt="${g.cityEn} ${se.name}" loading="lazy" onerror="var p=this.parentNode;p.classList.add('ph');p.innerHTML='<span>'+p.dataset.label+'</span>'"></div><div><h3>${se.name}</h3><p>${se.note}</p></div></article>`;
+          }).join("") +
+          `</div></div></section>`;
+      } else if (c.bestTime) {
+        h += `<section class="section" style="padding-top:0"><div class="wrap"><div class="besttime"><h2>Best Time to Visit</h2><p class="lead">${c.bestTime.lead}</p><div class="bt-grid">` +
+          c.bestTime.seasons.map((se) => `<div class="bt-season${se.best ? " best" : ""}"><span class="s">${se.name}</span><span class="d">${se.note}</span></div>`).join("") +
+          `</div></div></div></section>`;
+      }
+      // SPECIALTIES
+      if (c.specialties) {
+        h += `<section class="section" style="padding-top:0"><div class="wrap"><h2 class="section-title">Local Specialties</h2><div class="spec-grid">` +
+          c.specialties.map((sp, i) => `<article class="spec"><div class="ph" data-zh="${sp.zh}" style="background:${SPEC_COLORS[i % SPEC_COLORS.length]}"><img src="images/specialties/${k}-${i}.jpg" alt="${sp.name}" loading="lazy" onerror="this.parentNode.classList.add('mono');this.remove()"></div><div><h3>${sp.name}</h3><p>${sp.blurb}</p></div></article>`).join("") +
+          `</div></div></section>`;
+      }
+      // EXPLORE MORE
+      h += `<section class="section" style="padding-top:0"><div class="wrap"><h2 class="section-title">Explore More Destinations</h2><div class="more-grid">${explore.map(moreCard).join("")}</div></div></section>`;
+
+      h += onMapHTML(k);
+      h += videoCarouselHTML();
+      root.innerHTML = h;
+      initCityAmap(k);
+      if (root.querySelector('.tiktok-embed')) {
+        if (window.tiktokEmbed && window.tiktokEmbed.lib && window.tiktokEmbed.lib.render) {
+          try { window.tiktokEmbed.lib.render(root.querySelectorAll('.tiktok-embed')); } catch (e) {}
+        } else {
+          var ts = document.createElement('script'); ts.async = true; ts.src = 'https://www.tiktok.com/embed.js'; document.body.appendChild(ts);
+        }
+      }
+    }
+
+    const FEAT = {beijing:"北京",shanghai:"上海",xian:"西安",chengdu:"成都",chongqing:"重庆",guilin:"桂林",zhangjiajie:"张家界",hangzhou:"杭州",harbin:"哈尔滨",xiamen:"厦门",lijiang:"丽江",guangzhou:"广州",lhasa:"拉萨",kunming:"昆明",nanjing:"南京",kashgar:"喀什",suzhou:"苏州",changsha:"长沙",datong:"大同",shenzhen:"深圳"};
+    const featHref = (k) => `city.html?city=${k}`;  /* 左图右卡特色页只在地图里出现；其他入口一律进 city.html */
+    const magCard = (k, feat, rcls = "") => { const g = cityGuides[k]; if (!g) return ""; return `<a class="magcard${feat ? " feat" : ""}${rcls ? " " + rcls : ""}" href="${featHref(k)}"><img src="images/draw/${k}.jpg" alt="${g.cityEn}" loading="lazy"><span class="bar"></span><div class="t"><p class="eb">${g.region || ""}</p><h3>${g.cityEn}</h3>${g.tagline ? `<p>${g.tagline}</p>` : ""}</div></a>`; };
+
+    const REGIONS = [
+      { en: "North & Northeast", zh: "华北 · 东北", cls: "r-north", keys: ["beijing", "datong", "harbin"] },
+      { en: "East China", zh: "华东", cls: "r-east", keys: ["shanghai", "suzhou", "hangzhou", "nanjing"] },
+      { en: "Central China", zh: "华中", cls: "r-central", keys: ["wuhan", "changsha", "zhangjiajie"] },
+      { en: "South China", zh: "华南", cls: "r-south", keys: ["guangzhou", "shenzhen", "xiamen", "guilin"] },
+      { en: "Southwest", zh: "西南", cls: "r-sw", keys: ["chengdu", "chongqing", "kunming", "lijiang", "shangrila", "lhasa"] },
+      { en: "Northwest", zh: "西北", cls: "r-nw", keys: ["xian", "kashgar"] },
+    ];
+    function regionSection(r) {
+      const keys = r.keys.filter((k) => cityGuides[k]);
+      const cards = keys.map((k, i) => magCard(k, keys.length >= 3 && i === 0, r.cls || "")).join("");
+      if (!cards) return "";
+      return `<div class="region-block"><div class="region-head"><h2>${r.en}</h2><span class="region-zh">${r.zh} · ${keys.length}</span></div><div class="maggrid">${cards}</div></div>`;
+    }
+    function videoCarouselHTML(){
+      const VG=["linear-gradient(155deg,#b5462f,#7d2c1d)","linear-gradient(155deg,#1f6f78,#0e3f49)","linear-gradient(155deg,#7a3b86,#3f2350)","linear-gradient(155deg,#c0853a,#7c5220)","linear-gradient(155deg,#3f7a4a,#234d2c)","linear-gradient(155deg,#3a6ea5,#22436a)"];
+      const slides=Object.keys(VIDEOS).map((k,i)=>{const g=cityGuides[k];const name=g?g.cityEn:k;const v=VIDEOS[k];
+        return `<div class="vslide" data-id="${v[0]}" data-cite="${v[1]}" data-city="${name}"><button class="vslide-ph" style="background-image:url('images/draw/${k}.jpg')" aria-label="Play ${name} video"><span class="vcity">${name}</span><span class="vplay">▶ Play</span></button></div>`;}).join("");
+      return `<section class="section vcar-sec" style="padding-top:0"><div class="wrap"><p class="eyebrow">Watch</p><h2 class="section-title" style="margin-bottom:6px">Other cities, on TikTok</h2><p class="section-sub">Real traveller clips from across China — swipe through.</p><div class="vcar"><button class="vcar-nav prev" aria-label="Previous">\u2039</button><div class="vcar-track" id="vcarTrack">${slides}</div><button class="vcar-nav next" aria-label="Next">\u203a</button></div></div></section>`;
+    }
+    function initVideoCarousel(){
+      const track=document.getElementById('vcarTrack'); if(!track) return;
+      function src(id){ return 'https://www.tiktok.com/player/v1/'+id+'?autoplay=1&controls=1&progress_bar=1&play_button=1&volume_control=1&rel=0&description=0&music_info=0&fullscreen_button=1&native_context_menu=0'; }
+      function mount(sl){ if(sl.dataset.mounted) return; sl.dataset.mounted='1';
+        sl.innerHTML='<iframe src="'+src(sl.dataset.id)+'" allow="autoplay; fullscreen; encrypted-media" frameborder="0" title="'+(sl.dataset.city||'')+' on TikTok" style="width:100%;height:100%;border:0;border-radius:16px;display:block;"></iframe>';
+      }
+      track.querySelectorAll('.vslide').forEach(sl=>{ const ph=sl.querySelector('.vslide-ph'); if(ph) ph.addEventListener('click',()=>mount(sl)); });
+      const wrap=track.closest('.vcar'); const step=()=>Math.max(280, track.clientWidth*0.85);
+      wrap.querySelector('.prev').addEventListener('click',()=>track.scrollBy({left:-step(),behavior:'smooth'}));
+      wrap.querySelector('.next').addEventListener('click',()=>track.scrollBy({left: step(),behavior:'smooth'}));
+    }
+    function renderHub() {
+      document.title = "Destinations | China Travel Co";
+      const seen = new Set(REGIONS.flatMap((r) => r.keys));
+      const extras = cityOrder.filter((k) => cityGuides[k] && !seen.has(k));
+      const blocks = REGIONS.map(regionSection).join("") +
+        (extras.length ? regionSection({ en: "More", zh: "更多", keys: extras }) : "");
+      root.innerHTML = `<header class="hero" style="background-image:url('images/draw/beijing.jpg')"><div class="hero-inner"><p class="kicker">China Travel Co</p><h1>Destinations</h1><p class="tagline">Pick a city to begin</p><a class="map-cta" href="map.html">Open the full map →</a></div></header>
+        <section class="section"><div class="wrap dest-hub"><p class="eyebrow">Explore China · by region</p><h2 class="section-title" style="margin-top:0;margin-bottom:6px">Where will you begin?</h2><p class="section-sub" style="margin-bottom:4px">Six regions, ${seen.size} cities — pick a feeling and a place.</p>${blocks}</div></section>${videoCarouselHTML()}`;
+    }
+
+    if (key && cityGuides[key]) renderCity(key); else renderHub();
+    initVideoCarousel();
+  </script>
+
+
+
+<script>
+(function(){
+  var SEL='.magcard,.rc,.hub-card';
+  if(window.matchMedia&&window.matchMedia('(max-width:768px)').matches)return; /* skip on mobile/touch */
+  function ripple(el,e){var r=el.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    var md=Math.max(Math.hypot(x,y),Math.hypot(x-r.width,y),Math.hypot(x,y-r.height),Math.hypot(x-r.width,y-r.height));
+    var d=document.createElement('span');d.className='fx-ripple';
+    d.style.width=d.style.height=(md*2)+'px';d.style.left=(x-md)+'px';d.style.top=(y-md)+'px';
+    el.appendChild(d);requestAnimationFrame(function(){d.style.transform='scale(1)';d.style.opacity='0';});
+    setTimeout(function(){d.remove();},740);}
+  function ensure(el){if(el.dataset.fx)return;el.dataset.fx='1';
+    if(getComputedStyle(el).position==='static')el.style.position='relative';
+    el.classList.add('cardfx');
+    var h=document.createElement('span');h.className='fx-holo';el.appendChild(h);
+    var g=document.createElement('span');g.className='fx-glow';el.appendChild(g);
+    el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();
+      var px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+      el.style.setProperty('--px',(px*100).toFixed(1));el.style.setProperty('--py',(py*100).toFixed(1));
+      el.style.setProperty('--gi','1');
+      var ry=(px-0.5)*13,rx=-(py-0.5)*13;
+      el.style.transform='perspective(900px) rotateX('+rx.toFixed(2)+'deg) rotateY('+ry.toFixed(2)+'deg) translateY(-4px)';});
+    el.addEventListener('mouseleave',function(){el.style.transform='';el.style.setProperty('--gi','0');});
+    el.addEventListener('click',function(e){ripple(el,e);});}
+  function init(){document.querySelectorAll(SEL).forEach(ensure);}
+  if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+  new MutationObserver(init).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+
+<script>(function(){var n=document.getElementById('ctcnav');if(!n)return;function s(){n.classList.toggle('scrolled',scrollY>40);}addEventListener('scroll',s,{passive:true});s();})();</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;891dd2b3be63445eb527ab907691e68d&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+</body></html>

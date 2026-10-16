@@ -1,0 +1,520 @@
+---
+/**
+ * 城市页模板 —— 结构与布局规格 1:1 对齐 ChinaTravelCo city.html 基座
+ * （白卡 1180px 栅格 / mist 雾灰卡 / 红棕 #c7553d / radius 14）
+ * 数据源：src/content/cities/<slug>.json；内容为原创中文
+ */
+import { getCollection } from 'astro:content';
+
+import '@fontsource/fraunces/300.css';
+import '@fontsource/fraunces/500.css';
+import '@fontsource/fraunces/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/space-mono/700.css';
+import '@fontsource/noto-serif-sc/600.css';
+import '@fontsource/noto-serif-sc/700.css';
+
+import Layout from '~/layouts/PageLayout.astro';
+
+export async function getStaticPaths() {
+  const cities = await getCollection('city');
+  return cities
+    .filter(({ data }) => data.status === 'live')
+    .map(({ id, data }) => ({ params: { slug: id }, props: { city: data, slug: id } }));
+}
+
+const { city, slug } = Astro.props;
+const allCities = await getCollection('city');
+const nameOf = (k: string) =>
+  allCities.find((c) => c.id === k)?.data.name ?? k;
+const liveOf = (k: string) => allCities.find((c) => c.id === k)?.data.status === 'live';
+
+// CTC 同款占位渐变（无图时的单字色块）
+const FOOD_GRADS = [
+  'linear-gradient(150deg,#b5462f,#7d2c1d)',
+  'linear-gradient(150deg,#1f6f78,#0e3f49)',
+  'linear-gradient(150deg,#7a3b86,#3f2350)',
+  'linear-gradient(150deg,#c0853a,#7c5220)',
+  'linear-gradient(150deg,#3f7a4a,#234d2c)',
+];
+const SPEC_GRADS = [
+  'linear-gradient(150deg,#b5462f,#7d2c1d)',
+  'linear-gradient(150deg,#7a3b86,#3f2350)',
+  'linear-gradient(150deg,#1f6f78,#0e3f49)',
+  'linear-gradient(150deg,#c0853a,#7c5220)',
+];
+
+const heroStyle = city.heroImage
+  ? `background-image:url('${city.heroImage}')`
+  : `background-image:radial-gradient(80% 90% at 80% 10%,rgba(47,125,166,.5),transparent 55%),radial-gradient(70% 80% at 15% 30%,rgba(200,64,47,.42),transparent 60%),radial-gradient(60% 70% at 50% 100%,rgba(233,200,121,.4),transparent 65%),linear-gradient(160deg,#2c3a42,#17232a)`;
+
+const metadata = {
+  title: `${city.name}旅游指南`,
+  description: city.tagline,
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="city-page">
+    <header class="hero" style={heroStyle}>
+      <div class="hero-inner">
+        <p class="kicker">{city.region} · {city.province}</p>
+        <h1>{city.name}</h1>
+        <p class="tagline">{city.tagline}</p>
+      </div>
+    </header>
+
+    <section class="summary">
+      <div class="wrap">
+        <div class="summary-card">
+          <a class="sum-item" href="#spots"><span class="sum-ic">🏯</span><span class="sum-tx"><b>必看景点</b><span>{city.attractions.length} 个精选</span></span></a>
+          <a class="sum-item" href="#route"><span class="sum-ic">🗺️</span><span class="sum-tx"><b>行程</b><span>3 日路线</span></span></a>
+          <a class="sum-item" href="#food"><span class="sum-ic">🥢</span><span class="sum-tx"><b>美食</b><span>5 个本地味</span></span></a>
+          <a class="sum-item" href="#stay"><span class="sum-ic">🛏️</span><span class="sum-tx"><b>住宿</b><span>住哪里</span></span></a>
+          <a class="sum-item" href="#tips"><span class="sum-ic">💡</span><span class="sum-tx"><b>贴士</b><span>避坑与预约</span></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap intro-grid">
+        <div class="intro-body">
+          <h2 class="intro-lead">{city.tagline}</h2>
+          <p>{city.intro}</p>
+          <h2>怎么去</h2>
+          <p>{city.getThere.short}</p>
+          <details class="more">
+            <summary><span class="ic"></span> 展开详情</summary>
+            <div class="more-body"><p>{city.getThere.more}</p></div>
+          </details>
+        </div>
+        <aside class="reco">
+          <h3>接下来看</h3>
+          {city.exploreMore.slice(0, 2).map((k) => (
+            liveOf(k) ? (
+              <a class="reco-card" href={`/cities/${k}`}>
+                <div class="thumb ph-grad"><span class="ph-name">{nameOf(k)}</span></div>
+                <div class="cap">{nameOf(k)}</div>
+              </a>
+            ) : (
+              <span class="reco-card is-soon">
+                <div class="thumb ph-grad"><span class="ph-name">{nameOf(k)}</span></div>
+                <div class="cap">{nameOf(k)} · 筹备中</div>
+              </span>
+            )
+          ))}
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="dontmiss">
+          <h2>别错过</h2>
+          <ul>
+            {city.dontMiss.map((d) => <li>{d}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="spots" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">必看景点</h2>
+        <p class="section-sub">{city.name}的精华所在——每个都配了一条实用贴士。</p>
+        <div class="spot-grid">
+          {city.attractions.map((a) => (
+            <article class="spot noimg" data-tilt>
+              <div class="body">
+                <h3>{a.name}</h3>
+                <p>{a.blurb}</p>
+                <div class="tip"><b>贴士：</b>{a.tip}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="route" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">{city.name} 3 日路线</h2>
+        <p class="section-sub">按主题分日的首访高效环线，早午晚三段式。</p>
+        <div class="itin">
+          {city.itinerary.map((day) => (
+            <div class="day">
+              <div class="day-head">
+                <span class="day-badge">{day.day}</span>
+                <h3>{day.theme}</h3>
+                <span class="path">{day.path}</span>
+              </div>
+              {day.slots.map((slot) => (
+                <div class="slot">
+                  <div class="when">{slot.when}</div>
+                  <div class="what"><Fragment set:html={slot.what} /></div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="food" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">吃什么</h2>
+        <p class="section-sub">本地人常去的桌上味——热门店建议提前订位或错峰。</p>
+        <div class="food-grid">
+          {city.food.map((f, i) => (
+            <article class="food">
+              <div class="fimg mono" data-zh={f.zh} style={`background:${FOOD_GRADS[i % FOOD_GRADS.length]}`}></div>
+              <div>
+                <h3>{f.name} <span class="tag">{f.tag}</span></h3>
+                <p>{f.blurb}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stay" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">住哪里</h2>
+        <div class="stay-grid">
+          {city.stay.map((s) => (
+            <article class="stay">
+              <span class="lvl">{s.level}</span>
+              <h3>{s.name}</h3>
+              <p>{s.blurb}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tips" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">贴士与避坑</h2>
+        <div class="tips-grid">
+          {city.pitfalls.map((t) => (
+            <article class="tipcard">
+              <h3><span class="e">{t.emoji}</span> {t.title}</h3>
+              <p>{t.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="besttime">
+          <h2>最佳季节</h2>
+          <p class="lead"><Fragment set:html={city.bestTime.lead} /></p>
+          <div class="bt-grid">
+            {city.bestTime.seasons.map((s) => (
+              <div class={`bt-season ${s.best ? 'best' : ''}`}>
+                <span class="s">{s.name}</span>
+                <span class="d">{s.note}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">本地特产</h2>
+        <div class="spec-grid">
+          {city.specialties.map((sp, i) => (
+            <article class="spec">
+              <div class="ph mono" data-zh={sp.zh} style={`background:${SPEC_GRADS[i % SPEC_GRADS.length]}`}></div>
+              <div>
+                <h3>{sp.name}</h3>
+                <p>{sp.blurb}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <h2 class="section-title">接着去哪</h2>
+        <div class="more-grid">
+          {city.exploreMore.map((k) => (
+            liveOf(k) ? (
+              <a class="more-card" href={`/cities/${k}`}>
+                <span class="ph-grad full"></span><span>{nameOf(k)}</span>
+              </a>
+            ) : (
+              <span class="more-card is-soon">
+                <span class="ph-grad full"></span><span>{nameOf(k)}</span>
+              </span>
+            )
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* ===== 基座 token（CTC city.html 白卡编辑系） ===== */
+  .city-page {
+    --ink: #1a1a1a;
+    --ink-2: #444b4a;
+    --ink-3: #6b7270;
+    --line: #e6e6e3;
+    --paper: #fff;
+    --mist: #eceeeb;
+    --tipbg: #fbf3ef;
+    --red: #c7553d;
+    --red-deep: #a8432f;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --maxw: 1180px;
+    --shadow: 0 18px 50px rgba(20, 30, 28, 0.12);
+    --shadow-sm: 0 8px 24px rgba(20, 30, 28, 0.1);
+
+    color: var(--ink);
+    background: var(--paper);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .city-page a { color: inherit; text-decoration: none; }
+  .city-page h1, .city-page h2, .city-page h3 { line-height: 1.15; letter-spacing: -0.01em; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .section { padding: 60px 0; scroll-margin-top: 72px; }
+  .section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; margin: 0 0 12px; }
+  .section-sub { color: var(--ink-3); margin: 0 0 34px; max-width: 720px; }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative; min-height: 62vh; display: flex; align-items: flex-end;
+    color: #fff; background-size: cover; background-position: center;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.62) 100%);
+  }
+  .hero-inner { position: relative; z-index: 2; width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 28px 52px; }
+  .hero .kicker { font-size: 15px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.95; margin: 0 0 6px; }
+  .hero h1 {
+    font-family: Fraunces, 'Noto Serif SC', Georgia, serif;
+    font-size: clamp(48px, 9vw, 100px); font-weight: 700; margin: 0 0 10px; letter-spacing: -0.02em;
+  }
+  .hero .tagline {
+    font-size: clamp(18px, 2.4vw, 26px); font-weight: 400; max-width: 640px;
+    margin: 0; text-shadow: rgba(0, 0, 0, 0.3) 0 1px 16px;
+  }
+
+  /* ===== 速览卡（悬浮叠压 hero） ===== */
+  .summary { margin-top: -38px; position: relative; z-index: 5; }
+  .summary-card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 10px;
+    display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px;
+  }
+  .sum-item { display: flex; gap: 12px; align-items: center; padding: 16px 14px; border-radius: var(--radius-sm); transition: background 0.2s; }
+  .sum-item:hover { background: var(--mist); }
+  .sum-ic { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 10px; background: var(--tipbg); display: grid; place-items: center; font-size: 19px; }
+  .sum-tx b { display: block; font-size: 15px; }
+  .sum-tx span { font-size: 13px; color: var(--ink-3); }
+
+  /* ===== 引言 + 推荐 ===== */
+  .intro-grid { display: grid; grid-template-columns: 1fr 340px; gap: 56px; align-items: start; }
+  .intro-lead { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; margin: 0 0 22px; }
+  .intro-body p { color: var(--ink-2); margin: 0 0 18px; }
+  .intro-body h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 700; margin: 44px 0 16px; }
+  details.more { margin-top: 6px; }
+  details.more > summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    color: var(--red); font-weight: 600;
+  }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary .ic {
+    width: 20px; height: 20px; border: 1.5px solid var(--red); border-radius: 50%;
+    display: inline-grid; place-items: center; font-size: 14px; line-height: 1;
+  }
+  details.more > summary .ic::after { content: '+'; }
+  details.more[open] > summary .ic::after { content: '−'; }
+  details.more .more-body { margin-top: 16px; color: var(--ink-2); }
+  .reco h3 { font-size: 19px; font-weight: 700; margin: 0 0 18px; }
+  .reco-card { display: block; margin-bottom: 22px; }
+  .reco-card .thumb { aspect-ratio: 16 / 10; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); position: relative; }
+  .reco-card .cap { font-weight: 700; margin-top: 10px; font-size: 16px; }
+  .reco-card.is-soon { opacity: 0.55; }
+
+  /* 无图占位（水彩渐变 + 衬线城市名） */
+  .ph-grad {
+    display: grid; place-items: center;
+    background:
+      radial-gradient(90% 90% at 20% 15%, rgba(233, 200, 121, 0.5), transparent 60%),
+      radial-gradient(80% 80% at 85% 25%, rgba(47, 125, 166, 0.4), transparent 55%),
+      radial-gradient(90% 80% at 50% 100%, rgba(200, 64, 47, 0.4), transparent 60%),
+      linear-gradient(150deg, #3d4d55, #22303a);
+  }
+  .ph-grad .ph-name {
+    font-family: Fraunces, 'Noto Serif SC', Georgia, serif;
+    font-size: 26px; font-weight: 600; color: #fff8ec;
+    text-shadow: rgba(0, 0, 0, 0.4) 0 2px 14px;
+  }
+
+  /* ===== 别错过 ===== */
+  .dontmiss { background: var(--mist); border-radius: var(--radius); padding: 40px 44px; }
+  .dontmiss h2 { font-size: clamp(26px, 3.4vw, 34px); font-weight: 700; margin: 0 0 22px; }
+  .dontmiss ul { margin: 0; padding: 0; list-style: none; }
+  .dontmiss li { position: relative; padding-left: 26px; margin: 0 0 16px; color: var(--ink-2); }
+  .dontmiss li::before { content: '•'; position: absolute; left: 4px; top: -1px; color: var(--ink); font-size: 20px; }
+  .dontmiss li:last-child { margin-bottom: 0; }
+
+  /* ===== 景点 ===== */
+  .spot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .spot {
+    border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+    background: #fff; display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
+  }
+  .spot .img { aspect-ratio: 4 / 3; overflow: hidden; }
+  .spot.noimg .img { display: none; }
+  .spot .body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .spot h3 { font-size: 20px; font-weight: 700; margin: 0; }
+  .spot p { color: var(--ink-2); margin: 0; font-size: 15.5px; }
+  .spot .tip { margin-top: auto; background: var(--tipbg); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #8a3b28; }
+  .spot .tip b { color: var(--red-deep); }
+
+  /* ===== 行程 ===== */
+  .itin { display: grid; gap: 22px; }
+  .day { border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 28px; box-shadow: var(--shadow-sm); }
+  .day-head { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .day-badge { flex: 0 0 auto; background: var(--red); color: #fff; font-weight: 700; border-radius: 10px; padding: 6px 14px; font-size: 15px; }
+  .day-head h3 { font-size: 21px; font-weight: 700; margin: 0; }
+  .day-head .path { color: var(--ink-3); font-size: 14px; width: 100%; }
+  .slot { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding: 14px 0; border-top: 1px dashed var(--line); }
+  .slot:first-of-type { border-top: 0; }
+  .slot .when { font-weight: 700; color: var(--red-deep); font-size: 14px; padding-top: 1px; }
+  .slot .what { color: var(--ink-2); font-size: 15.5px; }
+  .slot .what :global(b) { color: var(--ink); }
+
+  /* ===== 美食 ===== */
+  .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+  .food {
+    display: grid; grid-template-columns: 104px 1fr; gap: 18px; padding: 18px 0;
+    border-bottom: 1px solid var(--line); align-items: start;
+  }
+  .food .fimg {
+    width: 104px; height: 104px; border-radius: 12px; overflow: hidden; position: relative;
+    color: #fff; font-family: 'Noto Serif SC', serif; font-weight: 700; font-size: 30px;
+    box-shadow: var(--shadow-sm);
+  }
+  .food .fimg.mono { display: grid; place-items: center; }
+  .food .fimg.mono::after { content: attr(data-zh); text-shadow: rgba(0, 0, 0, 0.35) 0 2px 10px; }
+  .food h3 { font-size: 18px; font-weight: 700; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .food .tag { font-size: 12px; font-weight: 600; color: var(--red-deep); background: var(--tipbg); padding: 3px 9px; border-radius: 999px; }
+  .food p { color: var(--ink-2); margin: 0; font-size: 15px; }
+
+  /* ===== 住宿 ===== */
+  .stay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .stay { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 24px 26px; box-shadow: var(--shadow-sm); }
+  .stay .lvl { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+  .stay h3 { font-size: 19px; font-weight: 700; margin: 6px 0 10px; }
+  .stay p { color: var(--ink-2); margin: 0; font-size: 15px; }
+
+  /* ===== 贴士 ===== */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .tipcard { background: var(--mist); border-radius: var(--radius); padding: 24px 26px; }
+  .tipcard h3 { font-size: 18px; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+  .tipcard h3 .e { font-size: 20px; }
+  .tipcard p { color: var(--ink-2); margin: 0; font-size: 15px; }
+
+  /* ===== 最佳季节 ===== */
+  .besttime { border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 34px; box-shadow: var(--shadow-sm); }
+  .besttime h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; margin: 0 0 12px; }
+  .besttime .lead { color: var(--ink-2); margin: 0 0 24px; max-width: 840px; }
+  .bt-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .bt-season { border-radius: var(--radius-sm); background: var(--mist); padding: 15px 16px; }
+  .bt-season .s { display: block; font-weight: 700; margin-bottom: 3px; font-size: 15px; }
+  .bt-season .d { font-size: 13.5px; color: var(--ink-3); }
+  .bt-season.best { background: var(--tipbg); box-shadow: inset 0 0 0 1.5px var(--red); }
+  .bt-season.best .s { color: var(--red-deep); }
+
+  /* ===== 特产 ===== */
+  .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px 48px; }
+  .spec { display: grid; grid-template-columns: 130px 1fr; gap: 20px; align-items: start; }
+  .spec .ph { aspect-ratio: 3 / 4; border-radius: var(--radius-sm); overflow: hidden; position: relative; color: #fff; box-shadow: var(--shadow-sm); }
+  .spec .ph.mono { display: grid; place-items: center; }
+  .spec .ph.mono::after {
+    content: attr(data-zh); font-family: 'Noto Serif SC', serif;
+    font-size: 26px; font-weight: 700; text-shadow: rgba(0, 0, 0, 0.4) 0 2px 12px;
+  }
+  .spec h3 { font-size: 19px; font-weight: 700; margin: 0 0 9px; }
+  .spec p { color: var(--ink-2); margin: 0; font-size: 15px; }
+
+  /* ===== 城际导流 ===== */
+  .more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .more-card {
+    position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-sm); display: grid; place-items: center; color: #fff;
+  }
+  .more-card .ph-grad.full { position: absolute; inset: 0; }
+  .more-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45)); }
+  .more-card span:last-child { position: relative; z-index: 2; font-size: 24px; font-weight: 700; text-shadow: rgba(0, 0, 0, 0.5) 0 2px 14px; }
+  .more-card.is-soon { opacity: 0.6; }
+
+  /* ===== 响应式（CTC 同断点） ===== */
+  @media (max-width: 900px) {
+    .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+    .spot-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 880px) {
+    .summary-card { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+    .more-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 820px) {
+    .stay-grid { grid-template-columns: 1fr; }
+    .spec-grid { grid-template-columns: 1fr; gap: 26px; }
+  }
+  @media (max-width: 760px) {
+    .food-grid { grid-template-columns: 1fr; gap: 0; }
+    .bt-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px) {
+    .tips-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .spot-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .summary-card { grid-template-columns: 1fr; }
+    .slot { grid-template-columns: 1fr; gap: 4px; }
+  }
+  @media (max-width: 440px) {
+    .bt-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  // 景点卡轻倾斜（CTC cardfx 缩档版：±6°，无贴图时不做溢出光效）
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+      card.addEventListener('pointermove', (ev) => {
+        const r = card.getBoundingClientRect();
+        const x = (ev.clientX - r.left) / r.width;
+        const y = (ev.clientY - r.top) / r.height;
+        card.style.transform = `perspective(900px) rotateY(${(x - 0.5) * 6}deg) rotateX(${(0.5 - y) * 5}deg)`;
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+</script>
