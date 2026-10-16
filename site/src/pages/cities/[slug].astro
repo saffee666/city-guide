@@ -29,6 +29,11 @@ export async function getStaticPaths() {
 }
 
 const { city, slug } = Astro.props;
+import fs from 'node:fs';
+import path from 'node:path';
+/** 图片位：存在则用图（构建期检测，幂等） */
+const hasImg = (rel: string) => fs.existsSync(path.join(process.cwd(), 'public', 'images', rel));
+const spotImg = (n: number) => (hasImg(`spots/${slug}-${n}.jpg`) ? `${B}/images/spots/${slug}-${n}.jpg` : null);
 const places = await getCollection('place');
 const placeByName = new Map(places.map((p) => [p.data.name, p.id]));
 const allCities = await getCollection('city');
@@ -58,9 +63,11 @@ const SPEC_GRADS = [
   'linear-gradient(150deg,#c0853a,#7c5220)',
 ];
 
-const heroStyle = city.heroImage
-  ? `background-image:url('${city.heroImage}')`
-  : `background-image:radial-gradient(80% 90% at 80% 10%,rgba(47,125,166,.5),transparent 55%),radial-gradient(70% 80% at 15% 30%,rgba(200,64,47,.42),transparent 60%),radial-gradient(60% 70% at 50% 100%,rgba(233,200,121,.4),transparent 65%),linear-gradient(160deg,#2c3a42,#17232a)`;
+const heroStyle = hasImg(`cities/${slug}.jpg`)
+  ? `background-image:url('${B}/images/cities/${slug}.jpg')`
+  : city.heroImage
+    ? `background-image:url('${city.heroImage}')`
+    : `background-image:radial-gradient(80% 90% at 80% 10%,rgba(47,125,166,.5),transparent 55%),radial-gradient(70% 80% at 15% 30%,rgba(200,64,47,.42),transparent 60%),radial-gradient(60% 70% at 50% 100%,rgba(233,200,121,.4),transparent 65%),linear-gradient(160deg,#2c3a42,#17232a)`;
 
 const metadata = {
   title: `${city.name}旅游指南`,
@@ -137,8 +144,11 @@ const metadata = {
         <h2 class="section-title">必看景点</h2>
         <p class="section-sub">{city.name}的精华所在——每个都配了一条实用贴士。</p>
         <div class="spot-grid">
-          {city.attractions.map((a) => (
-            <article class="spot noimg" data-tilt>
+          {city.attractions.map((a, ai) => (
+            <article class={`spot${spotImg(ai + 1) ? '' : ' noimg'}`} data-tilt>
+              {spotImg(ai + 1) && (
+                <div class="img"><img src={spotImg(ai + 1)!} alt={a.name} loading="lazy" /></div>
+              )}
               <div class="body">
                 <h3>
                   {placeByName.has(a.name) ? (
@@ -399,6 +409,7 @@ const metadata = {
     background: #fff; display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
   }
   .spot .img { aspect-ratio: 4 / 3; overflow: hidden; }
+  .spot .img img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .spot.noimg .img { display: none; }
   .spot .body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
   .spot h3 { font-size: 20px; font-weight: 700; margin: 0; }

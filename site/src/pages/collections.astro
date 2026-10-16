@@ -7,8 +7,15 @@
 import Layout from '~/layouts/PageLayout.astro';
 import CardFX from '~/components/CardFX.astro';
 import data from '~/data/collections.json';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+/** hub 卡复用各主题第 1 名排名卡图（构建期检测，无图保持渐变） */
+const hubImg = (slug: string) =>
+  fs.existsSync(path.join(process.cwd(), 'public', 'images', `collections/${slug}-1.jpg`))
+    ? `${B}/images/collections/${slug}-1.jpg`
+    : null;
 const cards = data.order.map((slug) => ({ slug, ...data.collections[slug] }));
 const metadata = {
   title: '主题榜单',
@@ -36,6 +43,7 @@ const metadata = {
           {cards.map((c, i) => (
             <a
               class={`hub-card cardfx-target${i === 0 ? ' feat' : ''}`}
+              style={hubImg(c.slug) ? `background-image:url(${hubImg(c.slug)});background-size:cover;background-position:center;` : null}
               href={`${B}/collections/${c.slug}`}
             >
               <span class="bar"></span>

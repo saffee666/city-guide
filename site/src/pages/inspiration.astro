@@ -2,20 +2,27 @@
 /**
  * 灵感页 —— 结构 1:1 对齐 ChinaTravelCo inspiration.html（六区）
  * hero 问句 + 心境 chips → 六境卡片 → 当月去哪（12 月网格）→ 首次路线 → 按天数 → 榜单 → 帮你决定
- * 数据中文原创对齐源站 REALMS/SEASON/路线/天数结构
+ * 数据中文原创对齐源站 REALMS/SEASON/路线/天数结构；境卡复用城市图（构建期检测）
  */
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '~/layouts/PageLayout.astro';
 
 const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+/** 城市图存在则境卡直接用（山水如画→桂林 etc.） */
+const cityImg = (slug: string) =>
+  slug && fs.existsSync(path.join(process.cwd(), 'public', 'images', `cities/${slug}.jpg`))
+    ? `${B}/images/cities/${slug}.jpg`
+    : null;
 const city = (zh: string, slug: string) => ({ zh, slug });
 
 const REALMS = [
-  { id: 'r1', zh: '山水如画', sub: '像走进一幅真的中国山水画', cls: 'g1', cities: [city('桂林', 'guilin'), city('张家界', 'zhangjiajie'), city('黄山', null), city('九寨沟', null), city('武夷山', null)] },
-  { id: 'r2', zh: '古城旧巷', sub: '穿过城门、石板路与老街', cls: 'g2', cities: [city('西安', 'xian'), city('大同', 'datong'), city('苏州', 'suzhou'), city('丽江', 'lijiang'), city('喀什', 'kashgar')] },
-  { id: 'r3', zh: '城市霓虹', sub: '从天际线到凌晨还亮着的街灯', cls: 'g3', cities: [city('上海', 'shanghai'), city('重庆', 'chongqing'), city('深圳', 'shenzhen'), city('广州', 'guangzhou')] },
-  { id: 'r4', zh: '街头烟火', sub: '为一口街边小吃专门跑一趟', cls: 'g4', cities: [city('成都', 'chengdu'), city('长沙', 'changsha'), city('广州', 'guangzhou'), city('西安', 'xian')] },
-  { id: 'r5', zh: '旷野与雪', sub: '远离城市，去更大的天空下面', cls: 'g5', cities: [city('拉萨', 'lhasa'), city('香格里拉', 'shangrila'), city('哈尔滨', 'harbin'), city('敦煌', null)] },
-  { id: 'r6', zh: '慢速江南', sub: '在细雨、茶与水巷里慢下来', cls: 'g6', cities: [city('杭州', 'hangzhou'), city('苏州', 'suzhou'), city('南京', 'nanjing'), city('福州', 'fuzhou')] },
+  { id: 'r1', zh: '山水如画', sub: '像走进一幅真的中国山水画', cls: 'g1', imgSlug: 'guilin', cities: [city('桂林', 'guilin'), city('张家界', 'zhangjiajie'), city('黄山', null), city('九寨沟', null), city('武夷山', null)] },
+  { id: 'r2', zh: '古城旧巷', sub: '穿过城门、石板路与老街', cls: 'g2', imgSlug: 'xian', cities: [city('西安', 'xian'), city('大同', 'datong'), city('苏州', 'suzhou'), city('丽江', 'lijiang'), city('喀什', 'kashgar')] },
+  { id: 'r3', zh: '城市霓虹', sub: '从天际线到凌晨还亮着的街灯', cls: 'g3', imgSlug: 'shanghai', cities: [city('上海', 'shanghai'), city('重庆', 'chongqing'), city('深圳', 'shenzhen'), city('广州', 'guangzhou')] },
+  { id: 'r4', zh: '街头烟火', sub: '为一口街边小吃专门跑一趟', cls: 'g4', imgSlug: 'chengdu', cities: [city('成都', 'chengdu'), city('长沙', 'changsha'), city('广州', 'guangzhou'), city('西安', 'xian')] },
+  { id: 'r5', zh: '旷野与雪', sub: '远离城市，去更大的天空下面', cls: 'g5', imgSlug: 'lhasa', cities: [city('拉萨', 'lhasa'), city('香格里拉', 'shangrila'), city('哈尔滨', 'harbin'), city('敦煌', null)] },
+  { id: 'r6', zh: '慢速江南', sub: '在细雨、茶与水巷里慢下来', cls: 'g6', imgSlug: 'hangzhou', cities: [city('杭州', 'hangzhou'), city('苏州', 'suzhou'), city('南京', 'nanjing'), city('福州', 'fuzhou')] },
 ];
 
 const SEASON: Record<number, [string, string | null, string][]> = {
@@ -82,7 +89,7 @@ let currentMonth = new Date().getMonth() + 1;
         <div class="realms">
           {REALMS.map((r) => (
             <div class="realm" id={r.id}>
-              <div class={`ph ${r.cls}`}>{r.zh}</div>
+              <div class={`ph ${r.cls}`} style={cityImg(r.imgSlug) ? `background-image:url(${cityImg(r.imgSlug)});background-size:cover;background-position:center;opacity:1;` : null}>{cityImg(r.imgSlug) ? '' : r.zh}</div>
               <div class="ov"></div>
               <div class="rbody">
                 <h4>{r.zh}</h4>

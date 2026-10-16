@@ -4,7 +4,13 @@ const B = import.meta.env.BASE_URL.replace(/\/$/, '');
  * 首页 —— ChinaTravelCo storyboard 首页 1:1 结构移植（中文原创内容）
  * Frame 01 hero 轮播 / 跑马灯 / 节气历 / 目的卡 / 活地图(嵌入点亮地图) / 灵感 / 非遗 / 实务 CTA
  */
+import fs from 'node:fs';
+import path from 'node:path';
 import { getCollection } from 'astro:content';
+
+/** 图片位：public/images/<rel> 存在则用图，否则保持渐变占位（构建期检测，幂等） */
+const hasImg = (rel: string) => fs.existsSync(path.join(process.cwd(), 'public', 'images', rel));
+const HERO_SLIDES = [1, 2, 3, 4].map((n) => (hasImg(`hero/${n}.jpg`) ? `${B}/images/hero/${n}.jpg` : null));
 
 import '@fontsource/fraunces/300.css';
 import '@fontsource/fraunces/400.css';
@@ -30,7 +36,15 @@ const soonNames = ['大理', '敦煌', '呼伦贝尔'];
 const liveCards = pickOrder
   .map((slug) => live.find((c) => c.id === slug))
   .filter(Boolean)
-  .map((c) => ({ slug: c!.id, name: c!.data.name, en: c!.data.nameEn, live: true, days: '3 天', blurb: c!.data.tagline }));
+  .map((c) => ({
+    slug: c!.id,
+    name: c!.data.name,
+    en: c!.data.nameEn,
+    live: true,
+    days: '3 天',
+    blurb: c!.data.tagline,
+    img: hasImg(`cities/${c!.id}.jpg`) ? `${B}/images/cities/${c!.id}.jpg` : null,
+  }));
 const destCards = [
   ...liveCards,
   ...soonNames.map((n) => ({ slug: '', name: n, en: '', live: false, days: '筹备中', blurb: '内容筹备中，敬请期待' })),
@@ -49,7 +63,9 @@ const metadata = {
     <!-- Frame 01 · Hero -->
     <header class="frame hero">
       <div class="hero-bg">
-        <span></span><span></span><span></span><span></span>
+        {HERO_SLIDES.map((img, i) => (
+          <span style={img ? `background-image:url(${img});background-size:cover;background-position:center;` : null}></span>
+        ))}
       </div>
       <div class="hero-scrim"></div>
       <div class="frame-label"><span class="num">01</span><span class="bar"></span><span class="mono">中国 · 城市指南</span></div>
@@ -123,7 +139,7 @@ const metadata = {
         {destCards.map((d, i) => (
           d.live ? (
             <a class={`dest r d${Math.min(i, 4)}`} href={`${B}/cities/${d.slug}`}>
-              <div class="dest-img ph-grad"><span class="tag">已上线</span></div>
+              <div class="dest-img ph-grad" style={d.img ? `background-image:url(${d.img});background-size:cover;background-position:center;` : null}><span class="tag">已上线</span></div>
               <div class="dest-body">
                 <p class="mono">{d.en.toUpperCase()}</p>
                 <h3>{d.name}<span>{d.en}</span></h3>
