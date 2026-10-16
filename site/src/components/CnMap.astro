@@ -1,0 +1,87 @@
+---
+/**
+ * 水彩中国地图 —— 基于 china-ex-city（MIT）的预处理 SVG 路径数据自绘
+ * 悬停显示省份名；已上线城市可点击跳转
+ */
+import mapData from '~/data/china-map.json';
+
+const liveCities: Record<string, { slug: string; name: string }> = {
+  fuzhou: { slug: '/cities/fuzhou', name: '福州' },
+};
+// 已上线城市 → 省份 code（点击目标）
+const liveProvinces: Record<string, string> = {
+  fuzhou: '350000',
+};
+// 省份 → 水彩色调（暖纸色系五色轮转，柔和晕染感）
+const PALETTE = ['#e9e2cf', '#dfe4d3', '#dbe3e8', '#e8e0d2', '#d9e2dc', '#e4ded0', '#dce0d8'];
+const hashCode = (s: string) => {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+};
+// 省级聚合：同省 units 上同色
+const provOf = (code: string) => code.slice(0, 2);
+const fills = new Map<string, string>();
+for (const u of mapData.units) {
+  const p = provOf(u.c);
+  if (!fills.has(p)) fills.set(p, PALETTE[fills.size % PALETTE.length]);
+}
+// 福建点位置（用福建 label 坐标微调到沿海）
+const fujian = mapData.labels.find((l) => l.c === '350000');
+const dot = fujian ? { x: fujian.x + 14, y: fujian.y + 26 } : { x: 810, y: 640 };
+---
+
+<svg
+  class="cn-map"
+  viewBox={`0 0 ${mapData.viewBox[2]} ${mapData.viewBox[3]}`}
+  role="img"
+  aria-label="中国地图"
+>
+  {mapData.units.map((u) => (
+    <path
+      class="unit"
+      d={u.d}
+      fill={fills.get(provOf(u.c))}
+      data-prov={provOf(u.c)}
+    >
+      <title>{liveProvinces[provOf(u.c)] ? Object.keys(liveCities).find((k) => liveProvinces[k] === provOf(u.c)) : ''}</title>
+    </path>
+  ))}
+  <a href={liveCities.fuzhou.slug} class="city-dot-link">
+    <circle class="dot-pulse" cx={dot.x} cy={dot.y} r="10" />
+    <circle class="dot" cx={dot.x} cy={dot.y} r="5" />
+    <text class="dot-label" x={dot.x + 12} y={dot.y + 4}>福州</text>
+  </a>
+</svg>
+
+<style>
+  .cn-map { width: 100%; height: 100%; display: block; }
+  .unit {
+    stroke: rgba(33, 31, 26, 0.28);
+    stroke-width: 0.6;
+    transition: fill 0.4s var(--ease, ease), opacity 0.4s;
+    opacity: 0.94;
+  }
+  .unit:hover { fill: #d8b98a; opacity: 1; }
+  .dot-pulse {
+    fill: rgba(200, 64, 47, 0.25);
+    animation: pulse 2.6s cubic-bezier(0.22, 0.61, 0.36, 1) infinite;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .dot { fill: #c8402f; stroke: #fff; stroke-width: 1.4; }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(2.2); opacity: 0; }
+  }
+  .dot-label {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 17px;
+    font-weight: 700;
+    fill: #211f1a;
+    paint-order: stroke;
+    stroke: rgba(255, 253, 248, 0.9);
+    stroke-width: 3px;
+  }
+  .city-dot-link { cursor: pointer; }
+</style>

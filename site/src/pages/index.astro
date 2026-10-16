@@ -20,6 +20,7 @@ import '@fontsource/noto-serif-sc/600.css';
 import '@fontsource/noto-serif-sc/700.css';
 
 import Layout from '~/layouts/PageLayout.astro';
+import CnMap from '~/components/CnMap.astro';
 
 const cities = await getCollection('city');
 const live = cities.filter((c) => c.data.status === 'live');
@@ -147,13 +148,22 @@ const metadata = {
           <h2>整个中国，一张<em>活</em>地图</h2>
         </div>
         <div class="way-map cardfx r" id="way-map">
-          <iframe src="/map/index.html" title="点亮我的中国城市地图" loading="lazy"></iframe>
-          <div class="way-map-text">
-            <p class="mono">370 城 · 点击点亮</p>
-            <h3>你去过几座城？</h3>
-            <p>全国→省份两级缩放，五档涂色，自动统计成就。地图在下面这张卡里，直接点。</p>
-            <a class="btn btn-primary way-map-btn" href="/map/index.html" target="_blank" rel="noopener">全屏打开地图</a>
+          <div class="way-map-vis">
+            <div class="way-map-stage"><CnMap /></div>
           </div>
+          <div class="way-map-text">
+            <p class="mono">探索中国 · 370 城</p>
+            <h3>整个国家，<br />一张活地图</h3>
+            <p>悬停在省份上发现城市与故事；点「打开地图」去点亮你去过的每一座城。</p>
+            <a class="btn btn-primary way-map-btn" href="/map/index.html" target="_blank" rel="noopener">打开地图 →</a>
+          </div>
+          <a class="way-fate" href="/fate">
+            <span class="lotus">签</span>
+            <span class="way-fate-tx">
+              <small class="mono">不知道该去哪？</small>
+              <b class="way-fate-cta">求一签，定去哪 →</b>
+            </span>
+          </a>
         </div>
       </div>
     </section>
@@ -376,23 +386,51 @@ const metadata = {
   @media (max-width: 920px) { .dest-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .dest-grid { grid-template-columns: 1fr; } }
 
-  /* ===== 活地图（点亮地图融合） ===== */
+  /* ===== 活地图（CTC way-map 排版规格 + 自绘水彩地图） ===== */
   .ways { position: relative; }
   .way-map {
-    position: relative; display: grid; grid-template-columns: 1fr 460px; align-items: stretch;
-    min-height: 560px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
+    position: relative; display: flex; align-items: center; min-height: 480px;
+    border-radius: var(--r); overflow: hidden; border: 1px solid var(--line);
     box-shadow: var(--shadow-2); background: #f4f1e8; transition: box-shadow 0.5s var(--ease);
   }
   .way-map:hover { box-shadow: var(--shadow-3); }
-  .way-map iframe { width: 100%; height: 640px; border: 0; grid-column: 1; grid-row: 1; }
-  .way-map-text { grid-column: 2; grid-row: 1; z-index: 7; padding: clamp(32px, 5vw, 64px); background: linear-gradient(95deg, rgba(244, 241, 232, 0.96) 0%, rgba(244, 241, 232, 0.88) 60%, rgba(244, 241, 232, 0.78) 100%); }
+  .way-map-vis { position: absolute; top: 0; right: 0; height: 100%; aspect-ratio: 4 / 3; z-index: 1; }
+  .way-map-stage { position: absolute; inset: 0; transition: transform 1.2s var(--ease); }
+  .way-map:hover .way-map-stage { transform: scale(1.02); }
+  .way-map::after {
+    content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background: linear-gradient(95deg, #f4f1e8 0%, rgba(244, 241, 232, 0.85) 26%, rgba(244, 241, 232, 0.34) 50%, rgba(244, 241, 232, 0) 68%);
+  }
+  .way-map-text { position: relative; z-index: 4; max-width: 470px; padding: clamp(32px, 5vw, 64px); }
   .way-map-text .mono { font-size: 11px; color: var(--cinnabar); }
-  .way-map-text h3 { font-weight: 300; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; color: var(--ink); margin: 14px 0 0; letter-spacing: -0.02em; }
+  .way-map-text h3 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 300;
+    font-size: clamp(30px, 4vw, 48px); line-height: 1.05; color: var(--ink); margin: 14px 0 0; letter-spacing: -0.02em;
+  }
   .way-map-text p { margin: 16px 0 28px; font-size: 16px; line-height: 1.6; color: var(--ink-soft); max-width: 34ch; }
-  @media (max-width: 980px) {
-    .way-map { grid-template-columns: 1fr; }
-    .way-map iframe { height: 70vh; grid-row: 2; }
-    .way-map-text { grid-row: 1; }
+  .way-fate {
+    position: absolute; right: clamp(16px, 3vw, 30px); bottom: clamp(16px, 3vw, 30px); z-index: 5;
+    display: flex; align-items: center; gap: 15px; width: min(310px, 76vw); padding: 18px 20px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--r-sm);
+    box-shadow: var(--shadow-3); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .way-fate:hover { transform: translateY(-4px); box-shadow: 0 30px 70px rgba(48, 42, 26, 0.24); }
+  .way-fate .lotus {
+    width: 54px; height: 54px; border-radius: 50%; flex: none;
+    display: grid; place-items: center; font-family: 'Noto Serif SC', serif; font-size: 24px; font-weight: 700; color: #fff8ec;
+    background: radial-gradient(circle at 32% 28%, #d8a13a, #9c6d1a);
+    border: 2px solid rgba(184, 144, 58, 0.5); box-shadow: 0 0 24px rgba(212, 169, 72, 0.3);
+    animation: lotus-pulse 3.4s var(--ease) infinite;
+  }
+  @keyframes lotus-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .way-fate-tx small { font-size: 10px; color: var(--ink-faint); display: block; }
+  .way-fate-cta { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 17px; color: var(--cinnabar); font-weight: 500; display: block; margin-top: 3px; }
+  @media (max-width: 760px) {
+    .way-map { display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
+    .way-map-vis { position: relative; order: 2; width: 100%; height: auto; aspect-ratio: 4 / 3; right: auto; }
+    .way-map-text { order: 1; max-width: none; padding: 30px 26px 14px; }
+    .way-map::after { display: none; }
+    .way-fate { position: static; width: auto; margin: 14px; }
   }
 
   /* ===== 灵感 ===== */
