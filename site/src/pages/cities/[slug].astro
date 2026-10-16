@@ -29,6 +29,8 @@ export async function getStaticPaths() {
 }
 
 const { city, slug } = Astro.props;
+const places = await getCollection('place');
+const placeByName = new Map(places.map((p) => [p.data.name, p.id]));
 const allCities = await getCollection('city');
 const FALLBACK_NAMES: Record<string, string> = {
   dali: '大理', urumqi: '乌鲁木齐', changchun: '长春', shenyang: '沈阳',
@@ -138,7 +140,11 @@ const metadata = {
           {city.attractions.map((a) => (
             <article class="spot noimg" data-tilt>
               <div class="body">
-                <h3>{a.name}</h3>
+                <h3>
+                  {placeByName.has(a.name) ? (
+                    <a class="spot-link" href={`${B}/places/${placeByName.get(a.name)}`}>{a.name} ↗</a>
+                  ) : a.name}
+                </h3>
                 <p>{a.blurb}</p>
                 <div class="tip"><b>贴士：</b>{a.tip}</div>
               </div>
@@ -396,6 +402,7 @@ const metadata = {
   .spot.noimg .img { display: none; }
   .spot .body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
   .spot h3 { font-size: 20px; font-weight: 700; margin: 0; }
+  .spot .spot-link { color: var(--red-deep); border-bottom: 1px dashed var(--red); }
   .spot p { color: var(--ink-2); margin: 0; font-size: 15.5px; }
   .spot .tip { margin-top: auto; background: var(--tipbg); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #8a3b28; }
   .spot .tip b { color: var(--red-deep); }

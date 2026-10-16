@@ -110,6 +110,41 @@ const cityCollection = defineCollection({
   }),
 });
 
+
+
+/**
+ * 景点深度页集合 —— 结构逆向自 ChinaTravelCo places/*（7 区编辑式长文）
+ */
+const placeCollection = defineCollection({
+  loader: glob({ pattern: '*.json', base: 'src/content/places' }),
+  schema: z.object({
+    name: z.string(),
+    nameEn: z.string(),
+    city: z.string(), // 所属城市 slug
+    cityZh: z.string(),
+    region: z.string(),
+    badges: z.array(z.string()).max(4),
+    oneline: z.string(),
+    overview: z.string(), // 高密度叙事段，可含 <b>
+    why: z.array(z.object({ b: z.string(), p: z.string() })).length(5),
+    sights: z
+      .array(
+        z.object({
+          name: z.string(),
+          desc: z.string(),
+          tip: z.string(), // 眼睛提示：现场怎么看
+        })
+      )
+      .min(4)
+      .max(9),
+    routes: z.array(z.object({ plan: z.string(), detail: z.string() })).length(3),
+    practical: z.array(z.object({ label: z.string(), value: z.string() })).min(5).max(7),
+    culture: z.array(z.string()).length(2),
+    nearby: z.array(z.object({ name: z.string(), desc: z.string() })).length(5),
+  }),
+});
+
 export const collections = {
   city: cityCollection,
+  place: placeCollection,
 };
