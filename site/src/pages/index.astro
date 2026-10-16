@@ -1,0 +1,42 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: '城市指南',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-4 py-24 md:py-36">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="mb-5 text-sm tracking-[0.35em]" style="color: var(--ctc-gold)">山河表里 · 一城一页</p>
+      <h1 class="text-5xl leading-tight font-bold md:text-7xl" style="color: var(--ctc-ink); font-family: var(--aw-font-heading)">
+        中国城市<span style="color: var(--ctc-cinnabar)">指南</span>
+      </h1>
+      <p class="mx-auto mt-8 max-w-xl text-lg leading-relaxed" style="color: var(--ctc-ink-soft)">
+        吃住行玩，从福州出发，点亮全国 370 城。
+      </p>
+
+      <!-- token 色卡：验证皮肤变量生效（占位，首页正式版随点亮地图上线） -->
+      <div class="mt-14 flex flex-wrap justify-center gap-4" id="map">
+        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-cinnabar); box-shadow: var(--ctc-shadow-2)">
+          <p class="text-xs opacity-80">朱砂</p>
+          <p class="mt-1 text-sm font-medium">#C8402F</p>
+        </div>
+        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-gold); box-shadow: var(--ctc-shadow-2)">
+          <p class="text-xs opacity-80">描金</p>
+          <p class="mt-1 text-sm font-medium">#B8902F</p>
+        </div>
+        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-azurite); box-shadow: var(--ctc-shadow-2)">
+          <p class="text-xs opacity-80">石青</p>
+          <p class="mt-1 text-sm font-medium">#2F7DA6</p>
+        </div>
+        <div class="w-28 rounded-[var(--ctc-r)] px-4 py-6 text-white" style="background: var(--ctc-jade); box-shadow: var(--ctc-shadow-2)">
+          <p class="text-xs opacity-80">翠玉</p>
+          <p class="mt-1 text-sm font-medium">#2F8064</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
