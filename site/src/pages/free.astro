@@ -1,0 +1,172 @@
+---
+/**
+ * 免费资源页 —— 结构 1:1 对齐 ChinaTravelCo free.html（free-grid 卡片流）
+ * 改形 Ruling：源站 email-gate 表单 → 本站非商业化，改为「站内直达」按钮
+ * （资源 = 本站自有页面与工具，无需留邮箱）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const RESOURCES = [
+  {
+    tag: '最多人拿',
+    name: '中国行前锦囊',
+    sub: '来中国前必须知道的 5 件事',
+    hook: '支付、签证、网络、必备 App 与实用要点——一页备齐，落地不慌。跳过它，第一天大概率手忙脚乱。',
+    cta: '直接查看 →',
+    href: '/essentials',
+  },
+  {
+    tag: '2026 更新',
+    name: '免签与过境速查',
+    sub: 'Visa-Free Cheat Sheet',
+    hook: '30 天免签、240 小时过境免签——你到底符不符合？一张表说清楚，订票之前不出岔子。',
+    cta: '直接查看 →',
+    href: '/routes/first-time-china',
+  },
+  {
+    tag: '被问最多',
+    name: '五分钟搞定移动支付',
+    sub: '支付宝 / 微信外卡绑定',
+    hook: '把境外 Visa/Mastercard 绑进支付宝和微信的完整图文流程，限额与手续费一次讲明白。',
+    cta: '直接查看 →',
+    href: '/routes/first-time-china',
+  },
+  {
+    tag: '互动',
+    name: '你的专属城市清单',
+    sub: 'Find Your China Cities',
+    hook: '做一套旅行人格测试，或求一支签——六种心情，各配一座该去的城，抽完直接出发。',
+    cta: '去求一签 →',
+    href: '/fate',
+  },
+  {
+    tag: '城市样张',
+    name: '单城指南样例',
+    sub: 'Sample City Guide',
+    hook: '拿一座城市看看我们的排版：一日动线、内行提示、避坑清单——先看样，再挑你的城。',
+    cta: '看试点城市 →',
+    href: '/cities/fuzhou',
+  },
+];
+
+const metadata = { title: '免费资源 · 城市指南', description: '行前要搞定的事，全部免费、全部直达——不用留邮箱。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="free-page">
+    <header class="city-hero">
+      <div class="city-hero-inner">
+        <nav class="crumb" aria-label="面包屑">
+          <a href={`${B}/`}>首页</a><span>/</span><b>免费资源</b>
+        </nav>
+        <p class="eyebrow">Free Resources</p>
+        <h1>🎁 免费的行前资源</h1>
+        <p class="tagline">看中哪张直接点开——不用留邮箱，本站没有邮件列表。</p>
+      </div>
+    </header>
+
+    <section class="city-section">
+      <div class="section-heading">
+        <p class="eyebrow">先拿这几样</p>
+        <h2>按需取用，点击直达</h2>
+        <p>每一项对准一个具体痛点，点开就能用。</p>
+      </div>
+
+      <div class="free-grid">
+        {RESOURCES.map((r) => (
+          <article class="free-card">
+            <span class="free-tag">{r.tag}</span>
+            <h3>{r.name}<span>{r.sub}</span></h3>
+            <p class="free-hook">{r.hook}</p>
+            <a class="lead-cta" href={`${B}${r.href}`}>{r.cta}</a>
+            <p class="free-note-small">免费 · 无需注册 · 直接阅读</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="city-section">
+      <div class="section-heading">
+        <p class="eyebrow">Ready to plan</p>
+        <h2>准备好了？去看目的地</h2>
+      </div>
+      <div class="plan-cta">
+        <a class="big-link" href={`${B}/destinations`}>目的地总览 →</a>
+        <a class="big-link" href={`${B}/collections`}>主题榜单 →</a>
+      </div>
+    </section>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/essentials`}>实务</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .free-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --red: #c8402f;
+    --line: rgba(33, 31, 26, 0.12);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .free-page a { text-decoration: none; color: inherit; }
+
+  .city-hero {
+    position: relative; min-height: 40vh; display: flex; align-items: flex-end; color: #fff;
+    background:
+      radial-gradient(120% 90% at 82% 0%, rgba(216, 161, 58, 0.32), transparent 55%),
+      radial-gradient(110% 80% at 10% 10%, rgba(199, 85, 61, 0.38), transparent 52%),
+      linear-gradient(160deg, #2c4a68, #22436a 55%, #173250);
+  }
+  .city-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.6)); }
+  .city-hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1180px; margin: 0 auto; padding: 120px 28px 46px; }
+  .crumb { font-size: 13px; opacity: 0.9; margin: 0 0 14px; }
+  .crumb span { margin: 0 8px; opacity: 0.6; }
+  .eyebrow { color: #e9c879; font: 600 13px/1.4 'Space Mono', ui-monospace, monospace; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 8px; }
+  .city-hero h1 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(32px, 5.4vw, 52px); margin: 0 0 10px; }
+  .tagline { font-size: 16.5px; opacity: 0.95; margin: 0; }
+
+  .city-section { max-width: 1180px; margin: 0 auto; padding: 52px 28px 8px; }
+  .section-heading { max-width: 780px; margin: 0 0 26px; }
+  .section-heading .eyebrow { color: var(--red); }
+  .section-heading h2 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: 28px; margin: 0 0 8px; }
+  .section-heading p { color: var(--ink-soft); font-size: 15px; margin: 0; }
+
+  .free-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 8px; }
+  .free-card {
+    display: flex; flex-direction: column; gap: 12px; padding: 24px;
+    border: 1px solid rgba(33, 31, 26, 0.08); border-radius: 16px;
+    background: var(--card); box-shadow: 0 6px 24px rgba(60, 55, 40, 0.06);
+    transition: transform 0.2s;
+  }
+  .free-card:hover { transform: translateY(-4px); }
+  .free-card .free-tag { font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: #b4232a; font-weight: 700; }
+  .free-card h3 { margin: 0; font-family: Fraunces, 'Noto Serif SC', serif; font-size: 19px; line-height: 1.35; }
+  .free-card h3 span { display: block; font-family: Inter, sans-serif; font-size: 14px; font-weight: 500; opacity: 0.6; margin-top: 2px; }
+  .free-card .free-hook { margin: 0; font-size: 15px; opacity: 0.85; flex: 1; line-height: 1.75; color: var(--ink-soft); }
+  .lead-cta {
+    display: inline-block; align-self: flex-start; padding: 11px 18px; border-radius: 10px;
+    background: #b4232a; color: #fff; font-weight: 700; font-size: 14.5px;
+  }
+  .lead-cta:hover { filter: brightness(1.08); }
+  .free-note-small { font-size: 12.5px; opacity: 0.55; margin: 0; }
+
+  .plan-cta { display: flex; flex-wrap: wrap; gap: 14px; }
+  .big-link {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 12px 24px; font-size: 15px; font-weight: 700; color: var(--ink-soft);
+  }
+  .big-link:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px; margin-top: 40px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>

@@ -1,0 +1,261 @@
+---
+/**
+ * 传统节日页 —— 结构与样式规格 1:1 对齐 ChinaTravelCo festival.html
+ * hero（mono kicker + h1 中文标 + lead）→ 8 个 .fest 节日区块
+ * （印章字 + 农公双历 + 假期标签 + story 双段 + 习俗/餐桌/在哪感受三块）
+ * 数据对齐源站 2026 年历（农历换算与国务院放假安排为公知事实）
+ */
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const FESTS = [
+  {
+    id: 'spring', seal: '春', accent: '#c8402f', name: '春节', py: 'Chūn Jié · 春节',
+    big: '2026 年 2 月 17 日', lunar: '正月初一 · 丙午马年', tag: '法定假期 · 2 月 15–23 日（9 天）',
+    story: [
+      '农历新年，也是地球表面最大规模的周期性迁徙——数亿人同一时间奔向家。传说年兽怕红、怕响，所以整个国家会连续两周红成一片、响成一片。',
+      '说到底这是团圆的节日：除夕夜一张圆桌收拢全家，之后的几天属于拜年、吃喝与休整。',
+    ],
+    customs: '贴春联剪纸、发红包、年前大扫除「扫走旧岁」、舞龙舞狮、逛庙会。',
+    foods: ['饺子', '年糕', '整鱼', '汤圆'],
+    feel: [{ label: '北京（庙会）', href: '/cities/beijing' }, { label: '哈尔滨（冰城新年）', href: '/cities/harbin' }, { label: '灯会老城', href: '/destinations' }],
+  },
+  {
+    id: 'lantern', seal: '元', accent: '#d98a1f', name: '元宵节', py: 'Yuán Xiāo Jié · 元宵节',
+    big: '2026 年 3 月 3 日', lunar: '正月十五', tag: '',
+    story: [
+      '新年第一轮满月之夜，也是整个春节季的落幕式：赏花灯、猜灯谜、舞龙灯，把年味最后一晚烧到最亮。',
+      '一碗元宵或汤圆下肚，「年」才算真正过完——北方滚元宵，南方包汤圆，甜党咸党各安其位。',
+    ],
+    customs: '看灯会、猜灯谜、舞龙舞狮、走百病（夜里结伴散步祛病）。',
+    foods: ['元宵/汤圆', '油锤', '糟羹'],
+    feel: [{ label: '自贡灯会', href: '/destinations' }, { label: '秦淮灯会（南京）', href: '/cities/nanjing' }],
+  },
+  {
+    id: 'qingming', seal: '清', accent: '#2f8064', name: '清明节', py: 'Qīng Míng · 清明节',
+    big: '2026 年 4 月 5 日', lunar: '节气日 · 扫墓节', tag: '法定假期 · 4 月 4–6 日',
+    story: [
+      '唯一一个既是节气又是大节的日子：一半是慎终追远的扫墓，一半是踏青赏春的出游——「清明时节雨纷纷」的江南尤其应景。',
+      '对旅行者的意义：春色正盛，且这三天全国高速免费——但热门墓园周边会堵。',
+    ],
+    customs: '扫墓祭祖、踏青、放风筝、插柳。',
+    foods: ['青团', '馓子', '清明粿'],
+    feel: [{ label: '江南踏青（杭州）', href: '/cities/hangzhou' }, { label: '婺源油菜花', href: '/destinations' }],
+  },
+  {
+    id: 'dragon', seal: '端', accent: '#2f7da6', name: '端午节', py: 'Duān Wǔ Jié · 端午节',
+    big: '2026 年 6 月 19 日', lunar: '五月初五', tag: '法定假期 · 6 月 19–21 日',
+    story: [
+      '为纪念投江的诗人屈原，人们把米裹进叶子投进江里，划船去救他、去找他——演变成两千年不变的粽子和龙舟。',
+      '初夏的节日：门口挂艾草菖蒲，孩子腕上系五彩绳，南方江河上全是鼓点。',
+    ],
+    customs: '赛龙舟、挂艾草、系五彩绳、佩香囊、点雄黄。',
+    foods: ['粽子', '咸鸭蛋', '雄黄酒（旧俗）'],
+    feel: [{ label: '岳阳（汨罗江）', href: '/destinations' }, { label: '佛山叠滘龙船漂移', href: '/cities/guangzhou' }],
+  },
+  {
+    id: 'qixi', seal: '七', accent: '#c46b86', name: '七夕节', py: 'Qī Xī Jié · 七夕节',
+    big: '2026 年 8 月 19 日', lunar: '七月初七', tag: '',
+    story: [
+      '牛郎织女一年一度鹊桥相会的日子——中国自己的情人节，比西式情人节多一层天文与神话的双重浪漫。',
+      '古时这一天是「乞巧节」：姑娘们对月穿针，向织女讨一双巧手；如今更多是鲜花与晚餐的生意。',
+    ],
+    customs: '乞巧（对月穿针）、拜织女、看牵牛织女星。',
+    foods: ['巧果', '巧酥'],
+    feel: [{ label: '和合圣地（天台山）', href: '/destinations' }, { label: '城市夜景观星', href: '/destinations' }],
+  },
+  {
+    id: 'midautumn', seal: '月', accent: '#c79325', name: '中秋节', py: 'Zhōng Qiū Jié · 中秋节',
+    big: '2026 年 9 月 25 日', lunar: '八月十五', tag: '法定假期 · 9 月 25–27 日',
+    story: [
+      '一年中最圆的月亮，配一年中最圆的团圆想象：全家分一块月饼，楼上楼下都是桂花香。',
+      '对旅行者是黄金窗口：西湖三潭印月、平湖秋月这类赏月名胜会挤满人，但那晚的月亮确实值得。',
+    ],
+    customs: '赏月、吃月饼、提灯笼、饮桂花酒。',
+    foods: ['月饼', '桂花糕', '大闸蟹', '芋头'],
+    feel: [{ label: '杭州西湖（三潭印月）', href: '/cities/hangzhou' }, { label: '苏州（石湖串月）', href: '/cities/suzhou' }],
+  },
+  {
+    id: 'ninth', seal: '九', accent: '#c2701f', name: '重阳节', py: 'Chóng Yáng Jié · 重阳节',
+    big: '2026 年 10 月 18 日', lunar: '九月初九', tag: '',
+    story: [
+      '「九九」谐音「久久」，是敬老节——也是古人秋游登高的日子：爬到高处，看一遍秋色，佩茱萸，饮菊花酒。',
+      '对旅行者是绝佳的登山借口：黄山、泰山在重阳前后往往有节庆活动，秋高气爽能见度极佳。',
+    ],
+    customs: '登高、赏菊、插茱萸、饮菊花酒、吃重阳糕。',
+    foods: ['重阳糕', '菊花酒', '螃蟹'],
+    feel: [{ label: '黄山秋色', href: '/destinations' }, { label: '泰山登高', href: '/destinations' }],
+  },
+  {
+    id: 'solstice', seal: '冬', accent: '#3a5f97', name: '冬至', py: 'Dōng Zhì · 冬至',
+    big: '2026 年 12 月 22 日', lunar: '节气日 · 最长的一夜', tag: '',
+    story: [
+      '「冬至大如年」——白昼最短的一天，却是阳气开始回升的起点。北方的饺子馆排队，南方的汤圆铺飘香。',
+      '过了这天，白天一天比一天长——冬天再冷，也已经站在春天的下坡顶上了。',
+    ],
+    customs: '数九、祭祖、酿米酒、画「九九消寒图」。',
+    foods: ['饺子（北）', '汤圆（南）', '羊肉汤', '赤豆糯米饭'],
+    feel: [{ label: '哈尔滨（冬至冰雪季）', href: '/cities/harbin' }, { label: '苏州（冬酿酒）', href: '/cities/suzhou' }],
+  },
+];
+
+const metadata = { title: '中国传统节日 · 节令历', description: '一年点亮八次的 lunar 节拍——2026 档期、习俗、餐桌与在哪亲身感受。' };
+---
+
+<Layout metadata={metadata}>
+  <div class="fest-page">
+    <header class="hero">
+      <div class="kicker">活着的年历 · 四时八节</div>
+      <h1>中国传统节日 <span class="cn">农历的节奏</span></h1>
+      <p class="lead">
+        中国同时过着两套日历：日常日期之下，跑着一套更古老的农历——团圆、灯、龙舟与满月的节奏，几千年来一直在塑造餐桌、家庭与回家的路。这里是依然点亮一年的八个日子，附 2026 档期与你能亲身走进的过法。
+      </p>
+    </header>
+
+    <p class="note">日期以 2026 年为准；春节、清明、端午、中秋按国务院年度放假安排，其余为传统节令非假日。</p>
+
+    <main>
+      {FESTS.map((f) => (
+        <section class="fest" id={f.id} data-char={f.seal} style={`--accent:${f.accent}`}>
+          <div class="fest-top">
+            <span class="seal">{f.seal}</span>
+            <h2>{f.name} <span class="py">{f.py}</span></h2>
+            <div class="when">
+              <span class="big">{f.big}</span>
+              <span class="lunar">{f.lunar}</span>
+              {f.tag && <span class="holiday-tag">{f.tag}</span>}
+            </div>
+          </div>
+          <div class="body">
+            <div class="story">
+              {f.story.map((p) => <p set:html={p} />)}
+            </div>
+            <div class="cols">
+              <div class="block">
+                <h4>习俗</h4>
+                <p>{f.customs}</p>
+              </div>
+              <div class="block">
+                <h4>餐桌上</h4>
+                <div class="foods">
+                  {f.foods.map((c) => <span class="chip">{c}</span>)}
+                </div>
+              </div>
+              <div class="block feel">
+                <h4>在哪感受</h4>
+                <p>
+                  {f.feel.map((x, i) => (
+                    <>
+                      {i > 0 && '、'}
+                      <a href={`${B}${x.href}`}>{x.label}</a>
+                    </>
+                  ))}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))}
+    </main>
+
+    <div class="trel">
+      <a href={`${B}/jieqi`}>二十四节气</a>
+      <a href={`${B}/routes/best-season`}>按地区选季节</a>
+      <a href={`${B}/routes/avoiding-crowds`}>错峰指南</a>
+      <a href={`${B}/essentials`}>行前实务</a>
+    </div>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/essentials`}>实务</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .fest-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --cinnabar: #c8402f; --cinnabar-deep: #a5311f;
+    --line: rgba(33, 31, 26, 0.12); --line-strong: rgba(33, 31, 26, 0.22);
+    --r: 18px;
+    --shadow-1: 0 2px 10px rgba(60, 55, 40, 0.07);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .fest-page a { text-decoration: none; color: inherit; }
+
+  .hero { padding: 130px clamp(18px, 5vw, 64px) 30px; max-width: 1180px; margin: 0 auto; position: relative; }
+  .kicker { color: var(--cinnabar); font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; }
+  .hero h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 500;
+    font-size: clamp(34px, 6vw, 62px); line-height: 1.05; margin: 12px 0 0; letter-spacing: -0.01em;
+  }
+  .cn { font-family: 'Noto Serif SC', serif; font-weight: 400; }
+  .hero .lead { margin: 16px 0 0; max-width: 820px; color: var(--ink-soft); font-size: 16px; line-height: 1.8; }
+
+  .note { max-width: 1180px; margin: 8px auto 0; padding: 0 clamp(18px, 5vw, 64px); color: var(--ink-faint); font-size: 12.5px; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 5vw, 64px) 30px; }
+
+  .fest {
+    position: relative; background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--r); box-shadow: var(--shadow-1);
+    margin: 26px 0; padding: 30px clamp(22px, 3vw, 40px); overflow: hidden; scroll-margin-top: 90px;
+  }
+  .fest::after {
+    content: attr(data-char); position: absolute; right: -10px; top: -30px;
+    font-family: 'Noto Serif SC', serif; font-size: 240px; line-height: 1;
+    color: var(--accent); opacity: 0.07; pointer-events: none; user-select: none;
+  }
+
+  .fest-top { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; position: relative; z-index: 1; }
+  .seal {
+    font-family: 'Noto Serif SC', serif; font-weight: 600; font-size: 22px; color: #fff;
+    background: var(--accent); width: 54px; height: 54px; border-radius: 13px;
+    display: flex; align-items: center; justify-content: center; flex: none;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14); align-self: center;
+  }
+  .fest h2 { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(22px, 3vw, 30px); margin: 0; }
+  .py { font-family: Inter, sans-serif; font-weight: 500; font-size: 0.62em; color: var(--ink-faint); margin-left: 8px; }
+  .when { margin-left: auto; text-align: right; }
+  .when .big { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: 20px; color: var(--accent); }
+  .lunar { display: block; font-size: 11.5px; color: var(--ink-faint); }
+  .holiday-tag {
+    display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--cinnabar-deep); background: rgba(200, 64, 47, 0.1);
+    border: 1px solid rgba(200, 64, 47, 0.25); border-radius: 999px; padding: 2px 9px; margin-top: 5px;
+  }
+
+  .fest .body { position: relative; z-index: 1; margin-top: 18px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 22px; }
+  @media (max-width: 760px) { .fest .body { grid-template-columns: 1fr; } }
+  .fest .story p { margin: 0 0 12px; color: var(--ink-soft); font-size: 15px; line-height: 1.85; }
+  .cols { display: flex; flex-direction: column; gap: 4px; }
+  .block h4 {
+    font-family: Inter, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 6px;
+  }
+  .block p { margin: 0 0 14px; font-size: 14px; color: var(--ink-soft); line-height: 1.75; }
+  .foods { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }
+  .chip {
+    font-size: 12.5px; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px 11px; color: var(--ink-soft);
+  }
+  .feel a { color: var(--cinnabar); font-weight: 600; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+  .feel a:hover { border-color: var(--cinnabar); }
+
+  .trel { max-width: 1180px; margin: 0 auto; padding: 10px clamp(18px, 5vw, 64px) 50px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .trel a {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .trel a:hover { background: var(--cinnabar); border-color: var(--cinnabar); color: #fff; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>

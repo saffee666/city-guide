@@ -1,0 +1,328 @@
+---
+/**
+ * 灵感页 —— 结构 1:1 对齐 ChinaTravelCo inspiration.html（六区）
+ * hero 问句 + 心境 chips → 六境卡片 → 当月去哪（12 月网格）→ 首次路线 → 按天数 → 榜单 → 帮你决定
+ * 数据中文原创对齐源站 REALMS/SEASON/路线/天数结构
+ */
+import Layout from '~/layouts/PageLayout.astro';
+
+const B = import.meta.env.BASE_URL.replace(/\/$/, '');
+const city = (zh: string, slug: string) => ({ zh, slug });
+
+const REALMS = [
+  { id: 'r1', zh: '山水如画', sub: '像走进一幅真的中国山水画', cls: 'g1', cities: [city('桂林', 'guilin'), city('张家界', 'zhangjiajie'), city('黄山', null), city('九寨沟', null), city('武夷山', null)] },
+  { id: 'r2', zh: '古城旧巷', sub: '穿过城门、石板路与老街', cls: 'g2', cities: [city('西安', 'xian'), city('大同', 'datong'), city('苏州', 'suzhou'), city('丽江', 'lijiang'), city('喀什', 'kashgar')] },
+  { id: 'r3', zh: '城市霓虹', sub: '从天际线到凌晨还亮着的街灯', cls: 'g3', cities: [city('上海', 'shanghai'), city('重庆', 'chongqing'), city('深圳', 'shenzhen'), city('广州', 'guangzhou')] },
+  { id: 'r4', zh: '街头烟火', sub: '为一口街边小吃专门跑一趟', cls: 'g4', cities: [city('成都', 'chengdu'), city('长沙', 'changsha'), city('广州', 'guangzhou'), city('西安', 'xian')] },
+  { id: 'r5', zh: '旷野与雪', sub: '远离城市，去更大的天空下面', cls: 'g5', cities: [city('拉萨', 'lhasa'), city('香格里拉', 'shangrila'), city('哈尔滨', 'harbin'), city('敦煌', null)] },
+  { id: 'r6', zh: '慢速江南', sub: '在细雨、茶与水巷里慢下来', cls: 'g6', cities: [city('杭州', 'hangzhou'), city('苏州', 'suzhou'), city('南京', 'nanjing'), city('福州', 'fuzhou')] },
+];
+
+const SEASON: Record<number, [string, string | null, string][]> = {
+  1: [['哈尔滨', 'harbin', '冰雪大世界与中央大街——北方冬天之巅'], ['大同', 'datong', '古城落雪与云冈石窟'], ['广州', 'guangzhou', '温和南方冬——叹早茶逛花市']],
+  2: [['哈尔滨', 'harbin', '春节冰灯与雪乡红灯笼'], ['厦门', 'xiamen', '温和海岛，躲开北方严寒'], ['西安', 'xian', '年味与碑林新春灯会']],
+  3: [['杭州', 'hangzhou', '西湖早春，苏堤柳绿'], ['昆明', 'kunming', '春城花期——圆通山樱花'], ['桂林', 'guilin', '烟雨漓江，人少景好']],
+  4: [['苏州', 'suzhou', '拙政园春色与平江路'], ['丽江', 'lijiang', '玉龙雪山下的高原春天'], ['南京', 'nanjing', '鸡鸣寺路樱花如云']],
+  5: [['张家界', 'zhangjiajie', '峰林新绿与第一波云海'], ['成都', 'chengdu', '熊猫犯懒，川西草甸转绿'], ['大同', 'datong', '恒山与悬空寺的好天气']],
+  6: [['桂林', 'guilin', '丰水期漓江最饱满'], ['贵阳', null, '凉爽避暑的起点'], ['香格里拉', 'shangrila', '杜鹃花开上高原']],
+  7: [['青海湖', null, '油菜花开的环湖季'], ['长春', null, '避暑的东北夏天'], ['呼伦贝尔', null, '草原最绿的两周']],
+  8: [['哈尔滨', 'harbin', '夏都凉夜与啤酒节'], ['大理', null, '苍山洱海的风花雪月'], ['西宁', null, '高原夏凉门户']],
+  9: [['喀纳斯', null, '9 月底金秋之前的序章'], ['敦煌', null, '过渡季的沙漠最温柔'], ['乌鲁木齐', null, '瓜果最甜的月份']],
+  10: [['北京', 'beijing', '秋高气爽与长城红叶'], ['九寨沟', null, '彩林海子的年度巅峰'], ['黄山', null, '十月云海配秋色']],
+  11: [['南京', 'nanjing', '明孝陵石象路的银杏'], ['腾冲', null, '银杏村的金黄两周'], ['桂林', 'guilin', '晚秋漓江还有好天']],
+  12: [['哈尔滨', 'harbin', '冰灯初上，冰雪季开幕'], ['三亚', null, '北方冻透时的热带答案'], ['福州', 'fuzhou', '温泉与榕城的暖冬']],
+};
+
+const MONTHS = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+
+const ROUTES = [
+  { zh: '经典 7 日环线', sub: '北京 → 西安 → 上海', p: '第一次来中国的默认答案：帝国、古都、未来一条线走完。', href: '/routes/classic-7-days' },
+  { zh: '经典 14 日环线', sub: '三角线 + 成都 + 桂林', p: '两周版：加熊猫和 20 元人民币的江水，一张万能替换牌。', href: '/routes/classic-14-days' },
+  { zh: '第一次来中国', sub: '入境/支付/门票三道门槛', p: '先拆掉三道门槛，再把从未失手的路线交给你。', href: '/routes/first-time-china' },
+  { zh: '丝绸之路', sub: '西安 → 敦煌 → 喀什', p: '中国最壮阔的陆上路线，第二次来的首选。', href: '/routes/silk-road' },
+];
+
+const BYTIME = [
+  { days: '1–3 天', p: '就在一座城里深挖：北京或上海单城速读，福州马拉松式吃喝。', href: '/cities/fuzhou' },
+  { days: '4–6 天', p: '一城 + 一景：北京 + 长城，西安 + 兵马俑华清，成都 + 熊猫与周边。', href: '/cities/chengdu' },
+  { days: '7–10 天', p: '经典三角线（北京—西安—上海）的舒适节奏，或云南环线半程。', href: '/routes/classic-7-days' },
+  { days: '两周以上', p: '14 日大巡游、丝绸之路或云南全环——开始像一次真正的深度旅行。', href: '/routes/classic-14-days' },
+];
+
+const TOPICS = [
+  { zh: '中国 5A 风景十强', slug: 'scenic-5a' },
+  { zh: '为吃值得飞一趟的十座城', slug: 'food-cities' },
+  { zh: '世界文化遗产十选', slug: 'heritage-sites' },
+  { zh: '名山十座，怎么选', slug: 'famous-mountains' },
+  { zh: '博物馆十强', slug: 'museums' },
+  { zh: '奇境十处', slug: 'wonderland' },
+];
+
+const metadata = { title: '灵感 · 城市指南', description: '按心境、按季节、按天数找到你的下一次出发。' };
+let currentMonth = new Date().getMonth() + 1;
+---
+
+<Layout metadata={metadata}>
+  <div class="insp-page">
+    <header class="hero">
+      <div class="inner">
+        <h1>你想见一个<em>什么样的中国</em>？</h1>
+        <p>按季节、风景与生活方式找到下一段旅程。不用先决定去哪——从一种感觉开始。</p>
+        <div class="chips">
+          {REALMS.map((r) => <a class="chip" href={`#${r.id}`}>{r.zh}</a>)}
+        </div>
+      </div>
+    </header>
+
+    <section id="realms">
+      <div class="wrap">
+        <h2 class="sec">按心境</h2>
+        <h3 class="tt">六个<em>中国</em>，选一个。</h3>
+        <p class="lead">还不知道去哪，但知道想要什么感觉。选一个打动你的方向，再选目的地。</p>
+        <div class="realms">
+          {REALMS.map((r) => (
+            <div class="realm" id={r.id}>
+              <div class={`ph ${r.cls}`}>{r.zh}</div>
+              <div class="ov"></div>
+              <div class="rbody">
+                <h4>{r.zh}</h4>
+                <div class="sub">{r.sub}</div>
+                <div class="cities">
+                  {r.cities.map((c) =>
+                    c.slug ? (
+                      <a class="cchip" href={`${B}/cities/${c.slug}`}>{c.zh}</a>
+                    ) : (
+                      <span class="cchip">{c.zh}</span>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="season">
+      <div class="wrap">
+        <h2 class="sec">正当季</h2>
+        <h3 class="tt">这个月，<em>哪最值得</em>？</h3>
+        <p class="lead">每个季节都有限定款风景。选一个月份，看现在出发最值的地方。</p>
+        <div class="months">
+          {MONTHS.map((m, i) => (
+            <a class={`month${i + 1 === currentMonth ? ' on' : ''}`} href={`#m${i + 1}`}>{m}</a>
+          ))}
+        </div>
+        <div class="season-grid">
+          {MONTHS.map((m, i) => (
+            <div class="mcard" id={`m${i + 1}`}>
+              <b>{m}</b>
+              <ul>
+                {SEASON[i + 1].map(([zh, slug, why]) => (
+                  <li>
+                    {slug ? <a href={`${B}/cities/${slug}`}>{zh}</a> : <span>{zh}</span>}
+                    <small>{why}</small>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="firsttime">
+      <div class="wrap">
+        <h2 class="sec">第一次来</h2>
+        <h3 class="tt">从这几条<em>经典路线</em>开始。</h3>
+        <p class="lead">不必一次面对几十座城市。五选一条安全组合当主线。</p>
+        <div class="cards c3">
+          {ROUTES.map((r) => (
+            <a class="tcard" href={`${B}${r.href}`}>
+              <b>{r.zh}</b>
+              <span class="mono">{r.sub}</span>
+              <p>{r.p}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="bytime">
+      <div class="wrap">
+        <h2 class="sec">按天数</h2>
+        <h3 class="tt">你有多少<em>时间</em>？</h3>
+        <p class="lead">先看天数再挑目的地——最实用的开始方式。</p>
+        <div class="cards c4">
+          {BYTIME.map((t) => (
+            <a class="tcard" href={`${B}${t.href}`}>
+              <b>{t.days}</b>
+              <p>{t.p}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="themes">
+      <div class="wrap">
+        <h2 class="sec">榜单</h2>
+        <h3 class="tt">把中国之最，<em>排成榜</em>。</h3>
+        <p class="lead">精选 Top 10——风景、美食、遗产、名山、博物馆与奇境。</p>
+        <div class="topic-grid">
+          {TOPICS.map((t) => (
+            <a class="topic" href={`${B}/collections/${t.slug}`}>{t.zh} →</a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="discover">
+      <div class="wrap">
+        <h2 class="sec">帮你决定</h2>
+        <h3 class="tt">把决定交给<em>一点玄学</em>。</h3>
+        <p class="lead">回答几个问题找到你的中国旅行人格——或者抽一支签，把决定权交给小小的仪式感。</p>
+        <div class="discover">
+          <div class="dcard">
+            <div class="ph q1">测一测</div>
+            <div class="ov"></div>
+            <div class="dbody">
+              <h4>找到你的目的地</h4>
+              <p>六种旅行人格测试中——做完就知道哪些城最适合你。</p>
+              <a class="go" href={`${B}/fate`}>先抽个签 →</a>
+            </div>
+          </div>
+          <div class="dcard">
+            <div class="ph q2">求签</div>
+            <div class="ov"></div>
+            <div class="dbody">
+              <h4>抽你的中国签</h4>
+              <p>不是每次出发都要看地图。抽一支莲花签，得一首小诗、一座城和一个小任务。</p>
+              <a class="go" href={`${B}/fate`}>去求一签 →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pfoot">
+      <a href={`${B}/`}>首页</a> · <a href={`${B}/destinations`}>目的地</a> · <a href={`${B}/jieqi`}>节气</a> · <a href={`${B}/festival`}>节日</a>
+      <br />© 2026 城市指南 · 数据仅供参考
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .insp-page {
+    --paper: #f9f6ee; --card: #fffdf8;
+    --ink: #211f1a; --ink-soft: #574f44; --ink-faint: #8a8275;
+    --brick: #c8402f;
+    --line: rgba(33, 31, 26, 0.12);
+    color: var(--ink);
+    background: linear-gradient(180deg, #fbf8f1, var(--paper) 55%, #f4f1e8);
+    font-family: Inter, -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  }
+  .insp-page a { text-decoration: none; color: inherit; }
+
+  .hero { padding: 150px clamp(18px, 5vw, 64px) 40px; text-align: center; position: relative; }
+  .hero h1 {
+    font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600;
+    font-size: clamp(34px, 6vw, 60px); line-height: 1.08; margin: 0 0 16px;
+  }
+  .hero em { font-style: normal; color: var(--brick); }
+  .hero p { color: var(--ink-soft); font-size: 17px; max-width: 640px; margin: 0 auto 22px; line-height: 1.8; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .chip {
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px;
+    padding: 9px 18px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+  }
+  .chip:hover { background: var(--brick); border-color: var(--brick); color: #fff; }
+
+  section { padding: 46px 0 8px; scroll-margin-top: 80px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 54px); }
+  .sec {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em; color: var(--brick); margin: 0 0 8px;
+  }
+  .tt { font-family: Fraunces, 'Noto Serif SC', serif; font-weight: 600; font-size: clamp(24px, 3.6vw, 34px); margin: 0 0 10px; }
+  .tt em { font-style: normal; color: var(--brick); }
+  .lead { color: var(--ink-soft); font-size: 15.5px; line-height: 1.8; max-width: 720px; margin: 0 0 26px; }
+
+  .realms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .realms { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .realms { grid-template-columns: 1fr; } }
+  .realm {
+    position: relative; min-height: 250px; border-radius: 18px; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(60, 55, 40, 0.08); display: flex; align-items: flex-end; color: #fff;
+  }
+  .realm .ph { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Noto Serif SC', serif; font-size: 30px; font-weight: 600; opacity: 0.5; }
+  .ph.g1 { background: linear-gradient(150deg, #3a6ea5, #22436a); }
+  .ph.g2 { background: linear-gradient(150deg, #7a3b2c, #4a2418); }
+  .ph.g3 { background: linear-gradient(150deg, #52406b, #2e2340); }
+  .ph.g4 { background: linear-gradient(150deg, #a35a2c, #54341a); }
+  .ph.g5 { background: linear-gradient(150deg, #2f6b52, #1d4534); }
+  .ph.g6 { background: linear-gradient(150deg, #3f7a6a, #22453c); }
+  .realm .ov, .dcard .ov { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.6) 100%); }
+  .rbody { position: relative; z-index: 2; padding: 18px 20px; }
+  .rbody h4 { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .rbody .sub { font-size: 13px; opacity: 0.9; margin-bottom: 10px; }
+  .cities { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cchip {
+    font-size: 12px; padding: 3px 10px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.35); color: #fff;
+  }
+  a.cchip:hover { background: #fff; color: var(--ink); }
+
+  .months { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .month {
+    font-family: 'Space Mono', ui-monospace, monospace; font-size: 13px;
+    border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 7px 14px; color: var(--ink-soft);
+  }
+  .month:hover { border-color: var(--brick); color: var(--brick); }
+  .month.on { background: var(--brick); border-color: var(--brick); color: #fff; }
+  .season-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+  .mcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; scroll-margin-top: 90px; }
+  .mcard b { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 16px; }
+  .mcard ul { margin: 10px 0 0; padding: 0; list-style: none; }
+  .mcard li { font-size: 13.5px; padding: 5px 0; border-top: 1px dashed rgba(33, 31, 26, 0.1); line-height: 1.55; }
+  .mcard li:first-child { border-top: 0; }
+  .mcard li a { color: var(--brick); font-weight: 700; }
+  .mcard li small { display: block; color: var(--ink-faint); font-size: 12px; margin-top: 1px; }
+
+  .cards { display: grid; gap: 14px; }
+  .cards.c3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .cards.c4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .tcard {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px; box-shadow: 0 2px 10px rgba(60, 55, 40, 0.07); transition: transform 0.2s;
+  }
+  .tcard:hover { transform: translateY(-4px); }
+  .tcard b { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 18px; display: block; }
+  .tcard .mono { font-family: 'Space Mono', ui-monospace, monospace; font-size: 11px; color: var(--ink-faint); margin-top: 3px; display: block; }
+  .tcard p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin: 10px 0 0; }
+
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .topic {
+    background: var(--card); border: 1px solid var(--line); border-radius: 999px;
+    padding: 13px 20px; font-size: 14.5px; font-weight: 700; color: var(--ink-soft); text-align: center;
+  }
+  .topic:hover { background: var(--brick); border-color: var(--brick); color: #fff; }
+
+  .discover { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .discover { grid-template-columns: 1fr; } }
+  .dcard { position: relative; border-radius: 18px; overflow: hidden; min-height: 230px; display: flex; align-items: flex-end; color: #fff; box-shadow: 0 2px 10px rgba(60, 55, 40, 0.08); }
+  .dcard .ph { position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Noto Serif SC', serif; font-size: 34px; font-weight: 600; opacity: 0.45; }
+  .ph.q1 { background: linear-gradient(150deg, #52406b, #2e2340); }
+  .ph.q2 { background: linear-gradient(150deg, #a35a2c, #54341a); }
+  .dbody { position: relative; z-index: 2; padding: 22px; }
+  .dbody h4 { font-family: Fraunces, 'Noto Serif SC', serif; font-size: 20px; margin: 0 0 6px; }
+  .dbody p { font-size: 13.5px; opacity: 0.92; line-height: 1.7; margin: 0 0 12px; }
+  .go { color: #e9c879; font-weight: 700; font-size: 14px; }
+  .go:hover { text-decoration: underline; }
+
+  .pfoot {
+    border-top: 1px solid var(--line); padding: 26px 24px 34px; margin-top: 40px;
+    text-align: center; font-size: 12.5px; color: var(--ink-faint);
+  }
+  .pfoot a { color: var(--ink-soft); font-weight: 600; margin: 0 10px; }
+</style>
