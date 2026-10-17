@@ -6,3 +6,6 @@ dist/
 .astro/
 素材-参考/
 .tools/
+output/
+*.png
+*.jpeg
