@@ -27,16 +27,26 @@ def search(q, limit=6):
         for info in pg.get('imageinfo', []):
             tu = info.get('thumburl', '')
             if tu.lower().split('?')[0].endswith(('.jpg', '.jpeg', '.png')):
-                out.append(tu)
+                out.append((tu, pg.get('title', '')))
     return out
 
+BAD = ('metro', 'subway', 'station', 'airport', 'railway', 'interior', 'exhibition',
+       'sign', 'entrance', 'ticket', 'platform', 'plaque', 'map of')
+
 def grab(outpath, queries, min_kb=8):
-    """按候选搜索词列表逐个尝试，成功即下"""
+    """按候选搜索词逐个尝试；黑名单过滤 + 标题相关性优先"""
     if os.path.exists(outpath):
         return 'skip'
     for q in queries:
-        urls = search(q)
-        for u in urls:
+        pairs = search(q)
+        if not pairs:
+            continue
+        head = q.split()[0].lower()
+        pairs.sort(key=lambda p: (any(b in p[1].lower() for b in BAD),
+                                  head not in p[1].lower()))
+        for u, title in pairs:
+            if any(b in title.lower() for b in BAD):
+                continue
             if curl(u, outpath):
                 if os.path.getsize(outpath) >= min_kb * 1024:
                     return 'ok'
